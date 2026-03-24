@@ -8,6 +8,7 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <style>
         /* ── STORE TYPE THEME VARIABLES ─────────────────────────────── */
         :root {
@@ -18,7 +19,6 @@
             --accent-rgb: 6,193,103;
             --store-gradient: linear-gradient(135deg, #06C167, #05a357);
             --store-bg-gradient: linear-gradient(135deg, #f0fdf8 0%, #e6f9ed 100%);
-
             --bg: #f4f7f6;
             --surface: #ffffff;
             --surface2: #f1f3f5;
@@ -29,7 +29,6 @@
             --warning: #ff9500;
             --yellow: #ffc107;
             --purple: #5856d6;
-
             --sidebar-width: 280px;
             --sidebar-collapsed: 72px;
             --radius: 20px;
@@ -37,7 +36,6 @@
             --shadow-hover: 0 8px 28px rgba(0,0,0,0.10);
             --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-
         /* ── STORE TYPE THEMES ──────────────────────────────────────── */
         body[data-store="grocery"] {
             --accent: #22c55e;
@@ -79,7 +77,6 @@
             --store-gradient: linear-gradient(135deg, #3b82f6, #6366f1);
             --store-bg-gradient: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
         }
-
         /* ── RESET & BASE ───────────────────────────────────────────── */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
@@ -95,14 +92,12 @@
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
-
         input[type="text"], input[type="email"], input[type="tel"],
         input[type="number"], input[type="password"], input[type="url"],
         input[type="time"], input[type="file"], select, textarea {
             border-radius: 999px !important;
         }
         textarea { border-radius: 20px !important; }
-
         /* ── AUTH SCREEN ────────────────────────────────────────────── */
         #authScreen {
             position: fixed; inset: 0; z-index: 8000;
@@ -160,7 +155,6 @@
         .step-dot.done { background: #06C167; border-color: #06C167; }
         .auth-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         #vendorRegisterPanel { max-height: 78vh; overflow-y: auto; padding-right: 4px; }
-
         /* ── SHIMMER ───────────────────────────────────────────────── */
         #shimmerOverlay { position: fixed; inset: 0; z-index: 9999; background: var(--bg); display: none; flex-direction: column; transition: opacity .55s ease; }
         #shimmerOverlay.active { display: flex; }
@@ -177,7 +171,6 @@
         .shim-table { height: 320px; border-radius: 20px; }
         .shim-logo { width: 42px; height: 42px; border-radius: 14px; }
         .shim-nav { height: 36px; border-radius: 999px; width: 42px; }
-
         /* ── SIDEBAR ───────────────────────────────────────────────── */
         .sidebar {
             width: var(--sidebar-collapsed); background: var(--surface);
@@ -193,7 +186,6 @@
         .logo .logo-text { opacity: 0; transform: translateX(-10px); transition: opacity 0.25s ease, transform 0.25s ease; }
         .sidebar.expanded .logo .logo-text { opacity: 1; transform: translateX(0); }
         .logo-text span { color: var(--accent); }
-
         /* Store type badge in sidebar */
         .store-type-badge {
             display: flex; align-items: center; gap: 10px; padding: 10px 12px;
@@ -207,7 +199,6 @@
         @keyframes pulseDot { 0%,100%{box-shadow:0 0 0 3px rgba(var(--accent-rgb),0.2);}50%{box-shadow:0 0 0 6px rgba(var(--accent-rgb),0.1);} }
         .store-type-info .store-name { font-weight: 700; font-size: 0.82rem; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 160px; }
         .store-type-info .store-type-label { font-size: 0.7rem; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 0.4px; }
-
         .nav-section { margin-bottom: 24px; }
         .nav-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 1px; color: var(--dim); margin-bottom: 10px; padding-left: 12px; font-weight: 700; white-space: nowrap; opacity: 0; transition: opacity 0.2s ease; }
         .sidebar.expanded .nav-label { opacity: 1; }
@@ -224,14 +215,12 @@
         .user-avatar { width: 40px; height: 40px; border-radius: 12px; flex-shrink: 0; background: var(--store-gradient); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 0.85rem; transition: var(--transition); }
         .user-info { opacity: 0; transform: translateX(-8px); transition: opacity 0.2s ease, transform 0.2s ease; }
         .sidebar.expanded .user-info { opacity: 1; transform: translateX(0); }
-
         /* ── MAIN PANEL ─────────────────────────────────────────────── */
         .main-panel { margin-left: var(--sidebar-collapsed); flex: 1; padding: 36px; max-width: calc(100% - var(--sidebar-collapsed)); transition: margin-left 0.35s cubic-bezier(0.4,0,0.2,1), max-width 0.35s cubic-bezier(0.4,0,0.2,1); }
         .main-panel.shifted { margin-left: var(--sidebar-width); max-width: calc(100% - var(--sidebar-width)); }
         .page-content { display: none; animation: fadeInUp 0.35s ease-out; }
         .page-content.active { display: block; }
         @keyframes fadeInUp { from{opacity:0;transform:translateY(10px);} to{opacity:1;transform:translateY(0);} }
-
         /* ── DASHBOARD HERO BANNER ──────────────────────────────────── */
         .dashboard-hero {
             border-radius: 24px; padding: 28px 32px; margin-bottom: 28px;
@@ -259,7 +248,6 @@
         .hero-status-closed.active { background: rgba(0,0,0,0.35); color: white; border-color: rgba(255,255,255,0.5); }
         .hero-add-btn { background: white; color: var(--accent); border: none; padding: 10px 20px; border-radius: 999px; font-weight: 700; font-size: 0.88rem; cursor: pointer; display: flex; align-items: center; gap: 7px; transition: var(--transition); box-shadow: 0 4px 14px rgba(0,0,0,0.15); font-family: inherit; }
         .hero-add-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
-
         /* ── STATUS BANNER ──────────────────────────────────────────── */
         .status-banner {
             border-radius: 16px; padding: 14px 20px; margin-bottom: 24px;
@@ -270,7 +258,6 @@
         .status-banner.closed-state { background: #fff1f0; border-color: var(--danger); }
         .status-dot { width: 12px; height: 12px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 4px rgba(var(--accent-rgb),0.2); animation: pulseDot 2s infinite; flex-shrink: 0; }
         .status-banner.closed-state .status-dot { background: var(--danger); box-shadow: 0 0 0 4px rgba(255,59,48,0.15); animation: none; }
-
         /* ── STATS GRID ─────────────────────────────────────────────── */
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 16px; margin-bottom: 28px; }
         .stat-card {
@@ -286,14 +273,12 @@
         .stat-card h3 { font-size: 0.7rem; text-transform: uppercase; color: var(--dim); letter-spacing: 0.5px; margin-bottom: 8px; font-weight: 700; }
         .stat-card p { font-size: 2rem; font-weight: 800; color: var(--text); }
         .stat-trend { font-size: 0.72rem; color: var(--accent); font-weight: 600; margin-top: 4px; display: flex; align-items: center; gap: 3px; }
-
         /* ── CONTENT CARDS ──────────────────────────────────────────── */
         .content-card { background: white; border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); overflow: hidden; }
         .card-header { padding: 18px 22px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
         .card-header h2 { font-size: 0.95rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
         .search-bar { padding: 10px 16px; border: 1.5px solid var(--border); border-radius: 999px !important; font-family: inherit; font-size: 0.88rem; outline: none; transition: var(--transition); background: var(--bg); color: var(--text); width: 260px; }
         .search-bar:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(var(--accent-rgb),0.12); background: white; }
-
         /* ── STORE TYPE WELCOME CARD ────────────────────────────────── */
         .store-welcome {
             border-radius: 20px; padding: 20px 24px; margin-bottom: 24px;
@@ -310,7 +295,6 @@
         .store-welcome p { font-size: 0.82rem; color: var(--dim); line-height: 1.5; }
         .store-welcome-tips { margin-top: 8px; display: flex; gap: 6px; flex-wrap: wrap; }
         .store-tip { background: var(--accent-light); color: var(--accent); border: 1px solid var(--accent); border-radius: 999px; padding: 3px 10px; font-size: 0.7rem; font-weight: 700; }
-
         /* ── MENU GRID ──────────────────────────────────────────────── */
         .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; padding: 20px; }
         .menu-item-card { background: var(--bg); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; transition: var(--transition); position: relative; }
@@ -328,7 +312,6 @@
         .icon-btn-edit:hover { background: var(--text); color: white; }
         .icon-btn-delete { background: white; color: var(--danger); box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
         .icon-btn-delete:hover { background: var(--danger); color: white; }
-
         /* ── ORDERS ─────────────────────────────────────────────────── */
         .order-card { padding: 18px 22px; border-bottom: 1px solid var(--border); transition: var(--transition); }
         .order-card:hover { background: var(--accent-light); }
@@ -344,7 +327,6 @@
         .order-customer-avatar { width: 32px; height: 32px; border-radius: 9px; background: var(--store-gradient); display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 0.75rem; flex-shrink: 0; }
         .order-customer-name { font-weight: 700; font-size: 0.86rem; color: var(--text); }
         .order-customer-id { font-size: 0.72rem; color: var(--dim); font-weight: 600; }
-
         /* ── PROFILE SECTION ────────────────────────────────────────── */
         .profile-section { background: white; border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); padding: 26px; margin-bottom: 18px; }
         .profile-section h3 { font-size: 0.88rem; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; color: var(--dim); text-transform: uppercase; letter-spacing: 0.5px; }
@@ -354,7 +336,6 @@
         .form-group { margin-bottom: 14px; }
         .form-group label { display: block; font-size: 0.78rem; font-weight: 700; margin-bottom: 5px; color: var(--dim); text-transform: uppercase; letter-spacing: 0.4px; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
-
         /* ── BUTTONS ────────────────────────────────────────────────── */
         .btn-primary { background: var(--accent); color: white; border: none; padding: 11px 20px; border-radius: 999px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 7px; transition: var(--transition); box-shadow: 0 4px 14px rgba(var(--accent-rgb),0.35); font-family: inherit; font-size: 0.88rem; }
         .btn-primary:hover { background: var(--accent-dark); transform: translateY(-2px); box-shadow: 0 8px 22px rgba(var(--accent-rgb),0.45); }
@@ -366,13 +347,11 @@
         .btn-danger:hover { background: var(--danger); color: white; transform: translateY(-1px); }
         .btn-success { background: var(--accent-light); color: var(--accent); }
         .btn-success:hover { background: var(--accent); color: white; transform: translateY(-1px); }
-
         /* ── BADGES ─────────────────────────────────────────────────── */
         .badge { padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; }
         .badge-open { background: var(--accent-light); color: var(--accent); border: 1px solid var(--accent); }
         .badge-pending { background: #fff5cc; color: #997300; border: 1px solid #ffe066; }
         .badge-closed { background: #fff1f0; color: var(--danger); border: 1px solid var(--danger); }
-
         /* ── MODALS ─────────────────────────────────────────────────── */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.45); backdrop-filter: blur(12px); z-index: 2000; justify-content: center; align-items: center; opacity: 0; transition: opacity .3s ease; }
         .modal-overlay.active { opacity: 1; }
@@ -383,10 +362,8 @@
         .modal-content textarea { border-radius: 16px !important; }
         .modal-content input:focus, .modal-content select:focus, .modal-content textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(var(--accent-rgb),0.12); background: white; }
         .modal-btn-row { display: flex; gap: 10px; margin-top: 20px; }
-
         /* ── FEATURED SECTION ───────────────────────────────────────── */
         .featured-banner { background: linear-gradient(135deg, var(--accent-light) 0%, var(--store-bg-gradient)); border: 1px solid var(--accent); border-radius: 16px; padding: 16px 20px; margin-bottom: 18px; display: flex; align-items: center; gap: 12px; }
-
         /* ── SETTINGS ───────────────────────────────────────────────── */
         .settings-row { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--border); gap: 12px; }
         .settings-row:last-child { border-bottom: none; }
@@ -394,7 +371,6 @@
         .toggle.on { background: var(--accent); }
         .toggle::after { content: ''; position: absolute; width: 22px; height: 22px; background: white; border-radius: 50%; top: 2px; left: 2px; transition: transform .3s cubic-bezier(.4,0,.2,1); box-shadow: 0 2px 4px rgba(0,0,0,.2); }
         .toggle.on::after { transform: translateX(22px); }
-
         /* ── INLINE LOCATION PICKER ─────────────────────────────────── */
         .inline-location-picker { display: none; margin-top: 16px; background: var(--bg); border: 1.5px solid var(--accent); border-radius: 20px; padding: 20px; animation: fadeInUp 0.25s ease; }
         .inline-location-picker.open { display: block; }
@@ -409,7 +385,6 @@
         .picker-suggestions { display: flex; flex-direction: column; gap: 6px; max-height: 200px; overflow-y: auto; }
         .picker-suggestion-item { padding: 12px 14px; background: white; border: 1px solid var(--border); border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: var(--transition); font-size: 0.86rem; }
         .picker-suggestion-item:hover { border-color: var(--accent); background: var(--accent-light); }
-
         /* ── CHART ──────────────────────────────────────────────────── */
         .chart-container { padding: 20px; height: 220px; display: flex; align-items: flex-end; justify-content: space-around; gap: 10px; overflow: hidden; }
         .bar-wrapper { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 6px; height: 100%; justify-content: flex-end; max-width: 60px; }
@@ -418,70 +393,57 @@
         .bar-label { font-size: 0.7rem; color: var(--dim); font-weight: 600; text-align: center; }
         .bar-val { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); font-weight: 700; font-size: 0.75rem; opacity: 0; transition: opacity .2s; white-space: nowrap; color: var(--text); }
         .bar:hover .bar-val { opacity: 1; }
-
         /* ── CATEGORIES CHECKBOX ────────────────────────────────────── */
         .categories-checkbox-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; margin-top: 10px; }
         .category-check-label { display: flex; align-items: center; gap: 10px; padding: 10px 14px; background: var(--bg); border: 1.5px solid var(--border); border-radius: 12px; cursor: pointer; transition: var(--transition); font-size: 0.88rem; font-weight: 600; user-select: none; }
         .category-check-label:hover { border-color: var(--accent); background: var(--accent-light); }
         .category-check-label.checked { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
         .category-check-label input[type="checkbox"] { display: none; }
-
         .day-label { display: flex; align-items: center; gap: 5px; font-size: 0.83rem; font-weight: 600; background: var(--bg); border: 1px solid var(--border); border-radius: 999px; padding: 7px 16px; cursor: pointer; transition: var(--transition); }
         .day-label.checked { background: var(--accent); border-color: var(--accent); color: white; }
         .day-label input[type=checkbox] { display: none; }
-
         /* ── EMPTY STATE ────────────────────────────────────────────── */
         .empty-state { text-align: center; padding: 56px 24px; color: var(--dim); }
         .empty-state .es-emoji { font-size: 3rem; margin-bottom: 14px; }
         .empty-state p { font-weight: 600; margin-bottom: 4px; font-size: 1.05rem; color: var(--text); }
         .empty-state small { font-size: 0.85rem; }
-
         /* ── TOAST ──────────────────────────────────────────────────── */
         .toast { position: fixed; bottom: 24px; right: 24px; background: var(--text); color: white; padding: 15px 22px; border-radius: 999px; box-shadow: var(--shadow-hover); display: flex; align-items: center; gap: 12px; transform: translateY(100px); opacity: 0; transition: all 0.4s cubic-bezier(0.4,0,0.2,1); z-index: 3000; font-size: 0.9rem; font-weight: 600; max-width: 360px; }
         .toast.show { transform: translateY(0); opacity: 1; }
         .toast.success { border-left: 4px solid var(--accent); }
         .toast.error { border-left: 4px solid var(--danger); }
         .toast.info { border-left: 4px solid var(--purple); }
-
         /* ── PENDING STATUS BANNER ──────────────────────────────────── */
         .pending-banner { background: #fff5cc; border: 1px solid #ffe066; border-radius: 16px; padding: 16px 20px; margin-bottom: 24px; display: flex; align-items: center; gap: 14px; }
         .img-pending-badge { background: #fff5cc; border: 1px solid #ffe066; color: #997300; border-radius: 8px; padding: 4px 10px; font-size: 0.68rem; font-weight: 700; display: inline-flex; align-items: center; gap: 4px; margin-top: 6px; cursor: pointer; }
         .img-pending-badge:hover { background: var(--danger); color: white; border-color: var(--danger); }
-
         @keyframes spin { from{transform:rotate(0deg);} to{transform:rotate(360deg);} }
         @media (max-width: 768px) { .main-panel { padding: 20px; } .form-row { grid-template-columns: 1fr; } }
-
         /* ── STORE TYPE TRANSITION ANIMATION ───────────────────────── */
         .theme-transition * { transition: background-color 0.4s ease, border-color 0.4s ease, color 0.3s ease, box-shadow 0.4s ease !important; }
-
         /* ── QUICK ACTIONS ──────────────────────────────────────────── */
         .quick-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 16px; }
         .quick-btn { padding: 14px; border-radius: 14px; border: 1.5px solid var(--border); background: var(--bg); cursor: pointer; transition: var(--transition); display: flex; align-items: center; gap: 10px; font-weight: 600; font-size: 0.85rem; font-family: inherit; color: var(--text); }
         .quick-btn:hover { border-color: var(--accent); background: var(--accent-light); color: var(--accent); transform: translateY(-2px); }
         .quick-btn i { width: 18px; height: 18px; color: var(--accent); flex-shrink: 0; }
-
         /* ── STORE INFO SNIPPETS ────────────────────────────────────── */
         .info-row { display: flex; align-items: center; gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--border); }
         .info-row:last-child { border-bottom: none; }
         .info-row i { width: 15px; height: 15px; color: var(--accent); flex-shrink: 0; }
         .info-row span { font-size: 0.85rem; color: var(--dim); }
-
         /* ── ANALYTICS CATEGORY BREAKDOWN ──────────────────────────── */
         .cat-bar-row { margin-bottom: 14px; }
         .cat-bar-header { display: flex; justify-content: space-between; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; }
         .cat-bar-track { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
         .cat-bar-fill { height: 100%; background: var(--store-gradient); border-radius: 4px; transition: width 1s ease; }
-
         /* ── IMAGE DECLINE MODAL ────────────────────────────────────── */
         #imageDeclinedModal .modal-content { max-width: 400px; text-align: center; }
-
         /* ── FEATURED TOGGLE ────────────────────────────────────────── */
         .feat-toggle-item { display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 12px; margin-bottom: 6px; border: 1px solid var(--border); transition: var(--transition); }
         .feat-toggle-item.is-featured { background: var(--accent-light); border-color: var(--accent); }
     </style>
 </head>
 <body>
-
 <!-- AUTH SCREEN -->
 <div id="authScreen">
     <div class="auth-bg-circles">
@@ -498,7 +460,6 @@
             <button class="auth-tab active" onclick="switchAuthTab('login')">Sign In</button>
             <button class="auth-tab" onclick="switchAuthTab('register')">Register</button>
         </div>
-
         <!-- LOGIN -->
         <div id="loginPanel">
             <div class="auth-title">Welcome Back 👋</div>
@@ -511,10 +472,11 @@
                 </div>
                 <button class="auth-btn" onclick="vendorLogin()" id="loginBtn">Sign In to Portal</button>
             </div>
+            <div class="auth-divider">or sign in with Google</div>
+            <button class="auth-btn" style="background:#4285F4;color:white;box-shadow:0 6px 20px rgba(66,133,244,0.4);" onclick="signInWithGoogle()">Sign in with Google</button>
             <div class="auth-divider">New restaurant?</div>
             <button class="auth-btn" style="background:transparent;border:1.5px solid rgba(6,193,103,0.4);color:#06C167;" onclick="switchAuthTab('register')">Register Your Business</button>
         </div>
-
         <!-- REGISTER -->
         <div id="registerPanel" style="display:none;">
             <div class="step-indicator" id="stepIndicator">
@@ -587,7 +549,6 @@
         </div>
     </div>
 </div>
-
 <!-- SHIMMER -->
 <div id="shimmerOverlay">
     <div class="shim-sidebar">
@@ -614,7 +575,6 @@
         <div class="shim-block shim-table"></div>
     </div>
 </div>
-
 <!-- VENDOR SIDEBAR -->
 <nav class="sidebar" id="vendorSidebar" style="display:none;">
     <div class="logo">
@@ -676,10 +636,8 @@
         </div>
     </div>
 </nav>
-
 <!-- MAIN PANEL -->
 <main class="main-panel" id="vendorMainPanel" style="display:none;">
-
     <!-- ══ DASHBOARD ════════════════════════════════════════════════ -->
     <section id="dashboard" class="page-content active">
         <!-- Hero Banner (changes per store type) -->
@@ -706,7 +664,6 @@
                 </div>
             </div>
         </div>
-
         <!-- Status Banner -->
         <div class="status-banner" id="statusBanner">
             <div class="status-dot" id="statusDot"></div>
@@ -716,7 +673,6 @@
             </div>
             <div style="margin-left:auto;" id="bannerBadge"><span class="badge badge-open">OPEN</span></div>
         </div>
-
         <!-- Store Type Welcome Card (unique per store type) -->
         <div class="store-welcome" id="storeWelcomeCard">
             <div class="store-welcome-icon" id="welcomeIcon">🍽️</div>
@@ -726,10 +682,8 @@
                 <div class="store-welcome-tips" id="welcomeTips"></div>
             </div>
         </div>
-
         <!-- Adaptive Stats -->
         <div class="stats-grid" id="statsGrid"></div>
-
         <!-- Main Dashboard Grid -->
         <div style="display:grid;grid-template-columns:1fr 340px;gap:20px;">
             <div class="content-card">
@@ -748,7 +702,6 @@
                     </div>
                 </div>
             </div>
-
             <div style="display:flex;flex-direction:column;gap:16px;">
                 <!-- Quick Actions -->
                 <div class="content-card">
@@ -769,7 +722,6 @@
             </div>
         </div>
     </section>
-
     <!-- ══ MENU ITEMS ════════════════════════════════════════════════ -->
     <section id="menu" class="page-content">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;flex-wrap:wrap;gap:12px;">
@@ -787,7 +739,6 @@
         </div>
         <div id="menuGrid" class="menu-grid"></div>
     </section>
-
     <!-- ══ FEATURED ══════════════════════════════════════════════════ -->
     <section id="featured" class="page-content">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;flex-wrap:wrap;gap:12px;">
@@ -816,7 +767,6 @@
             </div>
         </div>
     </section>
-
     <!-- ══ ORDERS ════════════════════════════════════════════════════ -->
     <section id="orders" class="page-content">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;flex-wrap:wrap;gap:12px;">
@@ -838,7 +788,6 @@
             </div>
         </div>
     </section>
-
     <!-- ══ ANALYTICS ═════════════════════════════════════════════════ -->
     <section id="analytics" class="page-content">
         <div style="margin-bottom:28px;"><h1 style="font-size:1.9rem;font-weight:800;letter-spacing:-0.5px;">Analytics</h1></div>
@@ -858,7 +807,6 @@
             </div>
         </div>
     </section>
-
     <!-- ══ STORE PROFILE ═════════════════════════════════════════════ -->
     <section id="profile" class="page-content">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;flex-wrap:wrap;gap:12px;">
@@ -894,13 +842,11 @@
                 <div class="form-group"><label>WhatsApp</label><input type="tel" id="p-whatsapp" placeholder="+27 71 000 0000"></div>
             </div>
         </div>
-
         <div class="profile-section">
             <h3><i data-lucide="tags"></i> Shop Categories</h3>
             <p style="color:var(--dim);font-size:0.85rem;margin-bottom:14px;">Select all categories your store carries.</p>
             <div class="categories-checkbox-grid" id="p-shop-categories"></div>
         </div>
-
         <div class="profile-section">
             <h3><i data-lucide="map-pin"></i> Location & Delivery</h3>
             <div style="margin-bottom:16px;">
@@ -952,7 +898,6 @@
             <input type="hidden" id="p-lat">
             <input type="hidden" id="p-lng">
         </div>
-
         <div class="profile-section">
             <h3><i data-lucide="clock"></i> Operating Hours</h3>
             <div class="form-row">
@@ -973,7 +918,6 @@
             </div>
         </div>
     </section>
-
     <!-- ══ SETTINGS ══════════════════════════════════════════════════ -->
     <section id="settings" class="page-content">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;flex-wrap:wrap;gap:12px;">
@@ -1003,7 +947,6 @@
         </div>
     </section>
 </main>
-
 <!-- ══ ADD/EDIT ITEM MODAL ════════════════════════════════════════ -->
 <div class="modal-overlay" id="itemModal">
     <div class="modal-content">
@@ -1062,7 +1005,6 @@
         </div>
     </div>
 </div>
-
 <!-- DELETE MODAL -->
 <div class="modal-overlay" id="deleteModal">
     <div class="modal-content" style="max-width:400px;text-align:center;">
@@ -1078,7 +1020,6 @@
         </div>
     </div>
 </div>
-
 <!-- LOGOUT MODAL -->
 <div class="modal-overlay" id="logoutModal">
     <div class="modal-content" style="max-width:400px;text-align:center;">
@@ -1093,7 +1034,6 @@
         </div>
     </div>
 </div>
-
 <!-- IMAGE DECLINED MODAL -->
 <div class="modal-overlay" id="imageDeclinedModal">
     <div class="modal-content" style="max-width:400px;text-align:center;">
@@ -1107,17 +1047,14 @@
         </div>
     </div>
 </div>
-
 <!-- TOAST -->
 <div class="toast" id="toast">
     <i data-lucide="check-circle" style="width:18px;height:18px;"></i>
     <span id="toastMsg">Done</span>
 </div>
-
 <!-- ══════════════════════ JAVASCRIPT ══════════════════════════════ -->
 <script>
 lucide.createIcons();
-
 // ── CLOUDINARY ────────────────────────────────────────────────────
 const CLOUDINARY_CLOUD = 'dqkujefxj';
 const CLOUDINARY_PRESET = 'banter_box';
@@ -1149,7 +1086,6 @@ function previewItemImage(input) {
     };
     reader.readAsDataURL(file);
 }
-
 const firebaseConfig = {
   apiKey: "AIzaSyCh7Ute6LeSAxcNDEQwZg5m0cA4ujnLCfg",
   authDomain: "test-17881.firebaseapp.com",
@@ -1160,8 +1096,8 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
+const auth = firebase.auth();
 const MAPBOX_TOKEN = 'pk.eyJ1Ijoia2F0bGVnb3BoYXNoYSIsImEiOiJjbTlpOTdzbmYwMGNsMmpzYWJtZzN4d3pqIn0.Zt-aSMEoahrV3zkiVVHbOw';
-
 // ── STORE TYPE CONFIGS ────────────────────────────────────────────
 // Each store type gets its own vocabulary, colors, stats, nav labels, categories, quick actions
 const STORE_CONFIGS = {
@@ -1570,7 +1506,6 @@ const STORE_CONFIGS = {
         featuredBannerTitle: 'Featured products and new arrivals appear on the customer app',
     }
 };
-
 // ── STATE ─────────────────────────────────────────────────────────
 let VENDOR_KEY = null;
 let vendorData = null;
@@ -1582,22 +1517,18 @@ let inlineSelectedRadius = 5;
 let menuFilter = { search: '', category: '' };
 let settingsState = {};
 let vendorStep = 0;
-
 // ── APPLY STORE THEME ─────────────────────────────────────────────
 function applyStoreTheme(storeType) {
     const config = STORE_CONFIGS[storeType] || STORE_CONFIGS.restaurant;
     currentConfig = config;
-
     // Animate theme transition
     document.body.classList.add('theme-transition');
     document.body.setAttribute('data-store', config.theme);
     setTimeout(() => document.body.classList.remove('theme-transition'), 500);
-
     // Sidebar
     document.getElementById('sidebarLogoIcon').setAttribute('data-lucide', config.logoIcon);
     document.getElementById('sidebarLogoSuffix').textContent = config.logoSuffix;
     document.getElementById('sidebarStoreType').textContent = config.label;
-
     // Nav labels & icons
     document.getElementById('navMenuLabel').textContent = config.navMenuLabel;
     document.getElementById('navMenuIcon').setAttribute('data-lucide', config.navMenuIcon);
@@ -1606,36 +1537,29 @@ function applyStoreTheme(storeType) {
     document.getElementById('navProfileLabel').textContent = config.navProfileLabel;
     document.getElementById('navProfileIcon').setAttribute('data-lucide', config.navProfileIcon);
     document.getElementById('navFeaturedLabel').textContent = config.featuredPageTitle;
-
     // Page titles
     document.getElementById('menuPageTitle').textContent = config.menuPageTitle;
     document.getElementById('ordersPageTitle').textContent = config.ordersPageTitle;
     document.getElementById('profilePageTitle').textContent = config.profilePageTitle;
     document.getElementById('featuredPageTitle').textContent = config.featuredPageTitle;
-
     // Welcome card
     document.getElementById('welcomeTitle').textContent = config.welcomeTitle;
     document.getElementById('welcomeDesc').textContent = config.welcomeDesc;
     document.getElementById('welcomeIcon').textContent = config.emoji;
     const tipsEl = document.getElementById('welcomeTips');
     tipsEl.innerHTML = config.welcomeTips.map(t => `<span class="store-tip">${t}</span>`).join('');
-
     // Dashboard emoji & add btn
     document.getElementById('dashStoreEmoji').textContent = config.emoji;
     document.getElementById('dashAddBtnLabel').textContent = config.addItemBtnLabel;
-
     // Hero
     if (vendorData) {
         document.getElementById('dashHeroTitle').textContent = config.heroTitle(vendorData.name || 'Vendor');
     }
     document.getElementById('dashHeroSub').textContent = config.heroSub;
-
     // Stats grid
     buildStatsGrid(config.stats);
-
     // Quick actions
     buildQuickActions(config.quickActions);
-
     // Item modal labels
     document.getElementById('addItemBtnLabel').textContent = config.addItemBtnLabel;
     document.getElementById('itemNameLabel').textContent = config.itemNameLabel;
@@ -1643,13 +1567,11 @@ function applyStoreTheme(storeType) {
     document.getElementById('itemPrepLabel').textContent = config.itemPrepLabel;
     document.getElementById('itemCalLabel').textContent = config.itemCalLabel;
     document.getElementById('itemTagLabel').textContent = config.itemTagLabel;
-
     // Profile labels
     document.getElementById('profileSectionTitle').textContent = config.profileSectionTitle;
     document.getElementById('p-cuisine-label').textContent = config.cuisineLabel;
     document.getElementById('p-minorder-label').textContent = config.minOrderLabel;
     document.getElementById('p-preptime-label').textContent = config.preptimeLabel;
-
     // Settings labels
     document.getElementById('set-open-label').textContent = config.setOpenLabel;
     document.getElementById('set-delivery-label').textContent = config.setDeliveryLabel;
@@ -1658,37 +1580,28 @@ function applyStoreTheme(storeType) {
     document.getElementById('set-pickup-sub').textContent = config.setPickupSub;
     document.getElementById('set-order-alert-label').textContent = config.setOrderAlertLabel;
     document.getElementById('set-order-alert-sub').textContent = config.setOrderAlertSub;
-
     // Analytics labels
     document.getElementById('anaItemsLabel').textContent = config.anaItemsLabel;
     document.getElementById('anaOrdersLabel').textContent = config.anaOrdersLabel;
     document.getElementById('catBreakdownTitle').innerHTML =
         `<i data-lucide="package" style="width:18px;height:18px;color:var(--accent);"></i> ${config.catBreakdownTitle}`;
-
     // Empty state
     document.getElementById('emptyOrdersEmoji').textContent = config.emptyOrdersEmoji;
     document.getElementById('emptyOrdersText').textContent = config.emptyOrdersText;
     document.getElementById('emptyOrdersEmoji2').textContent = config.emptyOrdersEmoji;
-
     // Recent orders title
     document.getElementById('recentOrdersTitle').innerHTML =
         `<i data-lucide="clock" style="width:18px;height:18px;color:var(--accent);"></i> ${config.recentOrdersTitle.split(' ').slice(1).join(' ')}`;
-
     // Featured banner
     document.getElementById('featuredBannerTitle').textContent = config.featuredBannerTitle;
-
     // Menu categories dropdown
     buildMenuCategoryFilter(config.menuCategories);
-
     // Item modal category select
     buildItemCategorySelect(config.menuCategories);
-
     // Shop categories checkboxes
     buildShopCategories(config.shopCategories);
-
     lucide.createIcons();
 }
-
 function buildStatsGrid(stats) {
     const grid = document.getElementById('statsGrid');
     grid.innerHTML = stats.map(s => `
@@ -1700,7 +1613,6 @@ function buildStatsGrid(stats) {
         </div>`).join('');
     lucide.createIcons();
 }
-
 function buildQuickActions(actions) {
     document.getElementById('quickActionsGrid').innerHTML = actions.map(a => `
         <button class="quick-btn" onclick="${a.fn}">
@@ -1709,26 +1621,22 @@ function buildQuickActions(actions) {
         </button>`).join('');
     lucide.createIcons();
 }
-
 function buildMenuCategoryFilter(cats) {
     const sel = document.getElementById('menuCatFilter');
     sel.innerHTML = '<option value="">All Categories</option>' +
         cats.map(c => `<option value="${c}">${c}</option>`).join('');
 }
-
 function buildItemCategorySelect(cats) {
     const sel = document.getElementById('item-category');
     sel.innerHTML = '<option value="">Select category</option>' +
         cats.map(c => `<option value="${c}">${c}</option>`).join('');
 }
-
 function buildShopCategories(cats) {
     document.getElementById('p-shop-categories').innerHTML =
         cats.map(c => `<label class="category-check-label" onclick="toggleProfileCategory(this)">
             <input type="checkbox" value="${c.v}"> ${c.e} ${c.v}
         </label>`).join('');
 }
-
 // ── AUTH UI ───────────────────────────────────────────────────────
 function switchAuthTab(tab) {
     document.querySelectorAll('.auth-tab').forEach((t,i) => t.classList.toggle('active', (tab==='login'&&i===0)||(tab==='register'&&i===1)));
@@ -1736,7 +1644,6 @@ function switchAuthTab(tab) {
     document.getElementById('registerPanel').style.display = tab === 'register' ? 'block' : 'none';
     vendorStep = 0; updateDots(0);
 }
-
 function regNext(step) {
     const err = document.getElementById('regError');
     err.style.display = 'none';
@@ -1764,7 +1671,6 @@ function updateDots(step) {
         d.className = 'step-dot' + (i<step?' done':i===step?' active':'');
     }
 }
-
 async function vendorLogin() {
     const vendorId = document.getElementById('vendorLoginId').value.trim().toUpperCase();
     const err = document.getElementById('loginError');
@@ -1789,7 +1695,27 @@ async function vendorLogin() {
         btn.textContent = 'Sign In to Portal';
     }
 }
-
+async function signInWithGoogle() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    const err = document.getElementById('loginError');
+    try {
+        const result = await auth.signInWithPopup(provider);
+        const user = result.user;
+        const snap = await db.ref('vendors').orderByChild('email').equalTo(user.email).once('value');
+        const data = snap.val();
+        if (!data) throw new Error('No vendor account linked to this Google email. Please register first.');
+        const key = Object.keys(data)[0];
+        const vendor = data[key];
+        if (vendor.status === 'pending') throw new Error('Your account is pending approval');
+        if (vendor.status === 'disabled') throw new Error('Your account has been disabled');
+        VENDOR_KEY = key;
+        localStorage.setItem('vynix_vendor_session', JSON.stringify({ key, vendorId: vendor.vendorID || 'GOOGLE', role:'vendor', loggedAt:Date.now() }));
+        enterPortal();
+    } catch (e) {
+        err.textContent = e.message || 'Google sign in failed';
+        err.style.display = 'block';
+    }
+}
 async function submitRegistration() {
     const err = document.getElementById('regError');
     const suc = document.getElementById('regSuccess');
@@ -1818,7 +1744,6 @@ async function submitRegistration() {
         btn.disabled = false;
     }
 }
-
 // ── PORTAL ENTRY ──────────────────────────────────────────────────
 function enterPortal() {
     document.getElementById('authScreen').classList.add('hidden');
@@ -1830,14 +1755,12 @@ function enterPortal() {
         hideShimmer();
     }, 1500);
 }
-
 function showShimmer() { const s=document.getElementById('shimmerOverlay'); s.classList.add('active'); }
 function hideShimmer() {
     const s=document.getElementById('shimmerOverlay');
     s.classList.add('fade-out');
     setTimeout(() => { s.classList.remove('active','fade-out'); }, 600);
 }
-
 // ── SYNC ──────────────────────────────────────────────────────────
 function startSync() {
     if (!VENDOR_KEY) return;
@@ -1858,7 +1781,6 @@ function startSync() {
         renderOrders(); renderRecentOrders(); updateStats(); updateAnalytics();
     });
 }
-
 // ── VENDOR UI ─────────────────────────────────────────────────────
 function applyVendorUI() {
     if (!vendorData) return;
@@ -1867,18 +1789,15 @@ function applyVendorUI() {
     const config = STORE_CONFIGS[storeType] || STORE_CONFIGS.restaurant;
     const initial = name.charAt(0).toUpperCase();
     if (vendorData.manualStoreStatus) manualStoreStatus = vendorData.manualStoreStatus;
-
     // Sidebar
     document.getElementById('sidebarStoreName').textContent = name;
     document.getElementById('sidebarStoreType').textContent = config.label;
     document.getElementById('vendorSidebarName').textContent = name;
     document.getElementById('vendorSidebarStatus').textContent = vendorData.status === 'active' ? 'Active' : vendorData.status;
     document.getElementById('vendorAvatar').textContent = initial;
-
     // Hero
     document.getElementById('dashHeroTitle').textContent = config.heroTitle(name);
     document.getElementById('dashHeroSub').textContent = config.heroSub;
-
     // Profile page header
     document.getElementById('profileAvatar').textContent = initial;
     document.getElementById('profileHeaderName').textContent = name;
@@ -1887,13 +1806,10 @@ function applyVendorUI() {
         ? '<span class="badge badge-open">ACTIVE</span>'
         : '<span class="badge badge-pending">PENDING</span>';
     document.getElementById('profileVendorID').textContent = vendorData.vendorID || 'PENDING';
-
     // Settings signed in as
     document.getElementById('settingsSignedInAs').textContent = vendorData.ownerName || name;
-
     // Status banners
     updateStoreStatusDisplay();
-
     // Store info snippet
     const addr = vendorData.address || {};
     document.getElementById('storeInfoSnippet').innerHTML = `
@@ -1903,14 +1819,12 @@ function applyVendorUI() {
         <div class="info-row"><i data-lucide="navigation"></i><span>Delivery radius: ${vendorData.deliveryRadius||'5'} km</span></div>`;
     setTimeout(() => lucide.createIcons(), 50);
 }
-
 function updateStats() {
     const items = Object.values(menuCache);
     const orders = Object.values(ordersCache);
     const pending = orders.filter(o => o.status === 'pending').length;
     const revenue = orders.filter(o => o.status === 'delivered').reduce((s,o) => s+Number(o.total||0), 0);
     const featuredCount = items.filter(v => v.featured === true || v.featured === 'true').length;
-
     safeSet('stat-menu', items.length);
     safeSet('stat-featured', featuredCount);
     safeSet('stat-orders', orders.length);
@@ -1918,7 +1832,6 @@ function updateStats() {
     safeSet('stat-revenue', 'R ' + revenue.toFixed(0));
 }
 function safeSet(id, val) { const el = document.getElementById(id); if (el) el.textContent = val; }
-
 function updateStoreStatusDisplay() {
     const isOpen = getStoreOpenStatus();
     const banner = document.getElementById('statusBanner');
@@ -1926,7 +1839,6 @@ function updateStoreStatusDisplay() {
     const name = vendorData?.name || 'Your store';
     const btnOpen = document.getElementById('btnOpen');
     const btnClosed = document.getElementById('btnClosed');
-
     if (isOpen) {
         banner.classList.remove('closed-state');
         dot.style.background = 'var(--accent)';
@@ -1947,7 +1859,6 @@ function updateStoreStatusDisplay() {
         btnOpen.classList.remove('active'); btnClosed.classList.add('active');
     }
 }
-
 function getStoreOpenStatus() {
     if (manualStoreStatus) return manualStoreStatus === 'open';
     return checkStoreHours().isOpen;
@@ -1964,14 +1875,12 @@ function checkStoreHours() {
     const openT = oh*60+om, closeT = ch*60+cm;
     return { isOpen: currentTime >= openT && currentTime < closeT };
 }
-
 function setStoreStatus(status) {
     manualStoreStatus = status;
     if (VENDOR_KEY) db.ref('vendors/'+VENDOR_KEY).update({ manualStoreStatus: status, updatedAt: Date.now() });
     updateStoreStatusDisplay();
     showToast(`Store ${status === 'open' ? 'opened' : 'closed'} manually`);
 }
-
 // ── MENU GRID ─────────────────────────────────────────────────────
 function renderMenuGrid() {
     const grid = document.getElementById('menuGrid');
@@ -1990,9 +1899,9 @@ function renderMenuGrid() {
         lucide.createIcons(); return;
     }
     const statusColors = {
-        available:   { bg:'var(--accent-light)', color:'var(--accent)', text:'Available' },
+        available: { bg:'var(--accent-light)', color:'var(--accent)', text:'Available' },
         unavailable: { bg:'#fff5cc', color:'#997300', text:'Unavailable' },
-        sold_out:    { bg:'#fff1f0', color:'var(--danger)', text:'Sold Out' },
+        sold_out: { bg:'#fff1f0', color:'var(--danger)', text:'Sold Out' },
     };
     grid.innerHTML = items.map(([key,v]) => {
         const sc = statusColors[v.status||'available'] || statusColors.available;
@@ -2030,19 +1939,16 @@ function renderMenuGrid() {
     }).join('');
     lucide.createIcons();
 }
-
 function filterMenuItems(search) {
     menuFilter.search = search;
     menuFilter.category = document.getElementById('menuCatFilter').value;
     renderMenuGrid();
 }
-
 // ── FEATURED ──────────────────────────────────────────────────────
 function renderFeaturedItems() {
     const items = Object.entries(menuCache);
     const feat = items.filter(([,v]) => v.featured===true || v.featured==='true');
     document.getElementById('featuredCount').textContent = feat.length;
-
     const listEl = document.getElementById('featuredItemsList');
     if (!feat.length) {
         listEl.innerHTML = `<div style="color:var(--dim);text-align:center;padding:20px;font-size:0.88rem;">No featured items yet. Toggle items below to feature them!</div>`;
@@ -2054,7 +1960,6 @@ function renderFeaturedItems() {
                 <button class="btn btn-danger" style="padding:5px 12px;font-size:0.76rem;" onclick="toggleFeatured('${key}',false)"><i data-lucide="x" style="width:12px;height:12px;"></i> Remove</button>
             </div>`).join('');
     }
-
     const toggleEl = document.getElementById('featuredToggleList');
     toggleEl.innerHTML = items.length ? items.map(([key,v]) => {
         const isFeat = v.featured===true || v.featured==='true';
@@ -2063,18 +1968,15 @@ function renderFeaturedItems() {
             <div class="toggle ${isFeat?'on':''}" onclick="toggleFeatured('${key}',${!isFeat})" style="flex-shrink:0;"></div>
         </div>`;
     }).join('') : '<div style="color:var(--dim);text-align:center;padding:20px;font-size:0.88rem;">No items in catalogue yet</div>';
-
     lucide.createIcons();
     syncFeaturedGlobal();
 }
-
 function toggleFeatured(key, val) {
     if (!VENDOR_KEY) return;
     db.ref(`vendors/${VENDOR_KEY}/menu/${key}`).update({ featured: val, updatedAt: Date.now() })
         .then(() => showToast(val ? '⭐ Added to featured!' : 'Removed from featured', 'success'))
         .catch(() => showToast('Error updating featured', 'error'));
 }
-
 function syncFeaturedGlobal() {
     if (!VENDOR_KEY || !vendorData) return;
     const featured = Object.entries(menuCache)
@@ -2085,22 +1987,18 @@ function syncFeaturedGlobal() {
         }, {});
     db.ref(`featured_items/${VENDOR_KEY}`).set(Object.keys(featured).length ? featured : null);
 }
-
 // ── ORDERS ────────────────────────────────────────────────────────
 function renderOrders() {
     const container = document.getElementById('ordersContainer');
     const filter = document.getElementById('orderFilter')?.value || 'all';
     let orders = Object.entries(ordersCache).sort((a,b) => (b[1].createdAt||0)-(a[1].createdAt||0));
     if (filter !== 'all') orders = orders.filter(([,o]) => o.status === filter);
-
     if (!orders.length) {
         container.innerHTML = `<div class="empty-state"><div class="es-emoji">${currentConfig.emptyOrdersEmoji}</div><p>${currentConfig.emptyOrdersText}</p><small>${filter !== 'all' ? `No ${filter} orders` : 'No orders yet'}</small></div>`;
         lucide.createIcons(); return;
     }
-
     const statusColors = { pending:'#f5a623', preparing:'#0ea5e9', ready:'var(--accent)', delivered:'var(--accent)', cancelled:'var(--danger)', assigned:'#7c3aed' };
     const statusLabels = { pending:'Pending', preparing:'Preparing', ready:'Ready', delivered:'Delivered', cancelled:'Cancelled', assigned:'Assigned' };
-
     container.innerHTML = orders.map(([key,o]) => {
         const color = statusColors[o.status] || '#f5a623';
         const label = statusLabels[o.status] || o.status;
@@ -2144,7 +2042,6 @@ function renderOrders() {
     }).join('');
     lucide.createIcons();
 }
-
 function renderRecentOrders() {
     const container = document.getElementById('recentOrdersList');
     const recent = Object.entries(ordersCache).sort((a,b)=>(b[1].createdAt||0)-(a[1].createdAt||0)).slice(0,5);
@@ -2165,13 +2062,11 @@ function renderRecentOrders() {
             <div style="font-weight:700;color:var(--accent);font-size:0.9rem;">R${Number(o.total||0).toFixed(2)}</div>
         </div>`).join('');
 }
-
 function updateOrderStatus(key, newStatus) {
     db.ref('orders/'+key).update({ status:newStatus, updatedAt:Date.now() })
         .then(() => showToast(`Order ${newStatus}`, 'success'))
         .catch(() => showToast('Error updating order', 'error'));
 }
-
 // ── ANALYTICS ────────────────────────────────────────────────────
 function updateAnalytics() {
     const items = Object.values(menuCache);
@@ -2180,7 +2075,6 @@ function updateAnalytics() {
     safeSet('ana-items', items.length);
     safeSet('ana-orders', orders.length);
     safeSet('ana-revenue', 'R ' + revenue.toFixed(0));
-
     // Category breakdown
     const cats = {};
     items.forEach(v => { const c=v.category||'Other'; cats[c]=(cats[c]||0)+1; });
@@ -2191,7 +2085,6 @@ function updateAnalytics() {
         const pct = Math.round((count/total)*100);
         return `<div class="cat-bar-row"><div class="cat-bar-header"><span>${cat}</span><span>${count} (${pct}%)</span></div><div class="cat-bar-track"><div class="cat-bar-fill" style="width:${pct}%"></div></div></div>`;
     }).join('');
-
     // Orders chart
     const months = getLast6Months();
     const counts = {}; months.forEach(m=>counts[m]=0);
@@ -2204,7 +2097,6 @@ function updateAnalytics() {
     }).join('');
 }
 function getLast6Months(){const m=[],now=new Date();for(let i=5;i>=0;i--){const d=new Date(now.getFullYear(),now.getMonth()-i,1);m.push(d.toLocaleDateString('en-ZA',{month:'short',year:'2-digit'}));}return m;}
-
 // ── ITEM MODAL ────────────────────────────────────────────────────
 function openAddItemModal() {
     const config = currentConfig;
@@ -2220,7 +2112,6 @@ function openAddItemModal() {
     document.getElementById('itemSaveLabel').textContent = config.addItemBtnLabel;
     showModal('itemModal');
 }
-
 function openEditItemModal(key) {
     const v = menuCache[key]; if (!v) return;
     document.getElementById('item-key').value = key;
@@ -2242,7 +2133,6 @@ function openEditItemModal(key) {
     document.getElementById('itemSaveLabel').textContent = 'Save Changes';
     showModal('itemModal');
 }
-
 async function saveMenuItem() {
     if (!VENDOR_KEY) { showToast('No vendor loaded','error'); return; }
     const key = document.getElementById('item-key').value;
@@ -2294,7 +2184,6 @@ async function saveMenuItem() {
         hideModal('itemModal'); syncFeaturedGlobal();
     }).catch(err => showToast('Error saving item: '+err.message,'error'));
 }
-
 function openDeleteModal(key, name) {
     document.getElementById('del-key').value = key;
     document.getElementById('del-name').textContent = `"${name}"`;
@@ -2307,7 +2196,6 @@ function confirmDelete() {
         .then(() => { showToast('Item deleted','success'); hideModal('deleteModal'); syncFeaturedGlobal(); })
         .catch(() => showToast('Error deleting item','error'));
 }
-
 function showDeclineModal(itemKey) {
     const item = menuCache[itemKey];
     if (item?.imageDeclineReason) {
@@ -2317,7 +2205,6 @@ function showDeclineModal(itemKey) {
         showToast('No decline reason found','info');
     }
 }
-
 // ── STORE PROFILE ─────────────────────────────────────────────────
 function populateProfileForm() {
     if (!vendorData) return;
@@ -2339,7 +2226,6 @@ function populateProfileForm() {
 }
 function toggleProfileCategory(label) { const cb=label.querySelector('input[type="checkbox"]'); setTimeout(()=>label.classList.toggle('checked',cb.checked),10); }
 function togglePDay(cb) { cb.closest('label').classList.toggle('checked',cb.checked); }
-
 function saveStoreProfile() {
     if (!VENDOR_KEY) { showToast('No vendor loaded','error'); return; }
     const name = document.getElementById('p-name').value.trim();
@@ -2361,7 +2247,6 @@ function saveStoreProfile() {
     };
     db.ref('vendors/'+VENDOR_KEY).update(upd).then(()=>showToast(`Profile saved for "${name}"!`,'success')).catch(()=>showToast('Error saving profile','error'));
 }
-
 // ── INLINE LOCATION PICKER ────────────────────────────────────────
 function toggleInlineLocationPicker() {
     const picker = document.getElementById('inlineLocationPicker');
@@ -2429,7 +2314,6 @@ function selectInlineLocation(lat, lng, address) {
     toggleInlineLocationPicker();
     showToast(`Location set: ${address.split(',')[0]}`,'success');
 }
-
 // ── SETTINGS ──────────────────────────────────────────────────────
 const defaultSettings = { storeOpen:true, onlineOrders:true, deliveryAvailable:true, takeawayAvailable:true, orderAlerts:true, smsNotifs:false };
 const toggleMap = { storeOpen:'tog-open', onlineOrders:'tog-online', deliveryAvailable:'tog-delivery', takeawayAvailable:'tog-takeaway', orderAlerts:'tog-alerts', smsNotifs:'tog-sms' };
@@ -2446,7 +2330,6 @@ function saveSettings() {
     }
     showToast('Settings saved!','success');
 }
-
 // ── NAVIGATION ────────────────────────────────────────────────────
 function showTab(id, el) {
     document.querySelectorAll('#vendorMainPanel .page-content').forEach(p=>p.classList.remove('active'));
@@ -2459,7 +2342,6 @@ function showTab(id, el) {
     if (id==='featured') renderFeaturedItems();
     setTimeout(() => lucide.createIcons(), 50);
 }
-
 // ── LOGOUT ────────────────────────────────────────────────────────
 function openLogoutModal() { showModal('logoutModal'); }
 function confirmLogout() {
@@ -2471,7 +2353,6 @@ function confirmLogout() {
     switchAuthTab('login');
     hideModal('logoutModal');
 }
-
 // ── MODAL HELPERS ─────────────────────────────────────────────────
 function showModal(id) { const el=document.getElementById(id); el.style.display='flex'; setTimeout(()=>{el.classList.add('active');lucide.createIcons();},10); }
 function hideModal(id) { const el=document.getElementById(id); el.classList.remove('active'); setTimeout(()=>el.style.display='none',320); }
@@ -2479,7 +2360,6 @@ window.onclick = e => {
     if (e.target.classList.contains('modal-overlay'))
         ['itemModal','deleteModal','logoutModal','imageDeclinedModal'].forEach(id => { const el=document.getElementById(id); if(el&&el===e.target)hideModal(id); });
 };
-
 // ── SIDEBAR HOVER ─────────────────────────────────────────────────
 document.getElementById('vendorSidebar').addEventListener('mouseenter', () => {
     document.getElementById('vendorSidebar').classList.add('expanded');
@@ -2489,7 +2369,6 @@ document.getElementById('vendorSidebar').addEventListener('mouseleave', () => {
     document.getElementById('vendorSidebar').classList.remove('expanded');
     document.getElementById('vendorMainPanel').classList.remove('shifted');
 });
-
 // ── TOAST ─────────────────────────────────────────────────────────
 function showToast(msg, type='success') {
     const t = document.getElementById('toast');
@@ -2498,11 +2377,9 @@ function showToast(msg, type='success') {
     clearTimeout(t._timer);
     t._timer = setTimeout(() => t.classList.remove('show'), 2800);
 }
-
 // ── HELPERS ───────────────────────────────────────────────────────
 function fmtDate(ts) { return ts ? new Date(ts).toLocaleDateString('en-ZA') : '—'; }
 function fmtTime(ts) { return ts ? new Date(ts).toLocaleTimeString('en-ZA',{hour:'2-digit',minute:'2-digit'}) : ''; }
-
 // ── SESSION CHECK ─────────────────────────────────────────────────
 (function checkSession() {
     const s = JSON.parse(localStorage.getItem('vynix_vendor_session')||'null');
@@ -2511,7 +2388,6 @@ function fmtTime(ts) { return ts ? new Date(ts).toLocaleTimeString('en-ZA',{hour
         enterPortal();
     }
 })();
-
 // ── INIT ──────────────────────────────────────────────────────────
 lucide.createIcons();
 </script>
