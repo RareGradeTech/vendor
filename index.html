@@ -8,7 +8,6 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <style>
         /* ── STORE TYPE THEME VARIABLES ─────────────────────────────── */
         :root {
@@ -472,8 +471,6 @@
                 </div>
                 <button class="auth-btn" onclick="vendorLogin()" id="loginBtn">Sign In to Portal</button>
             </div>
-            <div class="auth-divider">or sign in with Google</div>
-            <button class="auth-btn" style="background:#4285F4;color:white;box-shadow:0 6px 20px rgba(66,133,244,0.4);" onclick="signInWithGoogle()">Sign in with Google</button>
             <div class="auth-divider">New restaurant?</div>
             <button class="auth-btn" style="background:transparent;border:1.5px solid rgba(6,193,103,0.4);color:#06C167;" onclick="switchAuthTab('register')">Register Your Business</button>
         </div>
@@ -1096,7 +1093,6 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
-const auth = firebase.auth();
 const MAPBOX_TOKEN = 'pk.eyJ1Ijoia2F0bGVnb3BoYXNoYSIsImEiOiJjbTlpOTdzbmYwMGNsMmpzYWJtZzN4d3pqIn0.Zt-aSMEoahrV3zkiVVHbOw';
 // ── STORE TYPE CONFIGS ────────────────────────────────────────────
 // Each store type gets its own vocabulary, colors, stats, nav labels, categories, quick actions
@@ -1693,27 +1689,6 @@ async function vendorLogin() {
         err.style.display = 'block';
         btn.disabled = false;
         btn.textContent = 'Sign In to Portal';
-    }
-}
-async function signInWithGoogle() {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    const err = document.getElementById('loginError');
-    try {
-        const result = await auth.signInWithPopup(provider);
-        const user = result.user;
-        const snap = await db.ref('vendors').orderByChild('email').equalTo(user.email).once('value');
-        const data = snap.val();
-        if (!data) throw new Error('No vendor account linked to this Google email. Please register first.');
-        const key = Object.keys(data)[0];
-        const vendor = data[key];
-        if (vendor.status === 'pending') throw new Error('Your account is pending approval');
-        if (vendor.status === 'disabled') throw new Error('Your account has been disabled');
-        VENDOR_KEY = key;
-        localStorage.setItem('vynix_vendor_session', JSON.stringify({ key, vendorId: vendor.vendorID || 'GOOGLE', role:'vendor', loggedAt:Date.now() }));
-        enterPortal();
-    } catch (e) {
-        err.textContent = e.message || 'Google sign in failed';
-        err.style.display = 'block';
     }
 }
 async function submitRegistration() {
