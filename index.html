@@ -3,18 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vynix Eats | Access Portal</title>
+    <title>Vynix Eats | Vendor & Driver Portal</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
     <style>
+        /* ── THEME VARIABLES ── */
         :root {
             --accent: #06C167;
             --accent-dark: #05a357;
+            --accent-light: #e6f9ed;
+            --accent-rgb: 6,193,103;
+            --store-gradient: linear-gradient(135deg, #06C167, #05a357);
             --bg: #f4f7f6;
             --surface: #ffffff;
+            --border: #e9ecef;
             --text: #1a1d23;
             --dim: #6c757d;
             --danger: #ff3b30;
@@ -25,39 +30,38 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; overflow-x: hidden; }
 
-        /* Auth Screen Styling */
-        #authScreen { position: fixed; inset: 0; z-index: 8000; background: linear-gradient(135deg, #0d1f14 0%, #0a2e1a 50%, #0d1f14 100%); display: flex; align-items: center; justify-content: center; padding: 20px; }
+        /* ── AUTH SCREEN ── */
+        #authScreen { position: fixed; inset: 0; z-index: 8000; background: linear-gradient(135deg, #0d1f14 0%, #0a2e1a 50%, #0d1f14 100%); display: flex; align-items: center; justify-content: center; padding: 20px; transition: opacity 0.4s ease; }
         #authScreen.hidden { display: none; }
-        .auth-card { background: rgba(255,255,255,0.04); backdrop-filter: blur(20px); border: 1px solid rgba(6,193,103,0.2); border-radius: 28px; padding: 40px; width: 100%; max-width: 460px; color: white; box-shadow: 0 32px 80px rgba(0,0,0,0.4); }
+        .auth-card { background: rgba(255,255,255,0.04); backdrop-filter: blur(20px); border: 1px solid rgba(6,193,103,0.2); border-radius: 28px; padding: 40px; width: 100%; max-width: 460px; box-shadow: 0 32px 80px rgba(0,0,0,0.4); color: white; }
         
-        .auth-tabs { display: flex; background: rgba(255,255,255,0.06); border-radius: 999px; padding: 4px; margin-bottom: 24px; gap: 4px; }
+        /* Role Tabs */
+        .auth-tabs { display: flex; background: rgba(255,255,255,0.06); border-radius: 999px; padding: 4px; margin-bottom: 20px; gap: 4px; }
         .auth-tab { flex: 1; padding: 10px; border-radius: 999px; border: none; background: transparent; color: rgba(255,255,255,0.5); font-weight: 700; cursor: pointer; transition: var(--transition); }
         .auth-tab.active { background: var(--accent); color: white; }
 
         .auth-input { width: 100%; padding: 14px 20px; background: rgba(255,255,255,0.07); border: 1.5px solid rgba(255,255,255,0.1); border-radius: 999px; color: white; margin-bottom: 12px; outline: none; }
         .auth-input:focus { border-color: var(--accent); background: rgba(6,193,103,0.08); }
-        .auth-btn { width: 100%; padding: 14px; background: var(--accent); border: none; border-radius: 999px; color: white; font-weight: 700; cursor: pointer; margin-top: 10px; transition: var(--transition); }
+        .auth-btn { width: 100%; padding: 14px; background: var(--accent); border: none; border-radius: 999px; color: white; font-weight: 700; cursor: pointer; margin-top: 10px; transition: var(--transition); box-shadow: 0 6px 20px rgba(6,193,103,0.4); }
         .auth-btn:hover { background: var(--accent-dark); transform: translateY(-2px); }
 
         .toggle-link { text-align: center; margin-top: 20px; font-size: 0.85rem; color: rgba(255,255,255,0.6); cursor: pointer; }
         .toggle-link span { color: var(--accent); font-weight: 700; }
 
-        /* Portal Content Layout */
-        .portal-layout { display: none; }
-        .portal-layout.active { display: flex; }
-        .sidebar { width: 280px; background: var(--surface); height: 100vh; border-right: 1px solid #e9ecef; padding: 30px 20px; }
-        .main-content { flex: 1; padding: 40px; }
-        .driver-status-badge { display: flex; align-items: center; gap: 10px; padding: 15px; background: #e6f9ed; border: 1px solid var(--accent); border-radius: 12px; margin-top: 20px; }
+        /* ── PORTAL CONTENT ── */
+        .main-panel { margin-left: 72px; padding: 40px; display: none; }
+        .main-panel.active { display: block; }
+        .driver-status-badge { display: flex; align-items: center; gap: 12px; padding: 15px; background: #e6f9ed; border: 1px solid var(--accent); border-radius: 12px; margin-top: 20px; }
         .status-dot { width: 12px; height: 12px; border-radius: 50%; background: #ccc; }
         .status-dot.online { background: var(--accent); box-shadow: 0 0 10px var(--accent); }
     </style>
 </head>
-<body>
+<body data-store="restaurant">
 
     <div id="authScreen">
         <div class="auth-card">
-            <h2 id="authTitle" style="text-align:center; margin-bottom:10px;">Welcome Back</h2>
-            <p id="authSub" style="text-align:center; color:rgba(255,255,255,0.5); font-size:0.85rem; margin-bottom:24px;">Please select your role to continue</p>
+            <h2 id="authTitle" style="text-align:center; margin-bottom:8px;">Welcome Back</h2>
+            <p id="authSub" style="text-align:center; color:rgba(255,255,255,0.5); font-size:0.85rem; margin-bottom:24px;">Please select your role to access the portal</p>
             
             <div class="auth-tabs">
                 <button class="auth-tab active" id="tabVendor" onclick="setRole('vendor')">Vendor</button>
@@ -75,7 +79,7 @@
                 <input type="email" id="regEmail" class="auth-input" placeholder="Email Address">
                 <input type="password" id="regPass" class="auth-input" placeholder="Create Password">
                 <div id="driverFields" style="display:none;">
-                    <input type="text" id="regVehicle" class="auth-input" placeholder="Vehicle Type (e.g. Bike, Car)">
+                    <input type="text" id="regVehicle" class="auth-input" placeholder="Vehicle Type (e.g. Scooter, Car)">
                 </div>
                 <button class="auth-btn" onclick="handleAuth('register')">Create Account</button>
             </div>
@@ -87,27 +91,20 @@
         </div>
     </div>
 
-    <div id="vendorPortal" class="portal-layout">
-        <div class="sidebar">
-            <h2 style="color:var(--accent); margin-bottom:30px;">Vynix Vendor</h2>
-            <p style="color:var(--dim); font-size:0.8rem; font-weight:700; text-transform:uppercase;">Menu</p>
-            <div style="margin-top:15px; cursor:pointer; font-weight:600;">Dashboard</div>
-            <div style="margin-top:15px; cursor:pointer; font-weight:600; color:var(--danger);" onclick="logout()">Logout</div>
-        </div>
-        <div class="main-content">
-            <h1>Vendor Dashboard</h1>
-            <div class="driver-status-badge">
-                <div id="driverDot" class="status-dot"></div>
-                <div>
-                    <strong id="driverStatusText">Checking Drivers...</strong>
-                    <p style="font-size:0.75rem; color:var(--dim);">Live tracking of delivery partners</p>
-                </div>
+    <div id="mainPortal" class="main-panel">
+        <h1 id="portalGreeting">Vendor Dashboard</h1>
+        <div class="driver-status-badge">
+            <div id="driverDot" class="status-dot"></div>
+            <div>
+                <strong id="driverStatusText">Checking Delivery Partners...</strong>
+                <p style="font-size:0.75rem; color:var(--dim);">Live tracking of signed-in drivers</p>
             </div>
         </div>
+        <button class="auth-btn" style="width:auto; margin-top:40px; padding:10px 25px;" onclick="logout()">Logout</button>
     </div>
 
     <script>
-        // FIREBASE CONFIGURATION
+        // CONFIGURATION (Placeholder - use your project keys)
         const firebaseConfig = {
             apiKey: "YOUR_API_KEY",
             authDomain: "YOUR_AUTH_DOMAIN",
@@ -125,13 +122,18 @@
         let currentRole = 'vendor';
         let isLoginMode = true;
 
+        // Toggle between Vendor and Driver roles
         function setRole(role) {
             currentRole = role;
             document.getElementById('tabVendor').classList.toggle('active', role === 'vendor');
             document.getElementById('tabDriver').classList.toggle('active', role === 'driver');
-            document.getElementById('driverFields').style.display = (role === 'driver' && !isLoginMode) ? 'block' : 'none';
+            
+            // Only show vehicle field during driver registration
+            const driverFields = document.getElementById('driverFields');
+            driverFields.style.display = (role === 'driver' && !isLoginMode) ? 'block' : 'none';
         }
 
+        // Toggle between Login and Registration
         function toggleAuthMode() {
             isLoginMode = !isLoginMode;
             document.getElementById('loginForm').style.display = isLoginMode ? 'block' : 'none';
@@ -140,9 +142,10 @@
             document.getElementById('toggleText').innerHTML = isLoginMode ? 
                 'Don\'t have an account? <span>Register Now</span>' : 
                 'Already have an account? <span>Sign In</span>';
-            setRole(currentRole); // Refresh vehicle fields visibility
+            setRole(currentRole); // Refresh view for driver fields
         }
 
+        // Core Auth Logic
         async function handleAuth(mode) {
             const errorEl = document.getElementById('authError');
             errorEl.style.display = 'none';
@@ -160,14 +163,21 @@
                     const userCredential = await auth.createUserWithEmailAndPassword(email, pass);
                     const uid = userCredential.user.uid;
 
-                    // Save Profile Data
-                    const profilePath = currentRole === 'vendor' ? `vendors/${uid}/profile` : `drivers/${uid}/profile`;
-                    const profileData = { name, email, role: currentRole, createdAt: Date.now() };
+                    // Write profile to Database based on role
+                    const path = currentRole === 'vendor' ? `vendors/${uid}/profile` : `drivers/${uid}/profile`;
+                    const data = { 
+                        name, 
+                        email, 
+                        role: currentRole, 
+                        joinedAt: Date.now() 
+                    };
+                    
                     if (currentRole === 'driver') {
-                        profileData.vehicle = document.getElementById('regVehicle').value;
-                        profileData.status = 'offline';
+                        data.vehicle = document.getElementById('regVehicle').value;
+                        data.status = 'online'; // Set online immediately after register
                     }
-                    await db.ref(profilePath).set(profileData);
+                    
+                    await db.ref(path).set(data);
                 }
             } catch (error) {
                 errorEl.textContent = error.message;
@@ -175,11 +185,17 @@
             }
         }
 
-        function initPortal(user) {
+        // Initialize UI after Auth
+        function enterPortal(user) {
             document.getElementById('authScreen').classList.add('hidden');
-            document.getElementById('vendorPortal').classList.add('active');
+            document.getElementById('mainPortal').classList.add('active');
             
-            // Listen for Driver Sign-ins
+            // Personalize greeting
+            db.ref(`vendors/${user.uid}/profile`).once('value', (s) => {
+                if(s.exists()) document.getElementById('portalGreeting').textContent = `Welcome, ${s.val().name}`;
+            });
+
+            // Live Driver Tracking for the Vendor Dashboard
             db.ref('drivers').on('value', (snap) => {
                 const drivers = snap.val();
                 let onlineCount = 0;
@@ -192,7 +208,7 @@
                 const dot = document.getElementById('driverDot');
                 const text = document.getElementById('driverStatusText');
                 dot.className = onlineCount > 0 ? 'status-dot online' : 'status-dot';
-                text.textContent = onlineCount > 0 ? `${onlineCount} Driver(s) Signed In` : 'No Drivers Online';
+                text.textContent = onlineCount > 0 ? `${onlineCount} Delivery Partner(s) Online` : 'No Drivers Online';
             });
         }
 
@@ -200,8 +216,9 @@
             auth.signOut().then(() => location.reload());
         }
 
+        // Listen for Auth State
         auth.onAuthStateChanged(user => {
-            if (user) initPortal(user);
+            if (user) enterPortal(user);
         });
     </script>
 </body>
