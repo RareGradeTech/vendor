@@ -456,7 +456,6 @@
             <i data-lucide="utensils" style="width:32px;height:32px;color:#06C167;"></i>
             <div class="auth-logo-text">VYNIX<span>EATS</span></div>
         </div>
-
         <div class="auth-tabs">
             <button class="auth-tab active" onclick="switchAuthTab('login')">Sign In</button>
             <button class="auth-tab" onclick="switchAuthTab('register')">Register</button>
@@ -474,7 +473,7 @@
                 <button class="auth-btn" onclick="partnerLogin()" id="loginBtn">Sign In to Portal</button>
             </div>
             <div class="auth-divider">or sign in with Google</div>
-            <button class="auth-btn" style="background:#4285F4;color:white;box-shadow:0 6px 20px rgba(66,133,244,0.4);" onclick="signInWithGoogle()">Sign in with Google</button>
+            <button class="auth-btn" style="background:#06C167;color:white;box-shadow:0 6px 20px rgba(6,193,103,0.4);" onclick="signInWithGoogle()">Sign in with Google</button>
             <div class="auth-divider">New restaurant?</div>
             <button class="auth-btn" style="background:transparent;border:1.5px solid rgba(6,193,103,0.4);color:#06C167;" onclick="switchAuthTab('register')">Register Your Business</button>
         </div>
@@ -550,22 +549,20 @@
         </div>
     </div>
 </div>
-
 <!-- GOOGLE AUTH MODAL (auto-shown if not authenticated) -->
 <div class="modal-overlay" id="googleAuthModal">
     <div class="modal-content" style="max-width:420px;text-align:center;">
-        <div style="width:80px;height:80px;border-radius:50%;background:#4285F4;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;color:white;font-size:2.4rem;font-weight:700;">
+        <div style="width:80px;height:80px;border-radius:50%;background:#06C167;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;color:white;font-size:2.4rem;font-weight:700;">
             G
         </div>
         <h3 style="margin-bottom:8px;">Sign in with Google</h3>
         <p style="color:var(--dim);margin-bottom:24px;font-size:0.95rem;">To access the Partner Portal, please sign in with your Google account first.</p>
-        <button onclick="signInWithGoogle()" style="background:#4285F4;color:white;border:none;padding:16px 24px;border-radius:999px;font-weight:700;font-size:1.05rem;width:100%;box-shadow:0 8px 24px rgba(66,133,244,0.3);">
+        <button onclick="signInWithGoogle()" style="background:#06C167;color:white;border:none;padding:16px 24px;border-radius:999px;font-weight:700;font-size:1.05rem;width:100%;box-shadow:0 8px 24px rgba(6,193,103,0.3);">
             Continue with Google
         </button>
         <div style="margin-top:20px;font-size:0.82rem;color:var(--dim);">or use your ID below</div>
     </div>
 </div>
-
 <!-- SHIMMER -->
 <div id="shimmerOverlay">
     <div class="shim-sidebar">
@@ -2389,14 +2386,12 @@ function fmtTime(ts) { return ts ? new Date(ts).toLocaleTimeString('en-ZA',{hour
         enterPortal();
     }
 })();
-
 // ── AUTO SHOW GOOGLE AUTH MODAL IF NOT AUTHENTICATED ──────────────
 setTimeout(() => {
     if (!JSON.parse(localStorage.getItem('vynix_vendor_session') || 'null')) {
         showModal('googleAuthModal');
     }
 }, 1000);
-
 // ── INIT ──────────────────────────────────────────────────────────
 lucide.createIcons();
 </script>
