@@ -457,12 +457,6 @@
             <div class="auth-logo-text">VYNIX<span>EATS</span></div>
         </div>
 
-        <!-- ROLE SELECTOR (added for Driver support) -->
-        <div id="roleTabs" class="auth-tabs" style="margin-bottom:18px;">
-            <button class="auth-tab active" onclick="setAuthRole('vendor')">Vendor</button>
-            <button class="auth-tab" onclick="setAuthRole('driver')">Driver</button>
-        </div>
-
         <div class="auth-tabs">
             <button class="auth-tab active" onclick="switchAuthTab('login')">Sign In</button>
             <button class="auth-tab" onclick="switchAuthTab('register')">Register</button>
@@ -633,10 +627,6 @@
             <div class="nav-item" onclick="showTab('analytics',this)">
                 <i data-lucide="bar-chart-3" class="nav-icon"></i>
                 <span class="nav-text">Analytics</span>
-            </div>
-            <div class="nav-item" onclick="showTab('driver',this)" id="navDriver">
-                <i data-lucide="bike" class="nav-icon"></i>
-                <span class="nav-text">Driver Portal</span>
             </div>
         </div>
         <div class="nav-section">
@@ -970,46 +960,6 @@
                     <div><div style="font-weight:600;">Signed in as</div><div style="font-size:0.82rem;color:var(--dim);" id="settingsSignedInAs">Vendor</div></div>
                     <button class="btn btn-danger" onclick="openLogoutModal()"><i data-lucide="log-out" style="width:14px;height:14px;"></i> Log Out</button>
                 </div>
-            </div>
-        </div>
-    </section>
-    <!-- ══ DRIVER PORTAL ═════════════════════════════════════════════ -->
-    <section id="driver" class="page-content">
-        <div style="margin-bottom:28px;">
-            <h1 style="font-size:1.9rem;font-weight:800;letter-spacing:-0.5px;color:#3b82f6;">Driver Portal</h1>
-            <p style="color:var(--dim);font-size:0.95rem;">Manage deliveries, accept orders, and track your earnings in real time.</p>
-        </div>
-        
-        <!-- Driver Hero Banner -->
-        <div class="dashboard-hero" style="background:linear-gradient(135deg,#3b82f6,#2563eb);margin-bottom:28px;">
-            <div class="hero-inner">
-                <div class="hero-left">
-                    <h1 id="driverHeroTitle" style="color:white;">Ready to Ride? 🛵</h1>
-                    <p id="driverHeroSub" style="color:rgba(255,255,255,0.85);">Available deliveries near you</p>
-                </div>
-                <div class="hero-emoji" style="font-size:3.8rem;">🛵</div>
-            </div>
-        </div>
-
-        <!-- Driver Stats -->
-        <div class="stats-grid" id="driverStatsGrid"></div>
-
-        <!-- Driver Content Grid -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
-            <!-- Available Orders -->
-            <div class="content-card">
-                <div class="card-header">
-                    <h2><i data-lucide="shopping-bag" style="width:18px;height:18px;color:#3b82f6;"></i> Available Orders <span id="availableCount" style="background:#3b82f6;color:white;border-radius:999px;padding:2px 8px;font-size:0.72rem;margin-left:8px;">0</span></h2>
-                </div>
-                <div id="availableOrdersList" style="padding:16px;max-height:420px;overflow-y:auto;"></div>
-            </div>
-            
-            <!-- My Current Deliveries -->
-            <div class="content-card">
-                <div class="card-header">
-                    <h2><i data-lucide="map-pin" style="width:18px;height:18px;color:#3b82f6;"></i> My Current Deliveries</h2>
-                </div>
-                <div id="myDeliveriesList" style="padding:16px;max-height:420px;overflow-y:auto;"></div>
             </div>
         </div>
     </section>
@@ -1574,8 +1524,7 @@ const STORE_CONFIGS = {
 };
 // ── STATE ─────────────────────────────────────────────────────────
 let VENDOR_KEY = null;
-let currentRole = 'vendor';   // 'vendor' or 'driver'
-let authRole = 'vendor';
+let currentRole = 'vendor';
 let vendorData = null;
 let menuCache = {};
 let ordersCache = {};
@@ -1679,25 +1628,6 @@ function buildItemCategorySelect(cats) {
 function buildShopCategories(cats) {
     document.getElementById('p-shop-categories').innerHTML = cats.map(c => `<label class="category-check-label" onclick="toggleProfileCategory(this)"><input type="checkbox" value="${c.v}"> ${c.e} ${c.v}</label>`).join('');
 }
-// ── ROLE SELECTOR (for auth) ──────────────────────────────────────
-function setAuthRole(role) {
-    authRole = role;
-    document.querySelectorAll('#roleTabs .auth-tab').forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('onclick').includes(role));
-    });
-    const sub = document.querySelector('#loginPanel .auth-sub');
-    const label = document.getElementById('loginIdLabel');
-    const input = document.getElementById('vendorLoginId');
-    if (role === 'driver') {
-        sub.textContent = 'Sign in with your Driver ID';
-        label.textContent = 'Driver ID';
-        input.placeholder = 'e.g. DRV-ABC123';
-    } else {
-        sub.textContent = 'Sign in with your Vendor ID';
-        label.textContent = 'Vendor ID';
-        input.placeholder = 'e.g. VYN-ABC123';
-    }
-}
 // ── AUTH UI ───────────────────────────────────────────────────────
 function switchAuthTab(tab) {
     document.querySelectorAll('.auth-tab').forEach((t,i) => t.classList.toggle('active', (tab==='login'&&i===0)||(tab==='register'&&i===1)));
@@ -1739,18 +1669,18 @@ async function partnerLogin() {
     if (!id) { err.textContent='Enter ID'; err.style.display='block'; return; }
     btn.disabled = true; btn.textContent = 'Signing in…';
     try {
-        const collection = authRole === 'vendor' ? 'vendors' : 'drivers';
-        const idField = authRole === 'vendor' ? 'vendorID' : 'driverID';
+        const collection = 'vendors';
+        const idField = 'vendorID';
         const snap = await db.ref(collection).orderByChild(idField).equalTo(id).once('value');
         const data = snap.val();
-        if (!data) throw new Error(authRole === 'vendor' ? 'Vendor ID not found' : 'Driver ID not found');
+        if (!data) throw new Error('Vendor ID not found');
         const key = Object.keys(data)[0];
         const partner = data[key];
         if (partner.status === 'pending') throw new Error('Your account is pending approval');
         if (partner.status === 'disabled') throw new Error('Your account has been disabled');
         VENDOR_KEY = key;
-        currentRole = authRole;
-        localStorage.setItem('vynix_vendor_session', JSON.stringify({ key, id, role: authRole, loggedAt:Date.now() }));
+        currentRole = 'vendor';
+        localStorage.setItem('vynix_vendor_session', JSON.stringify({ key, id, role: 'vendor', loggedAt:Date.now() }));
         enterPortal();
     } catch (e) {
         err.textContent = e.message;
@@ -1766,17 +1696,9 @@ async function signInWithGoogle() {
         const result = await auth.signInWithPopup(provider);
         const user = result.user;
         let data = null;
-        let foundRole = null;
         let snap = await db.ref('vendors').orderByChild('email').equalTo(user.email).once('value');
         if (snap.val()) {
             data = snap.val();
-            foundRole = 'vendor';
-        } else {
-            snap = await db.ref('drivers').orderByChild('email').equalTo(user.email).once('value');
-            if (snap.val()) {
-                data = snap.val();
-                foundRole = 'driver';
-            }
         }
         if (!data) throw new Error('No account linked to this Google email. Please register first.');
         const key = Object.keys(data)[0];
@@ -1784,8 +1706,8 @@ async function signInWithGoogle() {
         if (partner.status === 'pending') throw new Error('Your account is pending approval');
         if (partner.status === 'disabled') throw new Error('Your account has been disabled');
         VENDOR_KEY = key;
-        currentRole = foundRole;
-        localStorage.setItem('vynix_vendor_session', JSON.stringify({ key, id: partner[foundRole+'ID'] || 'GOOGLE', role: foundRole, loggedAt:Date.now() }));
+        currentRole = 'vendor';
+        localStorage.setItem('vynix_vendor_session', JSON.stringify({ key, id: partner.vendorID || 'GOOGLE', role: 'vendor', loggedAt:Date.now() }));
         enterPortal();
         hideModal('googleAuthModal');
     } catch (e) {
@@ -1799,8 +1721,8 @@ async function submitRegistration() {
     const btn = document.getElementById('regSubmitBtn');
     btn.disabled = true;
     err.style.display = 'none';
-    const collection = authRole === 'vendor' ? 'vendors' : 'drivers';
-    const idField = authRole === 'vendor' ? 'vendorID' : 'driverID';
+    const collection = 'vendors';
+    const idField = 'vendorID';
     const application = {
         name: document.getElementById('reg-name').value.trim(),
         address: { city: document.getElementById('reg-city').value.trim(), province: document.getElementById('reg-province').value },
@@ -1810,12 +1732,11 @@ async function submitRegistration() {
         businessRegNo: document.getElementById('reg-regno').value.trim(),
         status: 'pending',
         [idField]: null,
-        role: authRole,
         appliedAt: Date.now(), updatedAt: Date.now(),
     };
     try {
         await db.ref(collection).push(application);
-        suc.innerHTML = `✅ Application submitted! Admin will review and assign your ${authRole === 'vendor' ? 'Vendor' : 'Driver'} ID.`;
+        suc.innerHTML = `✅ Application submitted! Admin will review and assign your Vendor ID.`;
         suc.style.display = 'block';
         btn.textContent = 'Application Sent!';
         setTimeout(() => { switchAuthTab('login'); btn.disabled=false; btn.textContent='Submit Application'; suc.style.display='none'; }, 3500);
@@ -1845,7 +1766,7 @@ function hideShimmer() {
 // ── SYNC ──────────────────────────────────────────────────────────
 function startSync() {
     if (!VENDOR_KEY) return;
-    const PATH = currentRole === 'vendor' ? 'vendors' : 'drivers';
+    const PATH = 'vendors';
     db.ref(PATH + '/' + VENDOR_KEY).on('value', snap => {
         vendorData = snap.val();
         if (!vendorData) return;
@@ -1857,39 +1778,31 @@ function startSync() {
         menuCache = snap.val() || {};
         renderMenuGrid(); renderFeaturedItems(); updateStats(); updateAnalytics();
     });
-    // Orders listener (vendor keeps filtered, driver gets everything)
-    if (currentRole === 'vendor') {
-        db.ref('orders').orderByChild('vendorKey').equalTo(VENDOR_KEY).on('value', snap => {
-            ordersCache = snap.val() || {};
-            renderOrders(); renderRecentOrders(); updateStats(); updateAnalytics();
-        });
-    } else {
-        db.ref('orders').on('value', snap => {
-            ordersCache = snap.val() || {};
-            renderDriverPortal();
-        });
-    }
+    db.ref('orders').orderByChild('vendorKey').equalTo(VENDOR_KEY).on('value', snap => {
+        ordersCache = snap.val() || {};
+        renderOrders(); renderRecentOrders(); updateStats(); updateAnalytics();
+    });
 }
 // ── VENDOR UI ─────────────────────────────────────────────────────
 function applyVendorUI() {
     if (!vendorData) return;
-    const name = vendorData.name || (currentRole === 'driver' ? 'Driver' : 'My Store');
+    const name = vendorData.name || 'My Store';
     const storeType = (vendorData.storeType || 'restaurant').toLowerCase();
     const config = STORE_CONFIGS[storeType] || STORE_CONFIGS.restaurant;
     const initial = name.charAt(0).toUpperCase();
     if (vendorData.manualStoreStatus) manualStoreStatus = vendorData.manualStoreStatus;
     document.getElementById('sidebarStoreName').textContent = name;
-    document.getElementById('sidebarStoreType').textContent = currentRole === 'driver' ? 'Driver' : config.label;
+    document.getElementById('sidebarStoreType').textContent = config.label;
     document.getElementById('vendorSidebarName').textContent = name;
     document.getElementById('vendorSidebarStatus').textContent = vendorData.status === 'active' ? 'Active' : vendorData.status;
     document.getElementById('vendorAvatar').textContent = initial;
-    document.getElementById('dashHeroTitle').textContent = currentRole === 'driver' ? `Hey ${name}! 🛵` : config.heroTitle(name);
-    document.getElementById('dashHeroSub').textContent = currentRole === 'driver' ? 'Manage deliveries & earnings' : config.heroSub;
+    document.getElementById('dashHeroTitle').textContent = config.heroTitle(name);
+    document.getElementById('dashHeroSub').textContent = config.heroSub;
     document.getElementById('profileAvatar').textContent = initial;
     document.getElementById('profileHeaderName').textContent = name;
-    document.getElementById('profileHeaderType').textContent = currentRole === 'driver' ? 'Driver Partner' : config.label;
+    document.getElementById('profileHeaderType').textContent = config.label;
     document.getElementById('profileHeaderBadge').innerHTML = vendorData.status === 'active' ? '<span class="badge badge-open">ACTIVE</span>' : '<span class="badge badge-pending">PENDING</span>';
-    document.getElementById('profileVendorID').textContent = vendorData.vendorID || vendorData.driverID || 'PENDING';
+    document.getElementById('profileVendorID').textContent = vendorData.vendorID || 'PENDING';
     document.getElementById('settingsSignedInAs').textContent = vendorData.ownerName || name;
     updateStoreStatusDisplay();
     const addr = vendorData.address || {};
@@ -1959,7 +1872,7 @@ function checkStoreHours() {
 function setStoreStatus(status) {
     manualStoreStatus = status;
     if (VENDOR_KEY) {
-        const PATH = currentRole === 'vendor' ? 'vendors' : 'drivers';
+        const PATH = 'vendors';
         db.ref(PATH+'/'+VENDOR_KEY).update({ manualStoreStatus: status, updatedAt: Date.now() });
     }
     updateStoreStatusDisplay();
@@ -2057,13 +1970,13 @@ function renderFeaturedItems() {
 }
 function toggleFeatured(key, val) {
     if (!VENDOR_KEY) return;
-    const PATH = currentRole === 'vendor' ? 'vendors' : 'drivers';
+    const PATH = 'vendors';
     db.ref(`${PATH}/${VENDOR_KEY}/menu/${key}`).update({ featured: val, updatedAt: Date.now() })
         .then(() => showToast(val ? '⭐ Added to featured!' : 'Removed from featured', 'success'))
         .catch(() => showToast('Error updating featured', 'error'));
 }
 function syncFeaturedGlobal() {
-    if (!VENDOR_KEY || !vendorData || currentRole !== 'vendor') return;
+    if (!VENDOR_KEY || !vendorData) return;
     const featured = Object.entries(menuCache)
         .filter(([,v]) => (v.featured===true||v.featured==='true') && v.imageApproved===true)
         .reduce((obj,[k,v]) => {
@@ -2259,7 +2172,7 @@ async function saveMenuItem() {
         imageURL, imageApproved, updatedAt: Date.now(),
         vendorKey: VENDOR_KEY, vendorName: vendorData?.name||''
     };
-    const PATH = currentRole === 'vendor' ? 'vendors' : 'drivers';
+    const PATH = 'vendors';
     const dbRef = key
         ? db.ref(`${PATH}/${VENDOR_KEY}/menu/${key}`).update(data)
         : db.ref(`${PATH}/${VENDOR_KEY}/menu`).push({...data, createdAt: Date.now()});
@@ -2276,7 +2189,7 @@ function openDeleteModal(key, name) {
 function confirmDelete() {
     const key = document.getElementById('del-key').value;
     if (!VENDOR_KEY || !key) return;
-    const PATH = currentRole === 'vendor' ? 'vendors' : 'drivers';
+    const PATH = 'vendors';
     db.ref(`${PATH}/${VENDOR_KEY}/menu/${key}`).remove()
         .then(() => { showToast('Item deleted','success'); hideModal('deleteModal'); syncFeaturedGlobal(); })
         .catch(() => showToast('Error deleting item','error'));
@@ -2317,7 +2230,7 @@ function saveStoreProfile() {
     if (!name) { showToast('Business name is required','error'); return; }
     const days = Array.from(document.querySelectorAll('#p-days input[type=checkbox]:checked')).map(c=>c.value);
     const shopCategories = Array.from(document.querySelectorAll('#p-shop-categories input[type="checkbox"]:checked')).map(c=>c.value);
-    const PATH = currentRole === 'vendor' ? 'vendors' : 'drivers';
+    const PATH = 'vendors';
     const upd = {
         name, cuisine:document.getElementById('p-cuisine').value.trim(),
         ownerName:document.getElementById('p-owner').value.trim(), phone:document.getElementById('p-phone').value.trim(),
@@ -2412,7 +2325,7 @@ function toggleSetting(el, key) { el.classList.toggle('on'); settingsState[key]=
 function saveSettings() {
     localStorage.setItem('vynix_vendor_settings', JSON.stringify(settingsState));
     if (VENDOR_KEY) {
-        const PATH = currentRole === 'vendor' ? 'vendors' : 'drivers';
+        const PATH = 'vendors';
         db.ref(PATH+'/'+VENDOR_KEY).update({ manualStoreStatus: !settingsState.storeOpen ? 'closed' : 'open', updatedAt:Date.now() });
     }
     showToast('Settings saved!','success');
@@ -2427,94 +2340,7 @@ function showTab(id, el) {
     if (id==='profile') { populateProfileForm(); document.getElementById('inlineLocationPicker').classList.remove('open'); }
     if (id==='settings') loadSettings();
     if (id==='featured') renderFeaturedItems();
-    if (id==='driver') renderDriverPortal();
     setTimeout(() => lucide.createIcons(), 50);
-}
-// ── DRIVER PORTAL ─────────────────────────────────────────────────
-function renderDriverPortal() {
-    const orders = Object.values(ordersCache);
-    const today = new Date().toDateString();
-    const todayDeliveries = orders.filter(o => o.status === 'delivered' && new Date(o.createdAt).toDateString() === today).length;
-    const todayEarnings = orders.filter(o => o.status === 'delivered' && new Date(o.createdAt).toDateString() === today).reduce((sum, o) => sum + Number(o.total || 0) * 0.15, 0);
-    document.getElementById('driverStatsGrid').innerHTML = `
-        <div class="stat-card">
-            <div class="stat-icon"><i data-lucide="package" style="width:18px;height:18px;color:#3b82f6;"></i></div>
-            <h3>Deliveries Today</h3>
-            <p style="color:#3b82f6;">${todayDeliveries}</p>
-        </div>
-        <div class="stat-card">
-            <div class="stat-icon"><i data-lucide="dollar-sign" style="width:18px;height:18px;color:#3b82f6;"></i></div>
-            <h3>Earnings Today</h3>
-            <p style="color:#3b82f6;">R ${todayEarnings.toFixed(0)}</p>
-        </div>
-        <div class="stat-card">
-            <div class="stat-icon"><i data-lucide="star" style="width:18px;height:18px;color:#3b82f6;"></i></div>
-            <h3>Rating</h3>
-            <p style="color:#3b82f6;">4.9 ★</p>
-        </div>
-        <div class="stat-card">
-            <div class="stat-icon"><i data-lucide="clock" style="width:18px;height:18px;color:#3b82f6;"></i></div>
-            <h3>Hours Online</h3>
-            <p style="color:#3b82f6;">6.2</p>
-        </div>`;
-    lucide.createIcons();
-    let available = Object.entries(ordersCache).filter(([,o]) => (o.status === 'ready' || o.status === 'pending') && !o.driverKey).sort((a,b) => (b[1].createdAt||0) - (a[1].createdAt||0));
-    const availEl = document.getElementById('availableOrdersList');
-    document.getElementById('availableCount').textContent = available.length;
-    if (available.length === 0) {
-        availEl.innerHTML = `<div class="empty-state"><div class="es-emoji">🛵</div><p>No available orders right now</p><small>Check back soon</small></div>`;
-    } else {
-        availEl.innerHTML = available.map(([key,o]) => `
-            <div class="order-card" style="margin-bottom:12px;border-radius:16px;">
-                <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-                    <div>
-                        <span style="font-weight:700;">Order #${o.orderNumber || key.slice(-6).toUpperCase()}</span>
-                        <div style="font-size:0.78rem;color:var(--dim);margin-top:2px;">${o.deliveryAddress || 'No address'}</div>
-                        <div style="font-size:0.78rem;color:#3b82f6;">R${Number(o.total||0).toFixed(2)}</div>
-                    </div>
-                    <button onclick="acceptDelivery('${key}')" class="btn btn-success" style="padding:8px 16px;">Accept</button>
-                </div>
-            </div>`).join('');
-    }
-    let myDel = Object.entries(ordersCache).filter(([,o]) => o.driverKey === VENDOR_KEY && (o.status === 'assigned' || o.status === 'preparing' || o.status === 'ready')).sort((a,b) => (b[1].createdAt||0) - (a[1].createdAt||0));
-    const myEl = document.getElementById('myDeliveriesList');
-    if (myDel.length === 0) {
-        myEl.innerHTML = `<div class="empty-state"><div class="es-emoji">🛵</div><p>No active deliveries</p><small>Accept an order above</small></div>`;
-    } else {
-        myEl.innerHTML = myDel.map(([key,o]) => `
-            <div class="order-card" style="margin-bottom:12px;border-radius:16px;">
-                <div style="display:flex;justify-content:space-between;align-items:flex-start;">
-                    <div>
-                        <span style="font-weight:700;">Order #${o.orderNumber || key.slice(-6).toUpperCase()}</span>
-                        <div style="font-size:0.78rem;color:var(--dim);">Status: <span style="color:#3b82f6;">${o.status}</span></div>
-                    </div>
-                    <button onclick="markDelivered('${key}')" class="btn btn-success" style="padding:8px 16px;">Mark Delivered</button>
-                </div>
-            </div>`).join('');
-    }
-    lucide.createIcons();
-}
-function acceptDelivery(key) {
-    if (!VENDOR_KEY) return;
-    db.ref('orders/'+key).update({
-        driverKey: VENDOR_KEY,
-        driverName: vendorData?.name || 'Driver',
-        status: 'assigned',
-        updatedAt: Date.now()
-    }).then(() => {
-        showToast('Delivery accepted! 🛵', 'success');
-        renderDriverPortal();
-    }).catch(() => showToast('Could not accept', 'error'));
-}
-function markDelivered(key) {
-    if (!VENDOR_KEY) return;
-    db.ref('orders/'+key).update({ status: 'delivered', updatedAt: Date.now() })
-        .then(() => {
-            showToast('Order delivered! 🎉', 'success');
-            renderDriverPortal();
-            updateStats();
-        })
-        .catch(() => showToast('Could not update', 'error'));
 }
 // ── LOGOUT ────────────────────────────────────────────────────────
 function openLogoutModal() { showModal('logoutModal'); }
@@ -2559,7 +2385,7 @@ function fmtTime(ts) { return ts ? new Date(ts).toLocaleTimeString('en-ZA',{hour
     const s = JSON.parse(localStorage.getItem('vynix_vendor_session')||'null');
     if (s && s.key && (Date.now()-s.loggedAt) < 24*60*60*1000) {
         VENDOR_KEY = s.key;
-        currentRole = s.role || 'vendor';
+        currentRole = 'vendor';
         enterPortal();
     }
 })();
@@ -2573,7 +2399,6 @@ setTimeout(() => {
 
 // ── INIT ──────────────────────────────────────────────────────────
 lucide.createIcons();
-setAuthRole('vendor');
 </script>
 </body>
 </html>
