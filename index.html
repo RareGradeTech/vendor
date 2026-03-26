@@ -2006,14 +2006,13 @@ function syncFeaturedGlobal() {
         }, {});
     db.ref(`featured_items/${VENDOR_KEY}`).set(Object.keys(featured).length ? featured : null);
 }
-
 // ── HELPER: build customer location card ─────────────────────────
 function buildLocationCard(o) {
     // Collect all possible lat/lng sources from the order
     const lat = o.customerLat || o.deliveryLat || o.lat || (o.location && o.location.lat) || (o.deliveryLocation && o.deliveryLocation.lat) || null;
     const lng = o.customerLng || o.deliveryLng || o.lng || (o.location && o.location.lng) || (o.deliveryLocation && o.deliveryLocation.lng) || null;
-    const address = o.deliveryAddress || o.address || '';
-
+    // Collect ALL possible address fields that a customer might have entered
+    const address = o.deliveryAddress || o.address || o.customerAddress || (o.location && o.location.address) || (o.deliveryLocation && o.deliveryLocation.address) || (o.customer && o.customer.address) || '';
     if (!lat || !lng) {
         // No coordinates — show address only if available
         if (!address) return '';
@@ -2022,13 +2021,11 @@ function buildLocationCard(o) {
             <span style="flex:1;">${address}</span>
         </div>`;
     }
-
     // We have coordinates — build a rich location card with static map preview + open in maps link
     const mapImgUrl = `https://api.mapbox.com/styles/v1/mapbox/streets-v12/static/pin-s+06C167(${lng},${lat})/${lng},${lat},14,0/560x110@2x?access_token=${MAPBOX_TOKEN}`;
     const googleMapsUrl = `https://www.google.com/maps?q=${lat},${lng}`;
     const wazeUrl = `https://waze.com/ul?ll=${lat},${lng}&navigate=yes`;
     const displayAddr = address || `${Number(lat).toFixed(5)}, ${Number(lng).toFixed(5)}`;
-
     return `<div class="order-location-card">
         <img class="order-location-map-preview" src="${mapImgUrl}" alt="Customer location map" loading="lazy" onerror="this.style.display='none'">
         <div class="order-location-footer">
@@ -2043,12 +2040,10 @@ function buildLocationCard(o) {
         </div>
     </div>`;
 }
-
 // ── HELPER: build order item chips with images ────────────────────
 function buildOrderItemChips(o) {
     const orderItems = o.items ? (Array.isArray(o.items) ? o.items : Object.values(o.items)) : [];
     if (!orderItems.length) return '';
-
     const chips = orderItems.map(item => {
         // Try to find the item in menuCache to get its image
         let imgEl = '';
@@ -2058,7 +2053,6 @@ function buildOrderItemChips(o) {
             ? Object.values(menuCache).find(m => m.name === item.name)
             : null;
         const resolvedItem = menuItem || menuItemByName;
-
         if (item.imageURL && item.imageURL !== '') {
             // Order itself carries the image
             imgEl = `<img class="order-item-chip-img" src="${item.imageURL}" alt="${item.name||'Item'}" loading="lazy" onerror="this.style.display='none';this.nextSibling.style.display='flex';">
@@ -2070,7 +2064,6 @@ function buildOrderItemChips(o) {
         } else {
             imgEl = `<div class="order-item-chip-placeholder">${currentConfig.emoji}</div>`;
         }
-
         return `<div class="order-item-chip">
             ${imgEl}
             <div class="order-item-chip-info">
@@ -2079,10 +2072,8 @@ function buildOrderItemChips(o) {
             </div>
         </div>`;
     }).join('');
-
     return `<div class="order-items-strip">${chips}</div>`;
 }
-
 // ── ORDERS ────────────────────────────────────────────────────────
 function renderOrders() {
     const container = document.getElementById('ordersContainer');
@@ -2099,18 +2090,14 @@ function renderOrders() {
         const color = statusColors[o.status] || '#f5a623';
         const label = statusLabels[o.status] || o.status;
         const customerName = o.customerName || o.customer?.name || 'Customer';
-
         // Build item chips with images
         const itemChipsHtml = buildOrderItemChips(o);
-
         // Build customer location card (map + address + buttons)
         const locationCardHtml = buildLocationCard(o);
-
         const driverBanner = o.driverKey ?
             `<div style="margin-top:8px;padding:8px 12px;background:var(--accent-light);border:1px solid var(--accent);border-radius:10px;display:flex;align-items:center;gap:8px;font-size:0.82rem;font-weight:700;color:var(--accent);">
                 <i data-lucide="bike" style="width:14px;height:14px;flex-shrink:0;"></i> Driver: ${o.driverName||'Assigned'}
              </div>` : '';
-
         return `<div class="order-card">
             <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">
                 <div style="flex:1;min-width:0;">
