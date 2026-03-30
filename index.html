@@ -13,11 +13,11 @@
         /* ── STORE TYPE THEME VARIABLES ─────────────────────────────── */
         :root {
             /* Restaurant (default) */
-            --accent: #06C167;
+            --accent: #ff751f;
             --accent-dark: #05a357;
             --accent-light: #e6f9ed;
             --accent-rgb: 6,193,103;
-            --store-gradient: linear-gradient(135deg, #06C167, #05a357);
+            --store-gradient: linear-gradient(135deg, #ff751f, #05a357);
             --store-bg-gradient: linear-gradient(135deg, #f0fdf8 0%, #e6f9ed 100%);
             --bg: #f4f7f6;
             --surface: #ffffff;
@@ -119,7 +119,7 @@
         }
         .auth-logo { display: flex; align-items: center; gap: 12px; margin-bottom: 32px; justify-content: center; }
         .auth-logo-text { font-size: 1.6rem; font-weight: 800; color: white; letter-spacing: -1px; }
-        .auth-logo-text span { color: #06C167; }
+        .auth-logo-text span { color: #ff751f; }
         .auth-title { font-size: 1.2rem; font-weight: 800; color: white; margin-bottom: 4px; text-align: center; }
         .auth-sub { color: rgba(255,255,255,0.5); font-size: 0.82rem; text-align: center; margin-bottom: 24px; }
         .auth-form { display: flex; flex-direction: column; gap: 14px; }
@@ -132,9 +132,9 @@
             transition: var(--transition); width: 100%;
         }
         .auth-input::placeholder { color: rgba(255,255,255,0.3); }
-        .auth-input:focus { border-color: #06C167 !important; background: rgba(6,193,103,0.08) !important; box-shadow: 0 0 0 3px rgba(6,193,103,0.15) !important; }
+        .auth-input:focus { border-color: #ff751f !important; background: rgba(6,193,103,0.08) !important; box-shadow: 0 0 0 3px rgba(6,193,103,0.15) !important; }
         .auth-btn {
-            background: #06C167; color: white; border: none; padding: 13px; border-radius: 999px;
+            background: #ff751f; color: white; border: none; padding: 13px; border-radius: 999px;
             font-weight: 700; font-family: inherit; font-size: 0.9rem; cursor: pointer;
             transition: var(--transition); margin-top: 6px; box-shadow: 0 6px 20px rgba(6,193,103,0.4);
         }
@@ -143,16 +143,16 @@
         .auth-error { background: rgba(255,59,48,0.15); border: 1px solid rgba(255,59,48,0.3); border-radius: 12px; padding: 10px 14px; color: #ff6b63; font-size: 0.82rem; font-weight: 600; display: none; margin-bottom: 8px; }
         .auth-tabs { display: flex; background: rgba(255,255,255,0.06); border-radius: 999px; padding: 4px; margin-bottom: 18px; gap: 4px; }
         .auth-tab { flex: 1; padding: 8px; border-radius: 999px; border: none; background: transparent; color: rgba(255,255,255,0.5); font-family: inherit; font-weight: 600; font-size: 0.82rem; cursor: pointer; transition: var(--transition); }
-        .auth-tab.active { background: #06C167; color: white; }
+        .auth-tab.active { background: #ff751f; color: white; }
         .auth-divider { display: flex; align-items: center; gap: 12px; margin: 8px 0; color: rgba(255,255,255,0.25); font-size: 0.8rem; }
         .auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.1); }
-        .auth-success { background: rgba(6,193,103,0.15); border: 1px solid rgba(6,193,103,0.3); border-radius: 12px; padding: 10px 14px; color: #06C167; font-size: 0.82rem; font-weight: 600; display: none; margin-bottom: 8px; }
+        .auth-success { background: rgba(6,193,103,0.15); border: 1px solid rgba(6,193,103,0.3); border-radius: 12px; padding: 10px 14px; color: #ff751f; font-size: 0.82rem; font-weight: 600; display: none; margin-bottom: 8px; }
         .reg-step { display: none; }
         .reg-step.active { display: flex; flex-direction: column; gap: 14px; }
         .step-indicator { display: flex; gap: 8px; justify-content: center; margin-bottom: 16px; }
         .step-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255,255,255,0.45); border: 1.5px solid rgba(255,255,255,0.6); transition: var(--transition); }
-        .step-dot.active { background: #06C167; border-color: #06C167; width: 24px; border-radius: 4px; }
-        .step-dot.done { background: #06C167; border-color: #06C167; }
+        .step-dot.active { background: #ff751f; border-color: #ff751f; width: 24px; border-radius: 4px; }
+        .step-dot.done { background: #ff751f; border-color: #ff751f; }
         .auth-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         #vendorRegisterPanel { max-height: 78vh; overflow-y: auto; padding-right: 4px; }
         /* ── SHIMMER ───────────────────────────────────────────────── */
@@ -456,14 +456,14 @@
 <div id="authScreen">
     <div class="auth-bg-circles"><div class="auth-circle"></div><div class="auth-circle"></div><div class="auth-circle"></div></div>
     <div class="auth-card">
-        <div class="auth-logo"><i data-lucide="utensils" style="width:32px;height:32px;color:#06C167;"></i><div class="auth-logo-text">VYNIX<span>EATS</span></div></div>
+        <div class="auth-logo"><i data-lucide="utensils" style="width:32px;height:32px;color:#ff751f;"></i><div class="auth-logo-text">VYNIX<span>EATS</span></div></div>
         <div class="auth-tabs"><button class="auth-tab active" onclick="switchAuthTab('login')">Sign In</button><button class="auth-tab" onclick="switchAuthTab('register')">Register</button></div>
         <div id="loginPanel">
             <div class="auth-title">Welcome Back 👋</div><div class="auth-sub">Sign in with your Vendor ID</div>
             <div class="auth-error" id="loginError"></div>
             <div class="auth-form"><div class="auth-form-group"><label>Vendor ID</label><input type="text" class="auth-input" id="vendorLoginId" placeholder="e.g. VYN-ABC123"></div><button class="auth-btn" onclick="partnerLogin()" id="loginBtn">Sign In to Portal</button></div>
-            <div class="auth-divider">or sign in with Google</div><button class="auth-btn" style="background:#06C167;color:white;box-shadow:0 6px 20px rgba(6,193,103,0.4);" onclick="signInWithGoogle()">Sign in with Google</button>
-            <div class="auth-divider">New restaurant?</div><button class="auth-btn" style="background:transparent;border:1.5px solid rgba(6,193,103,0.4);color:#06C167;" onclick="switchAuthTab('register')">Register Your Business</button>
+            <div class="auth-divider">or sign in with Google</div><button class="auth-btn" style="background:#ff751f;color:white;box-shadow:0 6px 20px rgba(6,193,103,0.4);" onclick="signInWithGoogle()">Sign in with Google</button>
+            <div class="auth-divider">New restaurant?</div><button class="auth-btn" style="background:transparent;border:1.5px solid rgba(6,193,103,0.4);color:#ff751f;" onclick="switchAuthTab('register')">Register Your Business</button>
         </div>
         <div id="registerPanel" style="display:none;">
             <div class="step-indicator"><div class="step-dot active" id="dot-0"></div><div class="step-dot" id="dot-1"></div><div class="step-dot" id="dot-2"></div></div>
@@ -474,7 +474,7 @@
         </div>
     </div>
 </div>
-<div class="modal-overlay" id="googleAuthModal"><div class="modal-content" style="max-width:420px;text-align:center;"><div style="width:80px;height:80px;border-radius:50%;background:#06C167;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;color:white;font-size:2.4rem;font-weight:700;">G</div><h3 style="margin-bottom:8px;">Sign in with Google</h3><p style="color:var(--dim);margin-bottom:24px;font-size:0.95rem;">To access the Partner Portal, please sign in with your Google account first.</p><button onclick="signInWithGoogle()" style="background:#06C167;color:white;border:none;padding:16px 24px;border-radius:999px;font-weight:700;font-size:1.05rem;width:100%;box-shadow:0 8px 24px rgba(6,193,103,0.3);">Continue with Google</button><div style="margin-top:20px;font-size:0.82rem;color:var(--dim);">or use your ID below</div></div></div>
+<div class="modal-overlay" id="googleAuthModal"><div class="modal-content" style="max-width:420px;text-align:center;"><div style="width:80px;height:80px;border-radius:50%;background:#ff751f;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;color:white;font-size:2.4rem;font-weight:700;">G</div><h3 style="margin-bottom:8px;">Sign in with Google</h3><p style="color:var(--dim);margin-bottom:24px;font-size:0.95rem;">To access the Partner Portal, please sign in with your Google account first.</p><button onclick="signInWithGoogle()" style="background:#ff751f;color:white;border:none;padding:16px 24px;border-radius:999px;font-weight:700;font-size:1.05rem;width:100%;box-shadow:0 8px 24px rgba(6,193,103,0.3);">Continue with Google</button><div style="margin-top:20px;font-size:0.82rem;color:var(--dim);">or use your ID below</div></div></div>
 <div id="shimmerOverlay"><div class="shim-sidebar"><div class="shim-block shim-logo"></div><div style="display:flex;flex-direction:column;gap:12px;margin-top:16px;"><div class="shim-block shim-nav"></div><div class="shim-block shim-nav"></div><div class="shim-block shim-nav"></div><div class="shim-block shim-nav"></div></div></div><div class="shim-main"><div class="shim-block shim-header"></div><div class="shim-stats"><div class="shim-block shim-stat"></div><div class="shim-block shim-stat"></div><div class="shim-block shim-stat"></div><div class="shim-block shim-stat"></div></div><div class="shim-row"><div class="shim-block shim-card"></div><div class="shim-block shim-card"></div></div><div class="shim-block shim-table"></div></div></div>
 <nav class="sidebar" id="vendorSidebar" style="display:none;"><div class="logo"><i data-lucide="utensils" class="logo-icon" id="sidebarLogoIcon"></i><span class="logo-text">VYNIX<span id="sidebarLogoSuffix">EATS</span></span></div><div class="store-type-badge"><div class="store-type-dot"></div><div class="store-type-info"><div class="store-name" id="sidebarStoreName">My Store</div><div class="store-type-label" id="sidebarStoreType">Restaurant</div></div></div><div class="nav-scroll"><div class="nav-section"><div class="nav-label">Main</div><div class="nav-item active" onclick="showTab('dashboard',this)" id="navDashboard"><i data-lucide="layout-dashboard" class="nav-icon"></i><span class="nav-text">Dashboard</span></div><div class="nav-item" onclick="showTab('menu',this)" id="navMenu"><i data-lucide="book-open" class="nav-icon" id="navMenuIcon"></i><span class="nav-text" id="navMenuLabel">Menu Items</span></div><div class="nav-item" onclick="showTab('featured',this)" id="navFeatured"><i data-lucide="star" class="nav-icon"></i><span class="nav-text" id="navFeaturedLabel">Featured Items</span></div><div class="nav-item" onclick="showTab('orders',this)" id="navOrders"><i data-lucide="shopping-bag" class="nav-icon" id="navOrdersIcon"></i><span class="nav-text" id="navOrdersLabel">Orders</span></div><div class="nav-item" onclick="showTab('analytics',this)"><i data-lucide="bar-chart-3" class="nav-icon"></i><span class="nav-text">Analytics</span></div></div><div class="nav-section"><div class="nav-label">Account</div><div class="nav-item" onclick="showTab('profile',this)"><i data-lucide="store" class="nav-icon" id="navProfileIcon"></i><span class="nav-text" id="navProfileLabel">Store Profile</span></div><div class="nav-item" onclick="showTab('settings',this)"><i data-lucide="settings" class="nav-icon"></i><span class="nav-text">Settings</span></div><button class="logout-btn" onclick="openLogoutModal()"><i data-lucide="log-out" class="nav-icon" style="color:var(--danger);"></i><span class="nav-text">Log Out</span></button></div></div><div class="user-profile" onclick="showTab('profile',null)"><div class="user-avatar" id="vendorAvatar">V</div><div class="user-info"><div style="font-weight:700;" id="vendorSidebarName">Vendor</div><div style="font-size:0.72rem;color:var(--accent);" id="vendorSidebarStatus">Active</div></div></div></nav>
 <main class="main-panel" id="vendorMainPanel" style="display:none;">
