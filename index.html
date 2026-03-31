@@ -325,6 +325,9 @@
         /* ORDER NOTIFICATION PULSE */
         .new-order-pulse { animation: newOrderPulse 1s ease-in-out 3; }
         @keyframes newOrderPulse { 0%,100%{background:var(--accent-light);}50%{background:rgba(var(--accent-rgb),0.3);} }
+        /* DEBUG BANNER */
+        .debug-banner { background:#fff5cc;border:1px solid #ffe066;border-radius:12px;padding:10px 16px;margin-bottom:16px;font-size:0.82rem;font-weight:600;color:#997300;display:none; }
+        .debug-banner.show { display:block; }
     </style>
 </head>
 <body>
@@ -510,6 +513,7 @@
                 <span style="font-size:0.78rem;color:var(--dim);font-weight:600;" id="ordersCountLabel"></span>
             </div>
         </div>
+        <div class="debug-banner" id="debugBanner"></div>
         <div class="content-card" id="ordersContainer">
             <div class="empty-state"><div class="es-emoji" id="emptyOrdersEmoji2">📦</div><p>No orders found</p><small>Orders from all your customers appear here</small></div>
         </div>
@@ -667,7 +671,10 @@ const auth = firebase.auth();
 const MAPBOX_TOKEN = 'pk.eyJ1Ijoia2F0bGVnb3BoYXNoYSIsImEiOiJjbTlpOTdzbmYwMGNsMmpzYWJtZzN4d3pqIn0.Zt-aSMEoahrV3zkiVVHbOw';
 const CLOUDINARY_CLOUD = 'dqkujefxj';
 const CLOUDINARY_PRESET = 'banter_box';
-/* ── CLOUDINARY UPLOAD ── */
+
+/* ══════════════════════════════════════════════════════
+   CLOUDINARY UPLOAD
+══════════════════════════════════════════════════════ */
 async function uploadToCloudinary(file, onProgress) {
     const fd = new FormData();
     fd.append('file', file);
@@ -688,7 +695,10 @@ function previewItemImage(input) {
     reader.onload = e => { document.getElementById('item-img-preview').src = e.target.result; document.getElementById('item-img-preview-wrap').style.display = 'block'; };
     reader.readAsDataURL(file);
 }
-/* ── STORE CONFIGS ── */
+
+/* ══════════════════════════════════════════════════════
+   STORE CONFIGS
+══════════════════════════════════════════════════════ */
 const STORE_CONFIGS = {
     restaurant: {
         storeType:'restaurant', label:'Restaurant', emoji:'🍽️', logoSuffix:'EATS', logoIcon:'utensils', theme:'restaurant',
@@ -730,11 +740,19 @@ STORE_CONFIGS.alcohol = { ...STORE_CONFIGS.restaurant, storeType:'alcohol', labe
 STORE_CONFIGS.health = { ...STORE_CONFIGS.restaurant, storeType:'health', label:'Health & Pharmacy', emoji:'💊', logoSuffix:'CARE', logoIcon:'heart-pulse', theme:'health', heroTitle: n=>`Welcome, ${n}! 💊`, heroSub:'Manage your health store.' };
 STORE_CONFIGS.pets = { ...STORE_CONFIGS.restaurant, storeType:'pets', label:'Pet Store', emoji:'🐾', logoSuffix:'PAWS', logoIcon:'dog', theme:'pets', heroTitle: n=>`Welcome, ${n}! 🐾`, heroSub:'Manage your pet store.' };
 STORE_CONFIGS.electronics = { ...STORE_CONFIGS.restaurant, storeType:'electronics', label:'Electronics Store', emoji:'📱', logoSuffix:'TECH', logoIcon:'smartphone', theme:'electronics', heroTitle: n=>`Welcome, ${n}! 📱`, heroSub:'Manage your electronics store.' };
-/* ── STATE ── */
+
+/* ══════════════════════════════════════════════════════
+   STATE
+══════════════════════════════════════════════════════ */
 let VENDOR_KEY = null, vendorData = null, menuCache = {}, ordersCache = {}, currentConfig = STORE_CONFIGS.restaurant;
 let manualStoreStatus = null, menuFilter = { search: '', category: '' }, settingsState = {};
 let previousPendingCount = 0;
-/* ── THEME ── */
+// Global raw orders cache — all orders from Firebase, unfiltered
+window._allOrdersCache = {};
+
+/* ══════════════════════════════════════════════════════
+   THEME
+══════════════════════════════════════════════════════ */
 function applyStoreTheme(storeType) {
     const config = STORE_CONFIGS[storeType] || STORE_CONFIGS.restaurant;
     currentConfig = config;
@@ -816,7 +834,10 @@ function buildShopCategories(cats) {
 }
 function toggleProfileCategory(label) { const cb = label.querySelector('input[type="checkbox"]'); setTimeout(() => label.classList.toggle('checked', cb.checked), 10); }
 function togglePDay(cb) { cb.closest('label').classList.toggle('checked', cb.checked); }
-/* ── AUTH ── */
+
+/* ══════════════════════════════════════════════════════
+   AUTH
+══════════════════════════════════════════════════════ */
 function switchAuthTab(tab) {
     document.querySelectorAll('.auth-tab').forEach((t, i) => t.classList.toggle('active', (tab === 'login' && i === 0) || (tab === 'register' && i === 1)));
     document.getElementById('loginPanel').style.display = tab === 'login' ? 'block' : 'none';
@@ -902,7 +923,10 @@ async function submitRegistration() {
         err.textContent = 'Submission failed. Try again.'; err.style.display = 'block'; btn.disabled = false;
     }
 }
-/* ── PORTAL INIT ── */
+
+/* ══════════════════════════════════════════════════════
+   PORTAL INIT
+══════════════════════════════════════════════════════ */
 function enterPortal() {
     document.getElementById('authScreen').classList.add('hidden');
     showShimmer();
@@ -915,18 +939,31 @@ function enterPortal() {
 }
 function showShimmer() { const s = document.getElementById('shimmerOverlay'); s.classList.add('active'); }
 function hideShimmer() { const s = document.getElementById('shimmerOverlay'); s.classList.add('fade-out'); setTimeout(() => s.classList.remove('active', 'fade-out'), 600); }
-/* ── SYNC ── */
+
+/* ══════════════════════════════════════════════════════
+   SYNC — FIXED ORDERS LISTENER
+   Strategy:
+   1. vendorData listener fires first and calls reFilterOrders()
+   2. orders listener stores ALL orders globally and calls reFilterOrders()
+   3. reFilterOrders() does the matching AFTER vendorData is available,
+      checking ALL possible field names on every order against ALL
+      possible IDs this vendor could have been stored under.
+══════════════════════════════════════════════════════ */
 function startSync() {
     if (!VENDOR_KEY) return;
-    // Listen to vendor data
+
+    // 1. Vendor data listener — fires first, then re-runs order filter
     db.ref('vendors/' + VENDOR_KEY).on('value', snap => {
         vendorData = snap.val();
         if (!vendorData) return;
         const storeType = (vendorData.storeType || 'restaurant').toLowerCase();
         applyStoreTheme(storeType);
         applyVendorUI();
+        // Re-filter now that vendorData (including vendorID) is available
+        reFilterOrders();
     });
-    // Listen to menu
+
+    // 2. Menu listener
     db.ref('vendors/' + VENDOR_KEY + '/menu').on('value', snap => {
         menuCache = snap.val() || {};
         renderMenuGrid();
@@ -934,45 +971,87 @@ function startSync() {
         updateStats();
         updateAnalytics();
     });
-    // FIXED ORDERS LISTENER - now catches orders whether they use the Firebase push key OR the vendorID string
+
+    // 3. Orders listener — stores raw data globally, delegates matching to reFilterOrders()
     db.ref('orders').on('value', snap => {
-        const allOrders = snap.val() || {};
-        ordersCache = {};
-
-        Object.entries(allOrders).forEach(([orderKey, o]) => {
-            const matches = 
-                (o.vendorKey === VENDOR_KEY || o.vendorId === VENDOR_KEY) ||
-                (vendorData && vendorData.vendorID && 
-                 (o.vendorKey === vendorData.vendorID || o.vendorId === vendorData.vendorID));
-
-            if (matches) {
-                ordersCache[orderKey] = o;
-            }
-        });
-
-        const pendingCount = Object.values(ordersCache).filter(o => o.status === 'pending').length;
-
-        // New order alert
-        if (pendingCount > previousPendingCount && previousPendingCount >= 0) {
-            const newCount = pendingCount - previousPendingCount;
-            if (previousPendingCount >= 0) {
-                showToast(`🔔 ${newCount} new order${newCount > 1 ? 's' : ''} received!`, 'info');
-            }
-        }
-        previousPendingCount = pendingCount;
-
-        // Update pending badge on nav
-        const badge = document.getElementById('pendingOrdersBadge');
-        if (badge) {
-            badge.style.display = pendingCount > 0 ? 'inline' : 'none';
-            badge.textContent = pendingCount;
-        }
-        renderOrders();
-        renderRecentOrders();
-        updateStats();
-        updateAnalytics();
+        window._allOrdersCache = snap.val() || {};
+        reFilterOrders();
     });
 }
+
+/* ══════════════════════════════════════════════════════
+   reFilterOrders — THE KEY FIX
+   Matches orders against every possible identifier this
+   vendor could have been stored under in any order document.
+══════════════════════════════════════════════════════ */
+function reFilterOrders() {
+    if (!VENDOR_KEY) return;
+    const allOrders = window._allOrdersCache || {};
+
+    // Build a set of all IDs this vendor might appear as in an order
+    const matchIds = new Set();
+    matchIds.add(VENDOR_KEY);                              // Firebase push key e.g. -OQxyz123
+    if (vendorData) {
+        if (vendorData.vendorID)  matchIds.add(vendorData.vendorID);   // Human ID e.g. VYX-ABC
+        if (vendorData.name)      matchIds.add(vendorData.name);       // Store name fallback
+        if (vendorData.email)     matchIds.add(vendorData.email);      // Email fallback
+    }
+
+    // Field names that orders might use to reference the vendor
+    const vendorFields = ['vendorKey', 'vendorId', 'vendorID', 'vendor', 'storeKey', 'storeId', 'vendorName'];
+
+    ordersCache = {};
+    let matchCount = 0;
+
+    Object.entries(allOrders).forEach(([orderKey, o]) => {
+        const matched = vendorFields.some(field => {
+            const val = o[field];
+            return val && matchIds.has(val);
+        });
+        if (matched) {
+            ordersCache[orderKey] = o;
+            matchCount++;
+        }
+    });
+
+    // Show debug info on orders page if vendor is loaded
+    const debugBanner = document.getElementById('debugBanner');
+    if (debugBanner && vendorData) {
+        const totalOrders = Object.keys(allOrders).length;
+        if (matchCount === 0 && totalOrders > 0) {
+            debugBanner.textContent = `⚠️ ${totalOrders} total orders in DB but 0 matched for this vendor. Vendor key: ${VENDOR_KEY} | Vendor ID: ${vendorData.vendorID || 'N/A'}`;
+            debugBanner.classList.add('show');
+        } else {
+            debugBanner.classList.remove('show');
+        }
+    }
+
+    const pendingCount = Object.values(ordersCache).filter(o => o.status === 'pending').length;
+
+    // New order alert — only after initial load (previousPendingCount starts at 0)
+    if (pendingCount > previousPendingCount && previousPendingCount >= 0 && Object.keys(ordersCache).length > 0) {
+        const diff = pendingCount - previousPendingCount;
+        // Only toast if we've already had at least one sync (not first load)
+        if (window._ordersInitialized) {
+            showToast(`🔔 ${diff} new order${diff > 1 ? 's' : ''} received!`, 'info');
+        }
+    }
+    window._ordersInitialized = true;
+    previousPendingCount = pendingCount;
+
+    // Update pending badge on nav
+    const badge = document.getElementById('pendingOrdersBadge');
+    if (badge) {
+        badge.style.display = pendingCount > 0 ? 'inline' : 'none';
+        badge.textContent = pendingCount;
+    }
+
+    renderOrders();
+    renderRecentOrders();
+    updateStats();
+    updateAnalytics();
+}
+
 function applyVendorUI() {
     if (!vendorData) return;
     const name = vendorData.name || 'My Store';
@@ -1002,7 +1081,10 @@ function applyVendorUI() {
         <div class="info-row"><i data-lucide="navigation"></i><span>Delivery radius: ${vendorData.deliveryRadius || '5'} km</span></div>`;
     setTimeout(() => lucide.createIcons(), 50);
 }
-/* ── STATS ── */
+
+/* ══════════════════════════════════════════════════════
+   STATS
+══════════════════════════════════════════════════════ */
 function updateStats() {
     const items = Object.values(menuCache);
     const orders = Object.values(ordersCache);
@@ -1016,7 +1098,10 @@ function updateStats() {
     safeSet('stat-revenue', 'R ' + revenue.toFixed(0));
 }
 function safeSet(id, val) { const el = document.getElementById(id); if (el) el.textContent = val; }
-/* ── STORE STATUS ── */
+
+/* ══════════════════════════════════════════════════════
+   STORE STATUS
+══════════════════════════════════════════════════════ */
 function updateStoreStatusDisplay() {
     const isOpen = getStoreOpenStatus();
     const banner = document.getElementById('statusBanner');
@@ -1061,7 +1146,10 @@ function setStoreStatus(status) {
     updateStoreStatusDisplay();
     showToast(`Store ${status === 'open' ? 'opened' : 'closed'} manually`, 'success');
 }
-/* ── MENU RENDERING ── */
+
+/* ══════════════════════════════════════════════════════
+   MENU RENDERING
+══════════════════════════════════════════════════════ */
 function renderMenuGrid() {
     const grid = document.getElementById('menuGrid');
     let items = Object.entries(menuCache).reverse();
@@ -1082,7 +1170,10 @@ function renderMenuGrid() {
     lucide.createIcons();
 }
 function filterMenuItems(search) { menuFilter.search = search; menuFilter.category = document.getElementById('menuCatFilter').value; renderMenuGrid(); }
-/* ── FEATURED ── */
+
+/* ══════════════════════════════════════════════════════
+   FEATURED
+══════════════════════════════════════════════════════ */
 function renderFeaturedItems() {
     const items = Object.entries(menuCache);
     const feat = items.filter(([, v]) => v.featured === true || v.featured === 'true');
@@ -1111,7 +1202,10 @@ function syncFeaturedGlobal() {
         }, {});
     db.ref(`featured_items/${VENDOR_KEY}`).set(Object.keys(featured).length ? featured : null);
 }
-/* ── ORDER RENDERING ── */
+
+/* ══════════════════════════════════════════════════════
+   ORDER RENDERING
+══════════════════════════════════════════════════════ */
 function buildLocationCard(o) {
     const address = o.deliveryAddress || o.address || o.customerAddress ||
         (o.location && o.location.address) || (o.deliveryLocation && o.deliveryLocation.address) ||
@@ -1156,8 +1250,8 @@ function renderOrders() {
         const color = statusColors[o.status] || '#f5a623';
         const label = statusLabels[o.status] || o.status;
         const customerName = o.customerName || o.customer?.name || o.userName || 'Customer';
-        const customerEmail = o.customerEmail || o.userEmail || o.userEmail || '';
-        const sourceType = o.storeType ? `<span style="background:var(--accent-light);color:var(--accent);border-radius:8px;font-size:0.65rem;font-weight:700;padding:2px 7px;margin-left:6px;">${o.storeType}</span>` : '';
+        const customerEmail = o.customerEmail || o.userEmail || '';
+        const sourceType = o.orderType ? `<span style="background:var(--accent-light);color:var(--accent);border-radius:8px;font-size:0.65rem;font-weight:700;padding:2px 7px;margin-left:6px;">${o.orderType}</span>` : '';
         const itemChipsHtml = buildOrderItemChips(o);
         const locationCardHtml = buildLocationCard(o);
         const driverBanner = o.driverKey || o.driverName ? `<div class="driver-banner"><i data-lucide="bike" style="width:14px;height:14px;flex-shrink:0;"></i> Driver: ${o.driverName || 'Assigned'}</div>` : '';
@@ -1214,7 +1308,7 @@ function renderRecentOrders() {
                 <div style="width:8px;height:8px;border-radius:50%;background:${statusColors[o.status] || 'var(--dim)'};flex-shrink:0;"></div>
                 <div>
                     <div style="font-weight:700;font-size:0.88rem;">Order #${o.orderNumber || key.slice(-6).toUpperCase()}</div>
-                    <div style="color:var(--dim);font-size:0.76rem;">${customerName} · ${fmtTime(o.createdAt)}${o.storeType ? ` · ${o.storeType}` : ''}</div>
+                    <div style="color:var(--dim);font-size:0.76rem;">${customerName} · ${fmtTime(o.createdAt)}${o.orderType ? ` · ${o.orderType}` : ''}</div>
                 </div>
             </div>
             <div style="font-weight:700;color:var(--accent);font-size:0.9rem;">R${Number(o.total || 0).toFixed(2)}</div>
@@ -1226,7 +1320,10 @@ function updateOrderStatus(key, newStatus) {
         .then(() => showToast(`Order ${newStatus}`, 'success'))
         .catch(() => showToast('Error updating order', 'error'));
 }
-/* ── ANALYTICS ── */
+
+/* ══════════════════════════════════════════════════════
+   ANALYTICS
+══════════════════════════════════════════════════════ */
 function updateAnalytics() {
     const items = Object.values(menuCache);
     const orders = Object.values(ordersCache);
@@ -1254,7 +1351,10 @@ function updateAnalytics() {
     }).join('');
 }
 function getLast6Months() { const m = [], now = new Date(); for (let i = 5; i >= 0; i--) { const d = new Date(now.getFullYear(), now.getMonth() - i, 1); m.push(d.toLocaleDateString('en-ZA', { month: 'short', year: '2-digit' })); } return m; }
-/* ── ITEM MODAL ── */
+
+/* ══════════════════════════════════════════════════════
+   ITEM MODAL
+══════════════════════════════════════════════════════ */
 function openAddItemModal() {
     document.getElementById('item-key').value = '';
     ['item-name', 'item-desc', 'item-price', 'item-preptime', 'item-calories', 'item-allergens'].forEach(id => document.getElementById(id).value = '');
@@ -1332,7 +1432,10 @@ function confirmDelete() {
         .then(() => { showToast('Item deleted', 'success'); hideModal('deleteModal'); syncFeaturedGlobal(); })
         .catch(() => showToast('Error deleting item', 'error'));
 }
-/* ── PROFILE ── */
+
+/* ══════════════════════════════════════════════════════
+   PROFILE
+══════════════════════════════════════════════════════ */
 function populateProfileForm() {
     if (!vendorData) return;
     const addr = vendorData.address || {};
@@ -1354,7 +1457,10 @@ function saveStoreProfile() {
     const upd = { name, cuisine: document.getElementById('p-cuisine').value.trim(), ownerName: document.getElementById('p-owner').value.trim(), phone: document.getElementById('p-phone').value.trim(), email: document.getElementById('p-email').value.trim(), whatsapp: document.getElementById('p-whatsapp').value.trim(), address: { street: document.getElementById('p-street').value.trim(), suburb: document.getElementById('p-suburb').value.trim(), city: document.getElementById('p-city').value.trim(), province: document.getElementById('p-province').value }, lat: document.getElementById('p-lat').value ? parseFloat(document.getElementById('p-lat').value) : null, lng: document.getElementById('p-lng').value ? parseFloat(document.getElementById('p-lng').value) : null, deliveryRadius: document.getElementById('p-radius').value, minOrderValue: document.getElementById('p-minorder').value, openingTime: document.getElementById('p-open').value, closingTime: document.getElementById('p-close').value, avgPrepTime: document.getElementById('p-preptime').value, operatingDays: days, shopCategories, updatedAt: Date.now() };
     db.ref('vendors/' + VENDOR_KEY).update(upd).then(() => showToast(`Profile saved for "${name}"!`, 'success')).catch(() => showToast('Error saving profile', 'error'));
 }
-/* ── LOCATION PICKER ── */
+
+/* ══════════════════════════════════════════════════════
+   LOCATION PICKER
+══════════════════════════════════════════════════════ */
 function toggleInlineLocationPicker() {
     const picker = document.getElementById('inlineLocationPicker');
     picker.classList.toggle('open');
@@ -1417,7 +1523,10 @@ function selectInlineLocation(lat, lng, address) {
     toggleInlineLocationPicker();
     showToast(`Location set: ${address.split(',')[0]}`, 'success');
 }
-/* ── SETTINGS ── */
+
+/* ══════════════════════════════════════════════════════
+   SETTINGS
+══════════════════════════════════════════════════════ */
 const defaultSettings = { storeOpen: true, onlineOrders: true, deliveryAvailable: true, takeawayAvailable: true, orderAlerts: true, smsNotifs: false };
 const toggleMap = { storeOpen: 'tog-open', onlineOrders: 'tog-online', deliveryAvailable: 'tog-delivery', takeawayAvailable: 'tog-takeaway', orderAlerts: 'tog-alerts', smsNotifs: 'tog-sms' };
 function loadSettings() {
@@ -1431,7 +1540,10 @@ function saveSettings() {
     if (VENDOR_KEY) db.ref('vendors/' + VENDOR_KEY).update({ manualStoreStatus: !settingsState.storeOpen ? 'closed' : 'open', updatedAt: Date.now() });
     showToast('Settings saved!', 'success');
 }
-/* ── NAVIGATION ── */
+
+/* ══════════════════════════════════════════════════════
+   NAVIGATION
+══════════════════════════════════════════════════════ */
 function showTab(id, el) {
     document.querySelectorAll('#vendorMainPanel .page-content').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('#vendorSidebar .nav-item').forEach(n => n.classList.remove('active'));
@@ -1443,25 +1555,38 @@ function showTab(id, el) {
     if (id === 'featured') renderFeaturedItems();
     setTimeout(() => lucide.createIcons(), 50);
 }
-/* ── LOGOUT ── */
+
+/* ══════════════════════════════════════════════════════
+   LOGOUT
+══════════════════════════════════════════════════════ */
 function openLogoutModal() { showModal('logoutModal'); }
 function confirmLogout() {
     localStorage.removeItem('vynix_vendor_session');
     VENDOR_KEY = null; vendorData = null; menuCache = {}; ordersCache = {};
+    window._allOrdersCache = {}; window._ordersInitialized = false;
     previousPendingCount = 0;
     document.getElementById('vendorSidebar').style.display = 'none';
     document.getElementById('vendorMainPanel').style.display = 'none';
     document.getElementById('authScreen').classList.remove('hidden');
     switchAuthTab('login'); hideModal('logoutModal');
 }
-/* ── MODAL HELPERS ── */
+
+/* ══════════════════════════════════════════════════════
+   MODAL HELPERS
+══════════════════════════════════════════════════════ */
 function showModal(id) { const el = document.getElementById(id); el.style.display = 'flex'; setTimeout(() => { el.classList.add('active'); lucide.createIcons(); }, 10); }
 function hideModal(id) { const el = document.getElementById(id); el.classList.remove('active'); setTimeout(() => el.style.display = 'none', 320); }
 window.onclick = e => { if (e.target.classList.contains('modal-overlay')) ['itemModal', 'deleteModal', 'logoutModal', 'googleAuthModal'].forEach(id => { const el = document.getElementById(id); if (el && el === e.target) hideModal(id); }); };
-/* ── SIDEBAR HOVER ── */
+
+/* ══════════════════════════════════════════════════════
+   SIDEBAR HOVER
+══════════════════════════════════════════════════════ */
 document.getElementById('vendorSidebar').addEventListener('mouseenter', () => { document.getElementById('vendorSidebar').classList.add('expanded'); document.getElementById('vendorMainPanel').classList.add('shifted'); });
 document.getElementById('vendorSidebar').addEventListener('mouseleave', () => { document.getElementById('vendorSidebar').classList.remove('expanded'); document.getElementById('vendorMainPanel').classList.remove('shifted'); });
-/* ── TOAST ── */
+
+/* ══════════════════════════════════════════════════════
+   TOAST
+══════════════════════════════════════════════════════ */
 function showToast(msg, type = 'success') {
     const t = document.getElementById('toast');
     document.getElementById('toastMsg').textContent = msg;
@@ -1469,10 +1594,16 @@ function showToast(msg, type = 'success') {
     clearTimeout(t._timer);
     t._timer = setTimeout(() => t.classList.remove('show'), 2800);
 }
-/* ── DATE HELPERS ── */
+
+/* ══════════════════════════════════════════════════════
+   DATE HELPERS
+══════════════════════════════════════════════════════ */
 function fmtDate(ts) { return ts ? new Date(ts).toLocaleDateString('en-ZA') : '—'; }
 function fmtTime(ts) { return ts ? new Date(ts).toLocaleTimeString('en-ZA', { hour: '2-digit', minute: '2-digit' }) : ''; }
-/* ── SESSION RESTORE ── */
+
+/* ══════════════════════════════════════════════════════
+   SESSION RESTORE
+══════════════════════════════════════════════════════ */
 (function checkSession() {
     const s = JSON.parse(localStorage.getItem('vynix_vendor_session') || 'null');
     if (s && s.key && (Date.now() - s.loggedAt) < 24 * 60 * 60 * 1000) {
@@ -1480,12 +1611,14 @@ function fmtTime(ts) { return ts ? new Date(ts).toLocaleTimeString('en-ZA', { ho
         enterPortal();
     }
 })();
+
 // Only show Google modal if not restoring session
 setTimeout(() => {
     if (!JSON.parse(localStorage.getItem('vynix_vendor_session') || 'null')) {
         showModal('googleAuthModal');
     }
 }, 1000);
+
 lucide.createIcons();
 </script>
 </body>
