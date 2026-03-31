@@ -952,18 +952,18 @@ function hideShimmer() { const s = document.getElementById('shimmerOverlay'); s.
 function startSync() {
     if (!VENDOR_KEY) return;
 
-    // 1. Vendor data listener — fires first, then re-runs order filter
+    // Listen to vendor data FIRST, then start orders listener inside callback
     db.ref('vendors/' + VENDOR_KEY).on('value', snap => {
         vendorData = snap.val();
         if (!vendorData) return;
         const storeType = (vendorData.storeType || 'restaurant').toLowerCase();
         applyStoreTheme(storeType);
         applyVendorUI();
-        // Re-filter now that vendorData (including vendorID) is available
+        // Re-filter orders every time vendorData updates
         reFilterOrders();
     });
 
-    // 2. Menu listener
+    // Listen to menu
     db.ref('vendors/' + VENDOR_KEY + '/menu').on('value', snap => {
         menuCache = snap.val() || {};
         renderMenuGrid();
@@ -972,13 +972,52 @@ function startSync() {
         updateAnalytics();
     });
 
-    // 3. Orders listener — stores raw data globally, delegates matching to reFilterOrders()
+    // Orders listener — stores ALL orders, filtering happens in reFilterOrders()
     db.ref('orders').on('value', snap => {
         window._allOrdersCache = snap.val() || {};
         reFilterOrders();
     });
 }
 
+function reFilterOrders() {
+    const allOrders = window._allOrdersCache || {};
+    if (!VENDOR_KEY) return;
+
+    // Collect all possible IDs this vendor could be stored under
+    const matchIds = new Set([VENDOR_KEY]);
+    if (vendorData?.vendorID) matchIds.add(vendorData.vendorID);
+    if (vendorData?.name) matchIds.add(vendorData.name); // fallback
+
+    ordersCache = {};
+    Object.entries(allOrders).forEach(([orderKey, o]) => {
+        const orderVendorFields = [
+            o.vendorKey, o.vendorId, o.vendorID,
+            o.vendor, o.storeKey, o.storeId
+        ].filter(Boolean);
+
+        const matches = orderVendorFields.some(f => matchIds.has(f));
+        if (matches) ordersCache[orderKey] = o;
+    });
+
+    const pendingCount = Object.values(ordersCache).filter(o => o.status === 'pending').length;
+
+    if (pendingCount > previousPendingCount && previousPendingCount >= 0) {
+        const newCount = pendingCount - previousPendingCount;
+        showToast(`🔔 ${newCount} new order${newCount > 1 ? 's' : ''} received!`, 'info');
+    }
+    previousPendingCount = pendingCount;
+
+    const badge = document.getElementById('pendingOrdersBadge');
+    if (badge) {
+        badge.style.display = pendingCount > 0 ? 'inline' : 'none';
+        badge.textContent = pendingCount;
+    }
+
+    renderOrders();
+    renderRecentOrders();
+    updateStats();
+    updateAnalytics();
+}
 /* ══════════════════════════════════════════════════════
    reFilterOrders — THE KEY FIX
    Matches orders against every possible identifier this
