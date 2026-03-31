@@ -46,7 +46,6 @@
         ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
         input[type="text"], input[type="email"], input[type="tel"], input[type="number"], input[type="password"], input[type="url"], input[type="time"], input[type="file"], select, textarea { border-radius: 999px !important; }
         textarea { border-radius: 20px !important; }
-
         /* AUTH */
         #authScreen { position:fixed;inset:0;z-index:8000;background:linear-gradient(135deg,#0d1f14 0%,#0a2e1a 50%,#0d1f14 100%);display:flex;align-items:center;justify-content:center;padding:20px;transition:opacity 0.4s ease; }
         #authScreen.hidden { display:none; }
@@ -84,7 +83,6 @@
         .step-dot.active { background:#ff751f;border-color:#ff751f;width:24px;border-radius:4px; }
         .step-dot.done { background:#ff751f;border-color:#ff751f; }
         .auth-form-row { display:grid;grid-template-columns:1fr 1fr;gap:12px; }
-
         /* SHIMMER */
         #shimmerOverlay { position:fixed;inset:0;z-index:9999;background:var(--bg);display:none;flex-direction:column;transition:opacity .55s ease; }
         #shimmerOverlay.active { display:flex; }
@@ -101,7 +99,6 @@
         .shim-table { height:320px;border-radius:20px; }
         .shim-logo { width:42px;height:42px;border-radius:14px; }
         .shim-nav { height:36px;border-radius:999px;width:42px; }
-
         /* SIDEBAR */
         .sidebar { width:72px;background:var(--surface);border-right:1px solid var(--border);padding:24px 12px;position:fixed;height:100vh;z-index:100;display:flex;flex-direction:column;transition:width 0.35s cubic-bezier(0.4,0,0.2,1);overflow:hidden; }
         .sidebar.expanded { width:280px;padding:30px 20px; }
@@ -133,14 +130,12 @@
         .user-avatar { width:40px;height:40px;border-radius:12px;flex-shrink:0;background:var(--store-gradient);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.85rem;transition:var(--transition); }
         .user-info { opacity:0;transform:translateX(-8px);transition:opacity 0.2s ease,transform 0.2s ease; }
         .sidebar.expanded .user-info { opacity:1;transform:translateX(0); }
-
         /* MAIN PANEL */
         .main-panel { margin-left:72px;flex:1;padding:36px;max-width:calc(100% - 72px);transition:margin-left 0.35s cubic-bezier(0.4,0,0.2,1),max-width 0.35s cubic-bezier(0.4,0,0.2,1); }
         .main-panel.shifted { margin-left:280px;max-width:calc(100% - 280px); }
         .page-content { display:none;animation:fadeInUp 0.35s ease-out; }
         .page-content.active { display:block; }
         @keyframes fadeInUp { from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);} }
-
         /* DASHBOARD HERO */
         .dashboard-hero { border-radius:24px;padding:28px 32px;margin-bottom:28px;background:var(--store-gradient);position:relative;overflow:hidden;box-shadow:0 8px 32px rgba(var(--accent-rgb),0.3); }
         .dashboard-hero::before { content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.1); }
@@ -156,13 +151,11 @@
         .hero-status-closed.active { background:rgba(0,0,0,0.35);color:white;border-color:rgba(255,255,255,0.5); }
         .hero-add-btn { background:white;color:var(--accent);border:none;padding:10px 20px;border-radius:999px;font-weight:700;font-size:0.88rem;cursor:pointer;display:flex;align-items:center;gap:7px;transition:var(--transition);box-shadow:0 4px 14px rgba(0,0,0,0.15);font-family:inherit; }
         .hero-add-btn:hover { transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,0.2); }
-
         /* STATUS BANNER */
         .status-banner { border-radius:16px;padding:14px 20px;margin-bottom:24px;display:flex;align-items:center;gap:14px;border:1px solid var(--accent);background:var(--accent-light);transition:all 0.35s ease; }
         .status-banner.closed-state { background:#fff1f0;border-color:var(--danger); }
         .status-dot { width:12px;height:12px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px rgba(var(--accent-rgb),0.2);animation:pulseDot 2s infinite;flex-shrink:0; }
         .status-banner.closed-state .status-dot { background:var(--danger);box-shadow:0 0 0 4px rgba(255,59,48,0.15);animation:none; }
-
         /* STATS */
         .stats-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;margin-bottom:28px; }
         .stat-card { background:white;padding:22px;border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);transition:var(--transition);position:relative;overflow:hidden; }
@@ -174,14 +167,12 @@
         .stat-card h3 { font-size:0.7rem;text-transform:uppercase;color:var(--dim);letter-spacing:0.5px;margin-bottom:8px;font-weight:700; }
         .stat-card p { font-size:2rem;font-weight:800;color:var(--text); }
         .stat-trend { font-size:0.72rem;color:var(--accent);font-weight:600;margin-top:4px;display:flex;align-items:center;gap:3px; }
-
         /* CONTENT CARDS */
         .content-card { background:white;border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);overflow:hidden; }
         .card-header { padding:18px 22px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px; }
         .card-header h2 { font-size:0.95rem;font-weight:700;display:flex;align-items:center;gap:8px; }
         .search-bar { padding:10px 16px;border:1.5px solid var(--border);border-radius:999px!important;font-family:inherit;font-size:0.88rem;outline:none;transition:var(--transition);background:var(--bg);color:var(--text);width:260px; }
         .search-bar:focus { border-color:var(--accent);box-shadow:0 0 0 3px rgba(var(--accent-rgb),0.12);background:white; }
-
         /* STORE WELCOME */
         .store-welcome { border-radius:20px;padding:20px 24px;margin-bottom:24px;background:var(--store-bg-gradient);border:1px solid var(--accent);display:flex;align-items:center;gap:20px; }
         .store-welcome-icon { width:64px;height:64px;border-radius:18px;background:var(--store-gradient);display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0;box-shadow:0 4px 16px rgba(var(--accent-rgb),0.35); }
@@ -189,7 +180,6 @@
         .store-welcome p { font-size:0.82rem;color:var(--dim);line-height:1.5; }
         .store-welcome-tips { margin-top:8px;display:flex;gap:6px;flex-wrap:wrap; }
         .store-tip { background:var(--accent-light);color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:3px 10px;font-size:0.7rem;font-weight:700; }
-
         /* MENU GRID */
         .menu-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;padding:20px; }
         .menu-item-card { background:var(--bg);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:var(--transition);position:relative; }
@@ -207,7 +197,6 @@
         .icon-btn-edit:hover { background:var(--text);color:white; }
         .icon-btn-delete { background:white;color:var(--danger);box-shadow:0 2px 8px rgba(0,0,0,0.15); }
         .icon-btn-delete:hover { background:var(--danger);color:white; }
-
         /* ORDERS */
         .order-card { padding:18px 22px;border-bottom:1px solid var(--border);transition:var(--transition); }
         .order-card:hover { background:var(--accent-light); }
@@ -225,7 +214,6 @@
         .order-customer-name { font-weight:700;font-size:0.86rem;color:var(--text); }
         .order-customer-id { font-size:0.72rem;color:var(--dim);font-weight:600; }
         .driver-banner { margin-top:8px;padding:8px 12px;background:var(--accent-light);border:1px solid var(--accent);border-radius:10px;display:flex;align-items:center;gap:8px;font-size:0.82rem;font-weight:700;color:var(--accent); }
-
         /* PROFILE */
         .profile-section { background:white;border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);padding:26px;margin-bottom:18px; }
         .profile-section h3 { font-size:0.88rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;color:var(--dim);text-transform:uppercase;letter-spacing:0.5px; }
@@ -235,7 +223,6 @@
         .form-group { margin-bottom:14px; }
         .form-group label { display:block;font-size:0.78rem;font-weight:700;margin-bottom:5px;color:var(--dim);text-transform:uppercase;letter-spacing:0.4px; }
         .form-row { display:grid;grid-template-columns:1fr 1fr;gap:14px; }
-
         /* BUTTONS */
         .btn-primary { background:var(--accent);color:white;border:none;padding:11px 20px;border-radius:999px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:7px;transition:var(--transition);box-shadow:0 4px 14px rgba(var(--accent-rgb),0.35);font-family:inherit;font-size:0.88rem; }
         .btn-primary:hover { background:var(--accent-dark);transform:translateY(-2px);box-shadow:0 8px 22px rgba(var(--accent-rgb),0.45); }
@@ -247,13 +234,11 @@
         .btn-danger:hover { background:var(--danger);color:white;transform:translateY(-1px); }
         .btn-success { background:var(--accent-light);color:var(--accent); }
         .btn-success:hover { background:var(--accent);color:white;transform:translateY(-1px); }
-
         /* BADGES */
         .badge { padding:4px 10px;border-radius:20px;font-size:0.7rem;font-weight:700;display:inline-flex;align-items:center;gap:4px;white-space:nowrap; }
         .badge-open { background:var(--accent-light);color:var(--accent);border:1px solid var(--accent); }
         .badge-pending { background:#fff5cc;color:#997300;border:1px solid #ffe066; }
         .badge-closed { background:#fff1f0;color:var(--danger);border:1px solid var(--danger); }
-
         /* MODALS */
         .modal-overlay { display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.45);backdrop-filter:blur(12px);z-index:2000;justify-content:center;align-items:center;opacity:0;transition:opacity .3s ease; }
         .modal-overlay.active { opacity:1; }
@@ -264,10 +249,8 @@
         .modal-content textarea { border-radius:16px!important; }
         .modal-content input:focus,.modal-content select:focus,.modal-content textarea:focus { border-color:var(--accent);box-shadow:0 0 0 3px rgba(var(--accent-rgb),0.12);background:white; }
         .modal-btn-row { display:flex;gap:10px;margin-top:20px; }
-
         /* FEATURED */
         .featured-banner { background:linear-gradient(135deg,var(--accent-light) 0%,var(--store-bg-gradient));border:1px solid var(--accent);border-radius:16px;padding:16px 20px;margin-bottom:18px;display:flex;align-items:center;gap:12px; }
-
         /* SETTINGS */
         .settings-row { display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--border);gap:12px; }
         .settings-row:last-child { border-bottom:none; }
@@ -275,7 +258,6 @@
         .toggle.on { background:var(--accent); }
         .toggle::after { content:'';position:absolute;width:22px;height:22px;background:white;border-radius:50%;top:2px;left:2px;transition:transform .3s cubic-bezier(.4,0,.2,1);box-shadow:0 2px 4px rgba(0,0,0,.2); }
         .toggle.on::after { transform:translateX(22px); }
-
         /* INLINE LOCATION PICKER */
         .inline-location-picker { display:none;margin-top:16px;background:var(--bg);border:1.5px solid var(--accent);border-radius:20px;padding:20px;animation:fadeInUp 0.25s ease; }
         .inline-location-picker.open { display:block; }
@@ -290,7 +272,6 @@
         .picker-suggestions { display:flex;flex-direction:column;gap:6px;max-height:200px;overflow-y:auto; }
         .picker-suggestion-item { padding:12px 14px;background:white;border:1px solid var(--border);border-radius:12px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:var(--transition);font-size:0.86rem; }
         .picker-suggestion-item:hover { border-color:var(--accent);background:var(--accent-light); }
-
         /* CHART */
         .chart-container { padding:20px;height:220px;display:flex;align-items:flex-end;justify-content:space-around;gap:10px;overflow:hidden; }
         .bar-wrapper { flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end;max-width:60px; }
@@ -299,7 +280,6 @@
         .bar-label { font-size:0.7rem;color:var(--dim);font-weight:600;text-align:center; }
         .bar-val { position:absolute;top:-20px;left:50%;transform:translateX(-50%);font-weight:700;font-size:0.75rem;opacity:0;transition:opacity .2s;white-space:nowrap;color:var(--text); }
         .bar:hover .bar-val { opacity:1; }
-
         /* CATEGORIES */
         .categories-checkbox-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:10px; }
         .category-check-label { display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;cursor:pointer;transition:var(--transition);font-size:0.88rem;font-weight:600;user-select:none; }
@@ -309,47 +289,39 @@
         .day-label { display:flex;align-items:center;gap:5px;font-size:0.83rem;font-weight:600;background:var(--bg);border:1px solid var(--border);border-radius:999px;padding:7px 16px;cursor:pointer;transition:var(--transition); }
         .day-label.checked { background:var(--accent);border-color:var(--accent);color:white; }
         .day-label input[type=checkbox] { display:none; }
-
         /* EMPTY STATE */
         .empty-state { text-align:center;padding:56px 24px;color:var(--dim); }
         .empty-state .es-emoji { font-size:3rem;margin-bottom:14px; }
         .empty-state p { font-weight:600;margin-bottom:4px;font-size:1.05rem;color:var(--text); }
         .empty-state small { font-size:0.85rem; }
-
         /* TOAST */
         .toast { position:fixed;bottom:24px;right:24px;background:var(--text);color:white;padding:15px 22px;border-radius:999px;box-shadow:var(--shadow-hover);display:flex;align-items:center;gap:12px;transform:translateY(100px);opacity:0;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);z-index:3000;font-size:0.9rem;font-weight:600;max-width:360px; }
         .toast.show { transform:translateY(0);opacity:1; }
         .toast.success { border-left:4px solid var(--accent); }
         .toast.error { border-left:4px solid var(--danger); }
         .toast.info { border-left:4px solid var(--purple); }
-
         /* PENDING */
         .pending-banner { background:#fff5cc;border:1px solid #ffe066;border-radius:16px;padding:16px 20px;margin-bottom:24px;display:flex;align-items:center;gap:14px; }
         @keyframes spin { from{transform:rotate(0deg);}to{transform:rotate(360deg);} }
         @media (max-width:768px) { .main-panel { padding:20px; } .form-row { grid-template-columns:1fr; } }
-
         /* QUICK ACTIONS */
         .quick-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:16px; }
         .quick-btn { padding:14px;border-radius:14px;border:1.5px solid var(--border);background:var(--bg);cursor:pointer;transition:var(--transition);display:flex;align-items:center;gap:10px;font-weight:600;font-size:0.85rem;font-family:inherit;color:var(--text); }
         .quick-btn:hover { border-color:var(--accent);background:var(--accent-light);color:var(--accent);transform:translateY(-2px); }
         .quick-btn i { width:18px;height:18px;color:var(--accent);flex-shrink:0; }
-
         /* STORE INFO */
         .info-row { display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border); }
         .info-row:last-child { border-bottom:none; }
         .info-row i { width:15px;height:15px;color:var(--accent);flex-shrink:0; }
         .info-row span { font-size:0.85rem;color:var(--dim); }
-
         /* ANALYTICS */
         .cat-bar-row { margin-bottom:14px; }
         .cat-bar-header { display:flex;justify-content:space-between;font-size:0.85rem;font-weight:600;margin-bottom:6px; }
         .cat-bar-track { height:8px;background:var(--border);border-radius:4px;overflow:hidden; }
         .cat-bar-fill { height:100%;background:var(--store-gradient);border-radius:4px;transition:width 1s ease; }
-
         /* FEATURED TOGGLE */
         .feat-toggle-item { display:flex;align-items:center;gap:10px;padding:10px;border-radius:12px;margin-bottom:6px;border:1px solid var(--border);transition:var(--transition); }
         .feat-toggle-item.is-featured { background:var(--accent-light);border-color:var(--accent); }
-
         /* ORDER NOTIFICATION PULSE */
         .new-order-pulse { animation: newOrderPulse 1s ease-in-out 3; }
         @keyframes newOrderPulse { 0%,100%{background:var(--accent-light);}50%{background:rgba(var(--accent-rgb),0.3);} }
@@ -403,7 +375,6 @@
         </div>
     </div>
 </div>
-
 <!-- GOOGLE AUTH MODAL -->
 <div class="modal-overlay" id="googleAuthModal">
     <div class="modal-content" style="max-width:420px;text-align:center;">
@@ -414,13 +385,11 @@
         <div style="margin-top:20px;font-size:0.82rem;color:var(--dim);">or use your Vendor ID above</div>
     </div>
 </div>
-
 <!-- SHIMMER -->
 <div id="shimmerOverlay">
     <div class="shim-sidebar"><div class="shim-block shim-logo"></div><div style="display:flex;flex-direction:column;gap:12px;margin-top:16px;"><div class="shim-block shim-nav"></div><div class="shim-block shim-nav"></div><div class="shim-block shim-nav"></div><div class="shim-block shim-nav"></div></div></div>
     <div class="shim-main"><div class="shim-block shim-header"></div><div class="shim-stats"><div class="shim-block shim-stat"></div><div class="shim-block shim-stat"></div><div class="shim-block shim-stat"></div><div class="shim-block shim-stat"></div></div><div class="shim-row"><div class="shim-block shim-card"></div><div class="shim-block shim-card"></div></div><div class="shim-block shim-table"></div></div>
 </div>
-
 <!-- SIDEBAR -->
 <nav class="sidebar" id="vendorSidebar" style="display:none;">
     <div class="logo"><i data-lucide="utensils" class="logo-icon" id="sidebarLogoIcon"></i><span class="logo-text">1BUSKET<span id="sidebarLogoSuffix">EATS</span></span></div>
@@ -446,10 +415,8 @@
         <div class="user-info"><div style="font-weight:700;" id="vendorSidebarName">Vendor</div><div style="font-size:0.72rem;color:var(--accent);" id="vendorSidebarStatus">Active</div></div>
     </div>
 </nav>
-
 <!-- MAIN PANEL -->
 <main class="main-panel" id="vendorMainPanel" style="display:none;">
-
     <!-- DASHBOARD -->
     <section id="dashboard" class="page-content active">
         <div class="dashboard-hero" id="dashHero">
@@ -497,7 +464,6 @@
             </div>
         </div>
     </section>
-
     <!-- MENU -->
     <section id="menu" class="page-content">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;flex-wrap:wrap;gap:12px;">
@@ -510,7 +476,6 @@
         </div>
         <div id="menuGrid" class="menu-grid"></div>
     </section>
-
     <!-- FEATURED -->
     <section id="featured" class="page-content">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;flex-wrap:wrap;gap:12px;">
@@ -529,7 +494,6 @@
             </div>
         </div>
     </section>
-
     <!-- ORDERS -->
     <section id="orders" class="page-content">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;flex-wrap:wrap;gap:12px;">
@@ -550,7 +514,6 @@
             <div class="empty-state"><div class="es-emoji" id="emptyOrdersEmoji2">📦</div><p>No orders found</p><small>Orders from all your customers appear here</small></div>
         </div>
     </section>
-
     <!-- ANALYTICS -->
     <section id="analytics" class="page-content">
         <div style="margin-bottom:28px;"><h1 style="font-size:1.9rem;font-weight:800;letter-spacing:-0.5px;">Analytics</h1></div>
@@ -570,7 +533,6 @@
             </div>
         </div>
     </section>
-
     <!-- PROFILE -->
     <section id="profile" class="page-content">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;flex-wrap:wrap;gap:12px;">
@@ -619,7 +581,6 @@
             </div>
         </div>
     </section>
-
     <!-- SETTINGS -->
     <section id="settings" class="page-content">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;flex-wrap:wrap;gap:12px;">
@@ -645,9 +606,7 @@
             </div>
         </div>
     </section>
-
 </main>
-
 <!-- ITEM MODAL -->
 <div class="modal-overlay" id="itemModal">
     <div class="modal-content">
@@ -670,7 +629,6 @@
         <div class="modal-btn-row"><button class="btn-primary" style="flex:2;justify-content:center;" onclick="saveMenuItem()"><i data-lucide="check" style="width:16px;height:16px;"></i> <span id="itemSaveLabel">Add Item</span></button><button class="btn btn-edit" style="flex:1;justify-content:center;padding:13px;" onclick="hideModal('itemModal')">Cancel</button></div>
     </div>
 </div>
-
 <!-- DELETE MODAL -->
 <div class="modal-overlay" id="deleteModal">
     <div class="modal-content" style="max-width:400px;text-align:center;">
@@ -681,7 +639,6 @@
         <div class="modal-btn-row"><button class="btn btn-danger" style="flex:1;justify-content:center;padding:14px;" onclick="confirmDelete()"><i data-lucide="trash-2" style="width:15px;height:15px;"></i> Delete</button><button class="btn btn-edit" style="flex:1;justify-content:center;padding:14px;" onclick="hideModal('deleteModal')">Cancel</button></div>
     </div>
 </div>
-
 <!-- LOGOUT MODAL -->
 <div class="modal-overlay" id="logoutModal">
     <div class="modal-content" style="max-width:400px;text-align:center;">
@@ -691,13 +648,10 @@
         <div class="modal-btn-row"><button class="btn btn-danger" style="flex:1;justify-content:center;padding:14px;" onclick="confirmLogout()"><i data-lucide="log-out" style="width:15px;height:15px;"></i> Log Out</button><button class="btn btn-edit" style="flex:1;justify-content:center;padding:14px;" onclick="hideModal('logoutModal')">Cancel</button></div>
     </div>
 </div>
-
 <!-- TOAST -->
 <div class="toast" id="toast"><i data-lucide="check-circle" style="width:18px;height:18px;"></i><span id="toastMsg">Done</span></div>
-
 <script>
 lucide.createIcons();
-
 const firebaseConfig = {
     apiKey: "AIzaSyCh7Ute6LeSAxcNDEQwZg5m0cA4ujnLCfg",
     authDomain: "test-17881.firebaseapp.com",
@@ -710,11 +664,9 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 const auth = firebase.auth();
-
 const MAPBOX_TOKEN = 'pk.eyJ1Ijoia2F0bGVnb3BoYXNoYSIsImEiOiJjbTlpOTdzbmYwMGNsMmpzYWJtZzN4d3pqIn0.Zt-aSMEoahrV3zkiVVHbOw';
 const CLOUDINARY_CLOUD = 'dqkujefxj';
 const CLOUDINARY_PRESET = 'banter_box';
-
 /* ── CLOUDINARY UPLOAD ── */
 async function uploadToCloudinary(file, onProgress) {
     const fd = new FormData();
@@ -730,14 +682,12 @@ async function uploadToCloudinary(file, onProgress) {
         xhr.send(fd);
     });
 }
-
 function previewItemImage(input) {
     const file = input.files[0]; if (!file) return;
     const reader = new FileReader();
     reader.onload = e => { document.getElementById('item-img-preview').src = e.target.result; document.getElementById('item-img-preview-wrap').style.display = 'block'; };
     reader.readAsDataURL(file);
 }
-
 /* ── STORE CONFIGS ── */
 const STORE_CONFIGS = {
     restaurant: {
@@ -780,12 +730,10 @@ STORE_CONFIGS.alcohol = { ...STORE_CONFIGS.restaurant, storeType:'alcohol', labe
 STORE_CONFIGS.health = { ...STORE_CONFIGS.restaurant, storeType:'health', label:'Health & Pharmacy', emoji:'💊', logoSuffix:'CARE', logoIcon:'heart-pulse', theme:'health', heroTitle: n=>`Welcome, ${n}! 💊`, heroSub:'Manage your health store.' };
 STORE_CONFIGS.pets = { ...STORE_CONFIGS.restaurant, storeType:'pets', label:'Pet Store', emoji:'🐾', logoSuffix:'PAWS', logoIcon:'dog', theme:'pets', heroTitle: n=>`Welcome, ${n}! 🐾`, heroSub:'Manage your pet store.' };
 STORE_CONFIGS.electronics = { ...STORE_CONFIGS.restaurant, storeType:'electronics', label:'Electronics Store', emoji:'📱', logoSuffix:'TECH', logoIcon:'smartphone', theme:'electronics', heroTitle: n=>`Welcome, ${n}! 📱`, heroSub:'Manage your electronics store.' };
-
 /* ── STATE ── */
 let VENDOR_KEY = null, vendorData = null, menuCache = {}, ordersCache = {}, currentConfig = STORE_CONFIGS.restaurant;
 let manualStoreStatus = null, menuFilter = { search: '', category: '' }, settingsState = {};
 let previousPendingCount = 0;
-
 /* ── THEME ── */
 function applyStoreTheme(storeType) {
     const config = STORE_CONFIGS[storeType] || STORE_CONFIGS.restaurant;
@@ -846,7 +794,6 @@ function applyStoreTheme(storeType) {
     buildShopCategories(config.shopCategories);
     lucide.createIcons();
 }
-
 function buildStatsGrid(stats) {
     const grid = document.getElementById('statsGrid');
     grid.innerHTML = stats.map(s => `<div class="stat-card"><div class="stat-icon"><i data-lucide="${s.icon}" style="width:18px;height:18px;color:var(--accent);"></i></div><h3>${s.label}</h3><p id="${s.id}">0</p></div>`).join('');
@@ -869,7 +816,6 @@ function buildShopCategories(cats) {
 }
 function toggleProfileCategory(label) { const cb = label.querySelector('input[type="checkbox"]'); setTimeout(() => label.classList.toggle('checked', cb.checked), 10); }
 function togglePDay(cb) { cb.closest('label').classList.toggle('checked', cb.checked); }
-
 /* ── AUTH ── */
 function switchAuthTab(tab) {
     document.querySelectorAll('.auth-tab').forEach((t, i) => t.classList.toggle('active', (tab === 'login' && i === 0) || (tab === 'register' && i === 1)));
@@ -891,7 +837,6 @@ function regNext(step) {
     document.getElementById('step' + (step + 1)).classList.add('active');
 }
 function regBack(step) { document.getElementById('step' + step).classList.remove('active'); document.getElementById('step' + (step - 1)).classList.add('active'); }
-
 async function partnerLogin() {
     const id = document.getElementById('vendorLoginId').value.trim().toUpperCase();
     const err = document.getElementById('loginError');
@@ -914,7 +859,6 @@ async function partnerLogin() {
         btn.disabled = false; btn.textContent = 'Sign In to Portal';
     }
 }
-
 async function signInWithGoogle() {
     const provider = new firebase.auth.GoogleAuthProvider();
     try {
@@ -935,7 +879,6 @@ async function signInWithGoogle() {
         document.getElementById('loginError').style.display = 'block';
     }
 }
-
 async function submitRegistration() {
     const err = document.getElementById('regError');
     const suc = document.getElementById('regSuccess');
@@ -959,7 +902,6 @@ async function submitRegistration() {
         err.textContent = 'Submission failed. Try again.'; err.style.display = 'block'; btn.disabled = false;
     }
 }
-
 /* ── PORTAL INIT ── */
 function enterPortal() {
     document.getElementById('authScreen').classList.add('hidden');
@@ -973,11 +915,9 @@ function enterPortal() {
 }
 function showShimmer() { const s = document.getElementById('shimmerOverlay'); s.classList.add('active'); }
 function hideShimmer() { const s = document.getElementById('shimmerOverlay'); s.classList.add('fade-out'); setTimeout(() => s.classList.remove('active', 'fade-out'), 600); }
-
 /* ── SYNC ── */
 function startSync() {
     if (!VENDOR_KEY) return;
-
     // Listen to vendor data
     db.ref('vendors/' + VENDOR_KEY).on('value', snap => {
         vendorData = snap.val();
@@ -986,7 +926,6 @@ function startSync() {
         applyStoreTheme(storeType);
         applyVendorUI();
     });
-
     // Listen to menu
     db.ref('vendors/' + VENDOR_KEY + '/menu').on('value', snap => {
         menuCache = snap.val() || {};
@@ -995,11 +934,22 @@ function startSync() {
         updateStats();
         updateAnalytics();
     });
+    // FIXED ORDERS LISTENER - now catches orders whether they use the Firebase push key OR the vendorID string
+    db.ref('orders').on('value', snap => {
+        const allOrders = snap.val() || {};
+        ordersCache = {};
 
-    // ── ORDERS: Listen for ALL orders where vendorKey matches this vendor ──
-    // This catches orders from ALL customer pages (menu, grocery, home)
-    db.ref('orders').orderByChild('vendorKey').equalTo(VENDOR_KEY).on('value', snap => {
-        ordersCache = snap.val() || {};
+        Object.entries(allOrders).forEach(([orderKey, o]) => {
+            const matches = 
+                (o.vendorKey === VENDOR_KEY || o.vendorId === VENDOR_KEY) ||
+                (vendorData && vendorData.vendorID && 
+                 (o.vendorKey === vendorData.vendorID || o.vendorId === vendorData.vendorID));
+
+            if (matches) {
+                ordersCache[orderKey] = o;
+            }
+        });
+
         const pendingCount = Object.values(ordersCache).filter(o => o.status === 'pending').length;
 
         // New order alert
@@ -1017,14 +967,12 @@ function startSync() {
             badge.style.display = pendingCount > 0 ? 'inline' : 'none';
             badge.textContent = pendingCount;
         }
-
         renderOrders();
         renderRecentOrders();
         updateStats();
         updateAnalytics();
     });
 }
-
 function applyVendorUI() {
     if (!vendorData) return;
     const name = vendorData.name || 'My Store';
@@ -1054,7 +1002,6 @@ function applyVendorUI() {
         <div class="info-row"><i data-lucide="navigation"></i><span>Delivery radius: ${vendorData.deliveryRadius || '5'} km</span></div>`;
     setTimeout(() => lucide.createIcons(), 50);
 }
-
 /* ── STATS ── */
 function updateStats() {
     const items = Object.values(menuCache);
@@ -1069,7 +1016,6 @@ function updateStats() {
     safeSet('stat-revenue', 'R ' + revenue.toFixed(0));
 }
 function safeSet(id, val) { const el = document.getElementById(id); if (el) el.textContent = val; }
-
 /* ── STORE STATUS ── */
 function updateStoreStatusDisplay() {
     const isOpen = getStoreOpenStatus();
@@ -1115,7 +1061,6 @@ function setStoreStatus(status) {
     updateStoreStatusDisplay();
     showToast(`Store ${status === 'open' ? 'opened' : 'closed'} manually`, 'success');
 }
-
 /* ── MENU RENDERING ── */
 function renderMenuGrid() {
     const grid = document.getElementById('menuGrid');
@@ -1137,7 +1082,6 @@ function renderMenuGrid() {
     lucide.createIcons();
 }
 function filterMenuItems(search) { menuFilter.search = search; menuFilter.category = document.getElementById('menuCatFilter').value; renderMenuGrid(); }
-
 /* ── FEATURED ── */
 function renderFeaturedItems() {
     const items = Object.entries(menuCache);
@@ -1167,23 +1111,19 @@ function syncFeaturedGlobal() {
         }, {});
     db.ref(`featured_items/${VENDOR_KEY}`).set(Object.keys(featured).length ? featured : null);
 }
-
 /* ── ORDER RENDERING ── */
 function buildLocationCard(o) {
-    // Handle all possible address fields from any customer page
     const address = o.deliveryAddress || o.address || o.customerAddress ||
         (o.location && o.location.address) || (o.deliveryLocation && o.deliveryLocation.address) ||
         (o.customer && o.customer.address) || '';
     if (!address) return '';
     return `<div class="order-address"><i data-lucide="map-pin" style="width:13px;height:13px;flex-shrink:0;"></i><span style="flex:1;">${address}</span></div>`;
 }
-
 function buildOrderItemChips(o) {
     const orderItems = o.items ? (Array.isArray(o.items) ? o.items : Object.values(o.items)) : [];
     if (!orderItems.length) return '';
     const chips = orderItems.map(item => {
         let imgEl = '';
-        // Support both itemKey (menu page) and itemId (grocery page) for image lookup
         const menuItemKey = item.itemKey || item.itemId;
         const menuItem = menuItemKey ? menuCache[menuItemKey] : null;
         const menuItemByName = !menuItem ? Object.values(menuCache).find(m => m.name === item.name) : null;
@@ -1199,39 +1139,29 @@ function buildOrderItemChips(o) {
     }).join('');
     return `<div class="order-items-strip">${chips}</div>`;
 }
-
 function renderOrders() {
     const container = document.getElementById('ordersContainer');
     const filter = document.getElementById('orderFilter')?.value || 'all';
     let orders = Object.entries(ordersCache).sort((a, b) => (b[1].createdAt || 0) - (a[1].createdAt || 0));
     if (filter !== 'all') orders = orders.filter(([, o]) => o.status === filter);
-
-    // Update count label
     const countLabel = document.getElementById('ordersCountLabel');
     if (countLabel) countLabel.textContent = `${orders.length} order${orders.length !== 1 ? 's' : ''}`;
-
     if (!orders.length) {
         container.innerHTML = `<div class="empty-state"><div class="es-emoji">${currentConfig.emptyOrdersEmoji}</div><p>${filter !== 'all' ? `No ${filter} orders` : currentConfig.emptyOrdersText}</p><small>Orders from all customer pages appear here</small></div>`;
         lucide.createIcons(); return;
     }
-
     const statusColors = { pending: '#f5a623', preparing: '#0ea5e9', ready: 'var(--accent)', delivered: 'var(--accent)', cancelled: 'var(--danger)', assigned: '#7c3aed' };
     const statusLabels = { pending: 'Pending', preparing: 'Preparing', ready: 'Ready', delivered: 'Delivered', cancelled: 'Cancelled', assigned: 'Assigned' };
-
     container.innerHTML = orders.map(([key, o]) => {
         const color = statusColors[o.status] || '#f5a623';
         const label = statusLabels[o.status] || o.status;
-        // Handle customer name from all possible fields
         const customerName = o.customerName || o.customer?.name || o.userName || 'Customer';
-        // Handle customer email from all possible fields (menu uses userEmail, others use customerEmail)
         const customerEmail = o.customerEmail || o.userEmail || o.userEmail || '';
-        // Detect source store type for badge
         const sourceType = o.storeType ? `<span style="background:var(--accent-light);color:var(--accent);border-radius:8px;font-size:0.65rem;font-weight:700;padding:2px 7px;margin-left:6px;">${o.storeType}</span>` : '';
         const itemChipsHtml = buildOrderItemChips(o);
         const locationCardHtml = buildLocationCard(o);
         const driverBanner = o.driverKey || o.driverName ? `<div class="driver-banner"><i data-lucide="bike" style="width:14px;height:14px;flex-shrink:0;"></i> Driver: ${o.driverName || 'Assigned'}</div>` : '';
         const paymentBadge = o.paymentMethod ? `<span style="font-size:0.68rem;color:var(--dim);font-weight:600;display:inline-flex;align-items:center;gap:3px;margin-left:8px;"><i data-lucide="credit-card" style="width:11px;height:11px;"></i>${o.paymentMethod}</span>` : '';
-
         return `<div class="order-card" id="order-${key}">
             <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">
                 <div style="flex:1;min-width:0;">
@@ -1269,7 +1199,6 @@ function renderOrders() {
     }).join('');
     lucide.createIcons();
 }
-
 function renderRecentOrders() {
     const container = document.getElementById('recentOrdersList');
     const recent = Object.entries(ordersCache).sort((a, b) => (b[1].createdAt || 0) - (a[1].createdAt || 0)).slice(0, 5);
@@ -1292,13 +1221,11 @@ function renderRecentOrders() {
         </div>`;
     }).join('');
 }
-
 function updateOrderStatus(key, newStatus) {
     db.ref('orders/' + key).update({ status: newStatus, updatedAt: Date.now() })
         .then(() => showToast(`Order ${newStatus}`, 'success'))
         .catch(() => showToast('Error updating order', 'error'));
 }
-
 /* ── ANALYTICS ── */
 function updateAnalytics() {
     const items = Object.values(menuCache);
@@ -1327,7 +1254,6 @@ function updateAnalytics() {
     }).join('');
 }
 function getLast6Months() { const m = [], now = new Date(); for (let i = 5; i >= 0; i--) { const d = new Date(now.getFullYear(), now.getMonth() - i, 1); m.push(d.toLocaleDateString('en-ZA', { month: 'short', year: '2-digit' })); } return m; }
-
 /* ── ITEM MODAL ── */
 function openAddItemModal() {
     document.getElementById('item-key').value = '';
@@ -1406,7 +1332,6 @@ function confirmDelete() {
         .then(() => { showToast('Item deleted', 'success'); hideModal('deleteModal'); syncFeaturedGlobal(); })
         .catch(() => showToast('Error deleting item', 'error'));
 }
-
 /* ── PROFILE ── */
 function populateProfileForm() {
     if (!vendorData) return;
@@ -1429,7 +1354,6 @@ function saveStoreProfile() {
     const upd = { name, cuisine: document.getElementById('p-cuisine').value.trim(), ownerName: document.getElementById('p-owner').value.trim(), phone: document.getElementById('p-phone').value.trim(), email: document.getElementById('p-email').value.trim(), whatsapp: document.getElementById('p-whatsapp').value.trim(), address: { street: document.getElementById('p-street').value.trim(), suburb: document.getElementById('p-suburb').value.trim(), city: document.getElementById('p-city').value.trim(), province: document.getElementById('p-province').value }, lat: document.getElementById('p-lat').value ? parseFloat(document.getElementById('p-lat').value) : null, lng: document.getElementById('p-lng').value ? parseFloat(document.getElementById('p-lng').value) : null, deliveryRadius: document.getElementById('p-radius').value, minOrderValue: document.getElementById('p-minorder').value, openingTime: document.getElementById('p-open').value, closingTime: document.getElementById('p-close').value, avgPrepTime: document.getElementById('p-preptime').value, operatingDays: days, shopCategories, updatedAt: Date.now() };
     db.ref('vendors/' + VENDOR_KEY).update(upd).then(() => showToast(`Profile saved for "${name}"!`, 'success')).catch(() => showToast('Error saving profile', 'error'));
 }
-
 /* ── LOCATION PICKER ── */
 function toggleInlineLocationPicker() {
     const picker = document.getElementById('inlineLocationPicker');
@@ -1493,7 +1417,6 @@ function selectInlineLocation(lat, lng, address) {
     toggleInlineLocationPicker();
     showToast(`Location set: ${address.split(',')[0]}`, 'success');
 }
-
 /* ── SETTINGS ── */
 const defaultSettings = { storeOpen: true, onlineOrders: true, deliveryAvailable: true, takeawayAvailable: true, orderAlerts: true, smsNotifs: false };
 const toggleMap = { storeOpen: 'tog-open', onlineOrders: 'tog-online', deliveryAvailable: 'tog-delivery', takeawayAvailable: 'tog-takeaway', orderAlerts: 'tog-alerts', smsNotifs: 'tog-sms' };
@@ -1508,7 +1431,6 @@ function saveSettings() {
     if (VENDOR_KEY) db.ref('vendors/' + VENDOR_KEY).update({ manualStoreStatus: !settingsState.storeOpen ? 'closed' : 'open', updatedAt: Date.now() });
     showToast('Settings saved!', 'success');
 }
-
 /* ── NAVIGATION ── */
 function showTab(id, el) {
     document.querySelectorAll('#vendorMainPanel .page-content').forEach(p => p.classList.remove('active'));
@@ -1521,7 +1443,6 @@ function showTab(id, el) {
     if (id === 'featured') renderFeaturedItems();
     setTimeout(() => lucide.createIcons(), 50);
 }
-
 /* ── LOGOUT ── */
 function openLogoutModal() { showModal('logoutModal'); }
 function confirmLogout() {
@@ -1533,16 +1454,13 @@ function confirmLogout() {
     document.getElementById('authScreen').classList.remove('hidden');
     switchAuthTab('login'); hideModal('logoutModal');
 }
-
 /* ── MODAL HELPERS ── */
 function showModal(id) { const el = document.getElementById(id); el.style.display = 'flex'; setTimeout(() => { el.classList.add('active'); lucide.createIcons(); }, 10); }
 function hideModal(id) { const el = document.getElementById(id); el.classList.remove('active'); setTimeout(() => el.style.display = 'none', 320); }
 window.onclick = e => { if (e.target.classList.contains('modal-overlay')) ['itemModal', 'deleteModal', 'logoutModal', 'googleAuthModal'].forEach(id => { const el = document.getElementById(id); if (el && el === e.target) hideModal(id); }); };
-
 /* ── SIDEBAR HOVER ── */
 document.getElementById('vendorSidebar').addEventListener('mouseenter', () => { document.getElementById('vendorSidebar').classList.add('expanded'); document.getElementById('vendorMainPanel').classList.add('shifted'); });
 document.getElementById('vendorSidebar').addEventListener('mouseleave', () => { document.getElementById('vendorSidebar').classList.remove('expanded'); document.getElementById('vendorMainPanel').classList.remove('shifted'); });
-
 /* ── TOAST ── */
 function showToast(msg, type = 'success') {
     const t = document.getElementById('toast');
@@ -1551,11 +1469,9 @@ function showToast(msg, type = 'success') {
     clearTimeout(t._timer);
     t._timer = setTimeout(() => t.classList.remove('show'), 2800);
 }
-
 /* ── DATE HELPERS ── */
 function fmtDate(ts) { return ts ? new Date(ts).toLocaleDateString('en-ZA') : '—'; }
 function fmtTime(ts) { return ts ? new Date(ts).toLocaleTimeString('en-ZA', { hour: '2-digit', minute: '2-digit' }) : ''; }
-
 /* ── SESSION RESTORE ── */
 (function checkSession() {
     const s = JSON.parse(localStorage.getItem('vynix_vendor_session') || 'null');
@@ -1564,14 +1480,12 @@ function fmtTime(ts) { return ts ? new Date(ts).toLocaleTimeString('en-ZA', { ho
         enterPortal();
     }
 })();
-
 // Only show Google modal if not restoring session
 setTimeout(() => {
     if (!JSON.parse(localStorage.getItem('vynix_vendor_session') || 'null')) {
         showModal('googleAuthModal');
     }
 }, 1000);
-
 lucide.createIcons();
 </script>
 </body>
