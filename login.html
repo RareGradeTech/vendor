@@ -457,7 +457,6 @@
 
 <div class="page-wrapper">
 
-    <!-- ══ STEP 1: Google Verification (shown first) ══ -->
     <div id="initialGoogleCard" class="card-mode">
         <div class="verify-icon">
             <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
@@ -479,10 +478,8 @@
         </p>
     </div>
 
-    <!-- ══ STEP 2: Login / Register (shown after Google verify) ══ -->
     <div class="split-layout" id="mainAuthCard" style="display:none;">
 
-        <!-- Side panel -->
         <div class="side-panel">
             <div class="side-logo">
                 <img src="https://i.postimg.cc/d30sLt05/1BUSKET-LOGO.png" alt="1BUSKET">
@@ -513,7 +510,6 @@
             </div>
         </div>
 
-        <!-- Auth panel -->
         <div class="auth-panel">
 
             <div class="auth-tabs">
@@ -521,7 +517,6 @@
                 <button class="auth-tab" onclick="switchAuthTab('register')">Register</button>
             </div>
 
-            <!-- ── LOGIN ── -->
             <div id="loginPanel">
                 <h2 class="auth-heading">Welcome back 👋</h2>
                 <p class="auth-sub">Sign in with your Vendor ID or Google account.</p>
@@ -548,7 +543,6 @@
                 <button class="btn-ghost" onclick="switchAuthTab('register')">Register Your Business →</button>
             </div>
 
-            <!-- ── REGISTER ── -->
             <div id="registerPanel" style="display:none;">
                 <div class="step-indicator">
                     <div class="step-dot active" id="dot-0"></div>
@@ -559,7 +553,6 @@
                 <div class="alert alert-error" id="regError"></div>
                 <div class="alert alert-success" id="regSuccess"></div>
 
-                <!-- Step 0: Business info -->
                 <div class="reg-step active" id="step0">
                     <h2 class="auth-heading">Your Business</h2>
                     <p class="auth-sub">Tell us about your store to get started.</p>
@@ -585,7 +578,6 @@
                     <button class="btn-primary" onclick="regNext(0)">Next Step →</button>
                 </div>
 
-                <!-- Step 1: Contact info -->
                 <div class="reg-step" id="step1">
                     <h2 class="auth-heading">Contact Info</h2>
                     <p class="auth-sub">How can we reach you?</p>
@@ -609,7 +601,6 @@
                     </div>
                 </div>
 
-                <!-- Step 2: Optional details -->
                 <div class="reg-step" id="step2">
                     <h2 class="auth-heading">Almost Done!</h2>
                     <p class="auth-sub">Optional details to speed up your approval.</p>
@@ -624,12 +615,7 @@
                 </div>
             </div>
 
-        </div><!-- /auth-panel -->
-    </div><!-- /split-layout -->
-
-</div><!-- /page-wrapper -->
-
-<script>
+        </div></div></div><script>
 lucide.createIcons();
 
 // ── Firebase ──────────────────────────────────────────────────────────────
@@ -755,6 +741,12 @@ async function partnerLogin() {
 
     if (!id) return showError('loginError', 'Please enter your Vendor ID.');
 
+    // Verify that the user has completed the initial Google sign-in
+    const currentUser = firebase.auth().currentUser;
+    if (!currentUser) {
+        return showError('loginError', 'Session expired. Please reload and verify with Google again.');
+    }
+
     btn.disabled = true;
     btn.textContent = 'Signing in…';
 
@@ -765,6 +757,11 @@ async function partnerLogin() {
 
         const key     = Object.keys(data)[0];
         const partner = data[key];
+
+        // Ensure the entered Vendor ID matches the Google account's email
+        if (!partner.email || partner.email.toLowerCase() !== currentUser.email.toLowerCase()) {
+            throw new Error('This Vendor ID does not match your verified Google email.');
+        }
 
         if (partner.status === 'pending')  throw new Error('Your account is pending admin approval.');
         if (partner.status === 'disabled') throw new Error('Your account has been disabled. Contact support.');
@@ -799,9 +796,10 @@ async function signInWithGoogle() {
 
         if (partner.status === 'pending')  throw new Error('Your account is pending admin approval.');
         if (partner.status === 'disabled') throw new Error('Your account has been disabled. Contact support.');
+        if (!partner.vendorID) throw new Error('No Vendor ID assigned yet. Please wait for admin approval.');
 
         localStorage.setItem('vynix_vendor_session', JSON.stringify({
-            key, id: partner.vendorID || 'GOOGLE', role: 'vendor', loggedAt: Date.now()
+            key, id: partner.vendorID, role: 'vendor', loggedAt: Date.now()
         }));
         window.location.href = 'dashboard.html';
 
