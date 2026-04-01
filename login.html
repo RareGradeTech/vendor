@@ -3,147 +3,636 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1BUSKET | Vendor Login</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>1BUSKET | Vendor Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700;9..40,800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+
     <style>
         :root {
             --accent: #ff751f;
-            --accent-dark: #e0661c;
-            --accent-light: #ffe8d6;
-             --accent-rgb: 255,117,31;
-            --store-gradient: linear-gradient(135deg, #ff751f, #ff8c42);
-            --store-bg-gradient: linear-gradient(135deg, #fff8f4 0%, #ffe8d6 100%);
-            --bg: #f8f9fa;
+            --accent-dark: #e0621a;
+            --accent-light: #fff3eb;
+            --accent-muted: #ffd9bc;
+            --bg: #fafaf8;
             --surface: #ffffff;
-            --surface2: #f1f3f5;
-            --border: #e9ecef;
-            --text: #1a1d23;
-            --dim: #6c757d;
-            --danger: #ff3b30;
-            --warning: #ff9500;
-            --yellow: #ffc107;
-            --purple: #5856d6;
-            --sidebar-width: 280px;
-            --sidebar-collapsed: 72px;
-            --radius: 20px;
-            --shadow: 0 4px 16px rgba(0,0,0,0.05);
-            --shadow-hover: 0 8px 28px rgba(0,0,0,0.10);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --surface2: #f5f4f1;
+            --border: #e8e6e1;
+            --border-strong: #d1cec7;
+            --text: #1c1a17;
+            --text-secondary: #6b6560;
+            --text-muted: #a09a92;
+            --danger: #d93025;
+            --success: #1a7a4a;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+            --shadow: 0 4px 16px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.04);
+            --shadow-lg: 0 20px 60px rgba(0,0,0,0.08), 0 8px 24px rgba(0,0,0,0.05);
+            --radius: 16px;
+            --radius-sm: 10px;
+            --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); display: flex; min-height: 100vh; overflow-x: hidden; line-height: 1.5; transition: background 0.4s ease; }
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
-        input[type="text"], input[type="email"], input[type="tel"], input[type="number"], input[type="password"], input[type="url"], input[type="time"], input[type="file"], select, textarea { border-radius: 999px !important; }
-        
-        /* AUTH */
-        #authScreen { position:fixed;inset:0;z-index:8000;background:linear-gradient(135deg,#1a0f08 0%,#2d1a0f 50%,#1a0f08 100%);display:flex;align-items:center;justify-content:center;padding:20px;transition:opacity 0.4s ease; }
-        .auth-bg-circles { position:absolute;inset:0;overflow:hidden;pointer-events:none; }
-        .auth-circle { position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(255,117,31,0.15) 0%,transparent 70%); }
-        .auth-circle:nth-child(1) { width:600px;height:600px;top:-200px;right:-100px; }
-        .auth-circle:nth-child(2) { width:400px;height:400px;bottom:-100px;left:-50px; }
-        .auth-circle:nth-child(3) { width:300px;height:300px;top:40%;left:40%; }
-        .auth-card { background:rgba(255,255,255,0.04);backdrop-filter:blur(20px);border:1px solid rgba(6,193,103,0.2);border-radius:28px;padding:44px 40px;width:100%;max-width:460px;position:relative;z-index:1;box-shadow:0 32px 80px rgba(0,0,0,0.4); }
-        .auth-logo { display:flex;align-items:center;gap:12px;margin-bottom:32px;justify-content:center; }
-        .auth-title { font-size:1.2rem;font-weight:800;color:white;margin-bottom:4px;text-align:center; }
-        .auth-sub { color:rgba(255,255,255,0.5);font-size:0.82rem;text-align:center;margin-bottom:24px; }
-        .auth-form { display:flex;flex-direction:column;gap:14px; }
-        .auth-form-group { display:flex;flex-direction:column;gap:6px; }
-        .auth-form-group label { font-size:0.75rem;font-weight:700;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.5px; }
-        .auth-input { padding:13px 18px!important;background:rgba(255,255,255,0.07)!important;border:1.5px solid rgba(255,255,255,0.1)!important;border-radius:999px!important;color:white!important;font-family:inherit;font-size:0.9rem;outline:none;transition:var(--transition);width:100%; }
-        .auth-input::placeholder { color:rgba(255,255,255,0.3); }
-        .auth-input:focus { border-color:#ff751f!important;background:rgba(255,117,31,0.08)!important;box-shadow:0 0 0 3px rgba(255,117,31,0.15)!important; }
-        .auth-btn { background:#ff751f;color:white;border:none;padding:13px;border-radius:999px;font-weight:700;font-family:inherit;font-size:0.9rem;cursor:pointer;transition:var(--transition);margin-top:6px;box-shadow:0 6px 20px rgba(6,193,103,0.4); }
-        .auth-btn:hover { background:#05a357;transform:translateY(-2px); }
-        .auth-btn:disabled { opacity:0.6;cursor:not-allowed;transform:none; }
-        .auth-error { background:rgba(255,59,48,0.15);border:1px solid rgba(255,59,48,0.3);border-radius:12px;padding:10px 14px;color:#ff6b63;font-size:0.82rem;font-weight:600;display:none;margin-bottom:8px; }
-        .auth-tabs { display:flex;background:rgba(255,255,255,0.06);border-radius:999px;padding:4px;margin-bottom:18px;gap:4px; }
-        .auth-tab { flex:1;padding:8px;border-radius:999px;border:none;background:transparent;color:rgba(255,255,255,0.5);font-family:inherit;font-weight:600;font-size:0.82rem;cursor:pointer;transition:var(--transition); }
-        .auth-tab.active { background:#ff751f;color:white; }
-        .auth-divider { display:flex;align-items:center;gap:12px;margin:8px 0;color:rgba(255,255,255,0.25);font-size:0.8rem; }
-        .auth-divider::before,.auth-divider::after { content:'';flex:1;height:1px;background:rgba(255,255,255,0.1); }
-        .auth-success { background:rgba(6,193,103,0.15);border:1px solid rgba(6,193,103,0.3);border-radius:12px;padding:10px 14px;color:#ff751f;font-size:0.82rem;font-weight:600;display:none;margin-bottom:8px; }
-        .reg-step { display:none; }
-        .reg-step.active { display:flex;flex-direction:column;gap:14px; }
-        .step-indicator { display:flex;gap:8px;justify-content:center;margin-bottom:16px; }
-        .step-dot { width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.45);border:1.5px solid rgba(255,255,255,0.6);transition:var(--transition); }
-        .step-dot.active { background:#ff751f;border-color:#ff751f;width:24px;border-radius:4px; }
-        .step-dot.done { background:#ff751f;border-color:#ff751f; }
-        .auth-form-row { display:grid;grid-template-columns:1fr 1fr;gap:12px; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ── Background decoration ── */
+        .page-bg {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+        .bg-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.35;
+        }
+        .bg-blob-1 {
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, #ffe0c8 0%, #ffd4b0 60%, transparent 100%);
+            top: -120px; right: -80px;
+        }
+        .bg-blob-2 {
+            width: 380px; height: 380px;
+            background: radial-gradient(circle, #ffeedd 0%, transparent 70%);
+            bottom: -80px; left: -60px;
+        }
+        .bg-blob-3 {
+            width: 200px; height: 200px;
+            background: radial-gradient(circle, #ffe8d4 0%, transparent 70%);
+            top: 50%; left: 50%; transform: translate(-50%, -50%);
+        }
+        .bg-grid {
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(0,0,0,0.025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,0,0,0.025) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* ── Page layout ── */
+        .page-wrapper {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            width: 100%;
+            padding: 32px 16px;
+        }
+
+        /* ── Side decorative panel (desktop only) ── */
+        .split-layout {
+            display: flex;
+            width: 100%;
+            max-width: 960px;
+            background: var(--surface);
+            border-radius: 28px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border);
+            overflow: hidden;
+            min-height: 580px;
+        }
+
+        .side-panel {
+            width: 340px;
+            flex-shrink: 0;
+            background: linear-gradient(160deg, #1c1a17 0%, #2d2620 60%, #3d3028 100%);
+            padding: 48px 36px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+        .side-panel::before {
+            content: '';
+            position: absolute;
+            width: 320px; height: 320px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,117,31,0.18) 0%, transparent 70%);
+            top: -80px; right: -80px;
+        }
+        .side-panel::after {
+            content: '';
+            position: absolute;
+            width: 240px; height: 240px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,117,31,0.10) 0%, transparent 70%);
+            bottom: -60px; left: -40px;
+        }
+
+        .side-logo { position: relative; z-index: 1; }
+        .side-logo img { height: 44px; width: auto; display: block; }
+
+        .side-copy { position: relative; z-index: 1; }
+        .side-headline {
+            font-family: 'Instrument Serif', serif;
+            font-size: 2.1rem;
+            line-height: 1.2;
+            color: white;
+            margin-bottom: 12px;
+        }
+        .side-headline em { color: #ff9f5a; font-style: italic; }
+        .side-desc { font-size: 0.85rem; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+        .side-badges { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 10px; }
+        .side-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 10px 12px;
+        }
+        .side-badge-icon {
+            width: 32px; height: 32px;
+            background: rgba(255,117,31,0.2);
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            color: #ff9f5a; flex-shrink: 0;
+        }
+        .side-badge-text { font-size: 0.78rem; color: rgba(255,255,255,0.7); font-weight: 500; }
+
+        /* ── Auth panel ── */
+        .auth-panel {
+            flex: 1;
+            padding: 48px 44px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow-y: auto;
+        }
+
+        /* ── Initial Google verification card (mobile / standalone) ── */
+        #initialGoogleCard.card-mode {
+            background: var(--surface);
+            border-radius: 28px;
+            box-shadow: var(--shadow-lg);
+            border: 1px solid var(--border);
+            padding: 48px 40px;
+            width: 100%;
+            max-width: 440px;
+        }
+
+        /* ── Tabs ── */
+        .auth-tabs {
+            display: flex;
+            background: var(--surface2);
+            border-radius: 999px;
+            padding: 4px;
+            gap: 4px;
+            margin-bottom: 28px;
+            border: 1px solid var(--border);
+        }
+        .auth-tab {
+            flex: 1;
+            padding: 9px 16px;
+            border-radius: 999px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            font-size: 0.84rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .auth-tab.active {
+            background: var(--surface);
+            color: var(--text);
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* ── Form elements ── */
+        .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 14px; }
+        .form-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+        .form-input {
+            padding: 12px 16px;
+            background: var(--surface2);
+            border: 1.5px solid var(--border);
+            border-radius: 999px !important;
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+            outline: none;
+            transition: var(--transition);
+            width: 100%;
+        }
+        .form-input::placeholder { color: var(--text-muted); }
+        .form-input:focus {
+            border-color: var(--accent);
+            background: var(--accent-light);
+            box-shadow: 0 0 0 3px rgba(255,117,31,0.12);
+        }
+        select.form-input { cursor: pointer; }
+
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+        /* ── Buttons ── */
+        .btn-primary {
+            width: 100%;
+            padding: 13px 20px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 999px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 700;
+            font-size: 0.92rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 14px rgba(255,117,31,0.3);
+        }
+        .btn-primary:hover:not(:disabled) {
+            background: var(--accent-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(255,117,31,0.4);
+        }
+        .btn-primary:active:not(:disabled) { transform: translateY(0); }
+        .btn-primary:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+        .btn-secondary {
+            width: 100%;
+            padding: 12px 20px;
+            background: var(--surface2);
+            color: var(--text);
+            border: 1.5px solid var(--border);
+            border-radius: 999px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-secondary:hover { background: var(--border); border-color: var(--border-strong); }
+
+        .btn-ghost {
+            width: 100%;
+            padding: 12px 20px;
+            background: transparent;
+            color: var(--accent);
+            border: 1.5px solid var(--accent-muted);
+            border-radius: 999px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .btn-ghost:hover { background: var(--accent-light); border-color: var(--accent); }
+
+        /* ── Google button ── */
+        .btn-google {
+            width: 100%;
+            padding: 12px 20px;
+            background: var(--surface);
+            color: var(--text);
+            border: 1.5px solid var(--border);
+            border-radius: 999px;
+            font-family: 'DM Sans', sans-serif;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-shadow: var(--shadow-sm);
+        }
+        .btn-google:hover { border-color: var(--border-strong); box-shadow: var(--shadow); transform: translateY(-1px); }
+        .google-icon {
+            width: 20px; height: 20px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath fill='%23EA4335' d='M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z'/%3E%3Cpath fill='%234285F4' d='M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z'/%3E%3Cpath fill='%23FBBC05' d='M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z'/%3E%3Cpath fill='%2334A853' d='M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.36-8.16 2.36-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z'/%3E%3C/svg%3E") no-repeat center/contain;
+            flex-shrink: 0;
+        }
+
+        /* ── Divider ── */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 16px 0;
+            color: var(--text-muted);
+            font-size: 0.78rem;
+            font-weight: 500;
+        }
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* ── Alerts ── */
+        .alert {
+            border-radius: var(--radius-sm);
+            padding: 11px 14px;
+            font-size: 0.82rem;
+            font-weight: 600;
+            margin-bottom: 14px;
+            display: none;
+            align-items: center;
+            gap: 8px;
+        }
+        .alert-error {
+            background: #fff1f0;
+            border: 1px solid #fcd9d7;
+            color: var(--danger);
+        }
+        .alert-success {
+            background: #edf9f2;
+            border: 1px solid #bbf0d3;
+            color: var(--success);
+        }
+
+        /* ── Headings ── */
+        .auth-heading {
+            font-size: 1.55rem;
+            font-weight: 800;
+            color: var(--text);
+            margin-bottom: 4px;
+            letter-spacing: -0.3px;
+        }
+        .auth-sub {
+            font-size: 0.84rem;
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        /* ── Step indicator ── */
+        .step-indicator { display: flex; gap: 6px; margin-bottom: 20px; }
+        .step-dot {
+            height: 6px;
+            border-radius: 999px;
+            background: var(--border);
+            transition: var(--transition);
+            width: 20px;
+        }
+        .step-dot.active { background: var(--accent); width: 36px; }
+        .step-dot.done { background: var(--accent-muted); }
+
+        .reg-step { display: none; }
+        .reg-step.active { display: block; }
+
+        /* ── Verify card (big Google CTA) ── */
+        .verify-icon {
+            width: 64px; height: 64px;
+            background: var(--accent-light);
+            border-radius: 20px;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 20px;
+            border: 1px solid var(--accent-muted);
+        }
+        .verify-icon svg { color: var(--accent); }
+
+        /* ── Responsive ── */
+        @media (max-width: 760px) {
+            .split-layout { flex-direction: column; border-radius: 20px; }
+            .side-panel { width: 100%; padding: 28px 24px; min-height: auto; }
+            .side-headline { font-size: 1.6rem; }
+            .side-badges { display: none; }
+            .auth-panel { padding: 28px 24px; }
+        }
+
+        @media (max-width: 480px) {
+            .page-wrapper { padding: 16px; }
+            .form-row { grid-template-columns: 1fr; }
+        }
+
+        /* ── Animations ── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .split-layout, #initialGoogleCard.card-mode {
+            animation: fadeUp 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+        }
+        .auth-panel > * {
+            animation: fadeUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+        }
     </style>
 </head>
 <body>
 
-<div id="authScreen">
-    <div class="auth-bg-circles"><div class="auth-circle"></div><div class="auth-circle"></div><div class="auth-circle"></div></div>
-    
-    <div class="auth-card" id="initialGoogleCard">
-        <div class="auth-logo"><img src="https://i.postimg.cc/d30sLt05/1BUSKET-LOGO.png" alt="1BUSKET" style="height:48px; width:auto; object-fit:contain; display:block;"></div>
-        <h3 style="color:white; text-align:center; margin-bottom:8px; font-weight:800; font-size:1.4rem;">Verification Required</h3>
-        <p style="color:rgba(255,255,255,0.6); text-align:center; margin-bottom:24px; font-size:0.9rem;">Please authenticate with Google first to access the Vendor Portal.</p>
-        <div class="auth-error" id="initialGoogleError"></div>
-        <button onclick="initialGoogleSignIn()" style="background:#ff751f;color:white;border:none;padding:16px 24px;border-radius:999px;font-weight:700;font-size:1.05rem;width:100%;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:12px;box-shadow:0 6px 20px rgba(255,117,31,0.3); transition:transform 0.3s;">
-            <div style="width:26px;height:26px;background:white;color:#ff751f;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;">G</div>
-            Continue with Google
-        </button>
+<div class="page-bg">
+    <div class="bg-grid"></div>
+    <div class="bg-blob bg-blob-1"></div>
+    <div class="bg-blob bg-blob-2"></div>
+    <div class="bg-blob bg-blob-3"></div>
+</div>
+
+<div class="page-wrapper">
+
+    <!-- ══ STEP 1: Google Verification (shown first) ══ -->
+    <div id="initialGoogleCard" class="card-mode">
+        <div class="verify-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div style="text-align:center; margin-bottom:8px;">
+            <img src="https://i.postimg.cc/d30sLt05/1BUSKET-LOGO.png" alt="1BUSKET" style="height:38px; width:auto; display:inline-block; margin-bottom:16px;">
+            <h2 style="font-size:1.4rem; font-weight:800; color:var(--text); margin-bottom:6px;">Vendor Portal</h2>
+            <p style="font-size:0.86rem; color:var(--text-secondary); line-height:1.5;">Verify your identity with Google to continue to the vendor dashboard.</p>
+        </div>
+        <div class="alert alert-error" id="initialGoogleError"></div>
+        <div style="margin-top:24px;">
+            <button class="btn-google" onclick="initialGoogleSignIn()" id="googleVerifyBtn" style="padding:14px 20px; font-size:0.95rem;">
+                <div class="google-icon"></div>
+                Continue with Google
+            </button>
+        </div>
+        <p style="text-align:center; margin-top:16px; font-size:0.75rem; color:var(--text-muted);">
+            By continuing, you agree to 1BUSKET's vendor terms.
+        </p>
     </div>
 
-    <div class="auth-card" id="mainAuthCard" style="display:none;">
-        <div class="auth-logo"><img src="https://i.postimg.cc/d30sLt05/1BUSKET-LOGO.png" alt="1BUSKET" style="height:48px; width:auto; object-fit:contain; display:block;"></div>
-        <div class="auth-tabs"><button class="auth-tab active" onclick="switchAuthTab('login')">Sign In</button><button class="auth-tab" onclick="switchAuthTab('register')">Register</button></div>
-        
-        <div id="loginPanel">
-            <div class="auth-title">Welcome Back 👋</div><div class="auth-sub">Sign in with your Vendor ID</div>
-            <div class="auth-error" id="loginError"></div>
-            <div class="auth-form">
-                <div class="auth-form-group"><label>Vendor ID</label><input type="text" class="auth-input" id="vendorLoginId" placeholder="e.g. VYN-ABC123"></div>
-                <button class="auth-btn" onclick="partnerLogin()" id="loginBtn">Sign In to Portal</button>
+    <!-- ══ STEP 2: Login / Register (shown after Google verify) ══ -->
+    <div class="split-layout" id="mainAuthCard" style="display:none;">
+
+        <!-- Side panel -->
+        <div class="side-panel">
+            <div class="side-logo">
+                <img src="https://i.postimg.cc/d30sLt05/1BUSKET-LOGO.png" alt="1BUSKET">
             </div>
-            <div class="auth-divider">or sign in with Google</div>
-            <button class="auth-btn" style="background:#ff751f;" onclick="signInWithGoogle()">Sign in with Google</button>
-            <div class="auth-divider">New store?</div>
-            <button class="auth-btn" style="background:transparent;border:1.5px solid rgba(6,193,103,0.4);color:#ff751f;" onclick="switchAuthTab('register')">Register Your Business</button>
-        </div>
-        
-        <div id="registerPanel" style="display:none;">
-            <div class="step-indicator"><div class="step-dot active" id="dot-0"></div><div class="step-dot" id="dot-1"></div><div class="step-dot" id="dot-2"></div></div>
-            <div class="auth-error" id="regError"></div><div class="auth-success" id="regSuccess"></div>
-            
-            <div class="reg-step active" id="step0">
-                <div class="auth-title">Your Business</div><div class="auth-sub">Tell us about your store</div>
-                <div class="auth-form-group"><label>Business Name *</label><input type="text" class="auth-input" id="reg-name" placeholder="e.g. Fresh Mart SA"></div>
-                <div class="auth-form-row">
-                    <div class="auth-form-group"><label>City *</label><input type="text" class="auth-input" id="reg-city" placeholder="Johannesburg"></div>
-                    <div class="auth-form-group"><label>Province *</label><select class="auth-input" id="reg-province"><option value="">Province…</option><option>Gauteng</option><option>Western Cape</option><option>KwaZulu-Natal</option><option>Eastern Cape</option><option>Limpopo</option><option>Mpumalanga</option><option>North West</option><option>Free State</option><option>Northern Cape</option></select></div>
+            <div class="side-copy">
+                <h2 class="side-headline">Manage your<br><em>store,</em> your way.</h2>
+                <p class="side-desc">The 1BUSKET vendor portal gives you real-time control of your products, orders, and customers.</p>
+            </div>
+            <div class="side-badges">
+                <div class="side-badge">
+                    <div class="side-badge-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                    </div>
+                    <span class="side-badge-text">Live order tracking & analytics</span>
                 </div>
-                <button class="auth-btn" onclick="regNext(0)">Next →</button>
-            </div>
-            <div class="reg-step" id="step1">
-                <div class="auth-title">Contact Info</div><div class="auth-sub">How can we reach you?</div>
-                <div class="auth-form-group"><label>Owner Name *</label><input type="text" class="auth-input" id="reg-owner" placeholder="Full name"></div>
-                <div class="auth-form-row">
-                    <div class="auth-form-group"><label>Phone *</label><input type="tel" class="auth-input" id="reg-phone" placeholder="+27 71 000 0000"></div>
-                    <div class="auth-form-group"><label>Email *</label><input type="email" class="auth-input" id="reg-email" placeholder="you@business.co.za"></div>
+                <div class="side-badge">
+                    <div class="side-badge-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+                    </div>
+                    <span class="side-badge-text">Product & inventory management</span>
                 </div>
-                <div style="display:flex;gap:10px;"><button class="auth-btn" style="background:rgba(255,255,255,0.1);flex:1;" onclick="regBack(1)">← Back</button><button class="auth-btn" style="flex:2;" onclick="regNext(1)">Next →</button></div>
-            </div>
-            <div class="reg-step" id="step2">
-                <div class="auth-title">Almost Done!</div><div class="auth-sub">Optional details to speed up approval</div>
-                <div class="auth-form-group"><label>Business Reg. No. (optional)</label><input type="text" class="auth-input" id="reg-regno"></div>
-                <div style="display:flex;gap:10px;"><button class="auth-btn" style="background:rgba(255,255,255,0.1);flex:1;" onclick="regBack(2)">← Back</button><button class="auth-btn" style="flex:2;" onclick="submitRegistration()" id="regSubmitBtn">Submit Application</button></div>
+                <div class="side-badge">
+                    <div class="side-badge-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                    </div>
+                    <span class="side-badge-text">Instant payout tracking</span>
+                </div>
             </div>
         </div>
-    </div>
-</div>
+
+        <!-- Auth panel -->
+        <div class="auth-panel">
+
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="switchAuthTab('login')">Sign In</button>
+                <button class="auth-tab" onclick="switchAuthTab('register')">Register</button>
+            </div>
+
+            <!-- ── LOGIN ── -->
+            <div id="loginPanel">
+                <h2 class="auth-heading">Welcome back 👋</h2>
+                <p class="auth-sub">Sign in with your Vendor ID or Google account.</p>
+
+                <div class="alert alert-error" id="loginError"></div>
+
+                <div class="form-group">
+                    <label class="form-label">Vendor ID</label>
+                    <input type="text" class="form-input" id="vendorLoginId" placeholder="e.g. VYN-ABC123" autocomplete="off">
+                </div>
+                <button class="btn-primary" onclick="partnerLogin()" id="loginBtn" style="margin-bottom:16px;">
+                    Sign In to Portal
+                </button>
+
+                <div class="divider">or</div>
+
+                <button class="btn-google" onclick="signInWithGoogle()" style="margin-bottom:12px;">
+                    <div class="google-icon"></div>
+                    Sign in with Google
+                </button>
+
+                <div class="divider">new here?</div>
+
+                <button class="btn-ghost" onclick="switchAuthTab('register')">Register Your Business →</button>
+            </div>
+
+            <!-- ── REGISTER ── -->
+            <div id="registerPanel" style="display:none;">
+                <div class="step-indicator">
+                    <div class="step-dot active" id="dot-0"></div>
+                    <div class="step-dot" id="dot-1"></div>
+                    <div class="step-dot" id="dot-2"></div>
+                </div>
+
+                <div class="alert alert-error" id="regError"></div>
+                <div class="alert alert-success" id="regSuccess"></div>
+
+                <!-- Step 0: Business info -->
+                <div class="reg-step active" id="step0">
+                    <h2 class="auth-heading">Your Business</h2>
+                    <p class="auth-sub">Tell us about your store to get started.</p>
+                    <div class="form-group">
+                        <label class="form-label">Business Name *</label>
+                        <input type="text" class="form-input" id="reg-name" placeholder="e.g. Fresh Mart SA">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">City *</label>
+                            <input type="text" class="form-input" id="reg-city" placeholder="Johannesburg">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Province *</label>
+                            <select class="form-input" id="reg-province">
+                                <option value="">Select…</option>
+                                <option>Gauteng</option><option>Western Cape</option><option>KwaZulu-Natal</option>
+                                <option>Eastern Cape</option><option>Limpopo</option><option>Mpumalanga</option>
+                                <option>North West</option><option>Free State</option><option>Northern Cape</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="btn-primary" onclick="regNext(0)">Next Step →</button>
+                </div>
+
+                <!-- Step 1: Contact info -->
+                <div class="reg-step" id="step1">
+                    <h2 class="auth-heading">Contact Info</h2>
+                    <p class="auth-sub">How can we reach you?</p>
+                    <div class="form-group">
+                        <label class="form-label">Owner Name *</label>
+                        <input type="text" class="form-input" id="reg-owner" placeholder="Full name">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">Phone *</label>
+                            <input type="tel" class="form-input" id="reg-phone" placeholder="+27 71 000 0000">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Email *</label>
+                            <input type="email" class="form-input" id="reg-email" placeholder="you@business.co.za">
+                        </div>
+                    </div>
+                    <div style="display:flex; gap:10px;">
+                        <button class="btn-secondary" style="flex:1;" onclick="regBack(1)">← Back</button>
+                        <button class="btn-primary" style="flex:2;" onclick="regNext(1)">Next Step →</button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Optional details -->
+                <div class="reg-step" id="step2">
+                    <h2 class="auth-heading">Almost Done!</h2>
+                    <p class="auth-sub">Optional details to speed up your approval.</p>
+                    <div class="form-group">
+                        <label class="form-label">Business Reg. No. <span style="font-weight:400;text-transform:none;letter-spacing:0;">(optional)</span></label>
+                        <input type="text" class="form-input" id="reg-regno" placeholder="e.g. 2024/123456/07">
+                    </div>
+                    <div style="display:flex; gap:10px;">
+                        <button class="btn-secondary" style="flex:1;" onclick="regBack(2)">← Back</button>
+                        <button class="btn-primary" style="flex:2;" onclick="submitRegistration()" id="regSubmitBtn">Submit Application</button>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /auth-panel -->
+    </div><!-- /split-layout -->
+
+</div><!-- /page-wrapper -->
 
 <script>
 lucide.createIcons();
 
+// ── Firebase ──────────────────────────────────────────────────────────────
 const firebaseConfig = {
     apiKey: "AIzaSyCh7Ute6LeSAxcNDEQwZg5m0cA4ujnLCfg",
     authDomain: "test-17881.firebaseapp.com",
@@ -154,128 +643,217 @@ const firebaseConfig = {
     databaseURL: "https://test-17881-default-rtdb.firebaseio.com"
 };
 firebase.initializeApp(firebaseConfig);
-const db = firebase.database();
+const db   = firebase.database();
 const auth = firebase.auth();
 
-// Check if a session already exists and redirect to Dashboard
+// ── Session check ─────────────────────────────────────────────────────────
 (function checkSession() {
-    const s = JSON.parse(localStorage.getItem('vynix_vendor_session') || 'null');
-    if (s && s.key && (Date.now() - s.loggedAt) < 24 * 60 * 60 * 1000) {
-        window.location.href = 'dashboard.html';
-    }
+    try {
+        const s = JSON.parse(localStorage.getItem('vynix_vendor_session') || 'null');
+        if (s && s.key && (Date.now() - s.loggedAt) < 24 * 60 * 60 * 1000) {
+            window.location.href = 'dashboard.html';
+        }
+    } catch (e) {}
 })();
 
-// Step 1: Initial Google Authentication
+// ── Helpers ───────────────────────────────────────────────────────────────
+function showError(id, msg) {
+    const el = document.getElementById(id);
+    el.textContent = msg;
+    el.style.display = 'flex';
+}
+function hideError(id) {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+}
+function showSuccess(id, html) {
+    const el = document.getElementById(id);
+    el.innerHTML = html;
+    el.style.display = 'flex';
+}
+
+// ── Step 1: Initial Google sign-in (verify identity before showing forms) ─
 async function initialGoogleSignIn() {
+    const btn = document.getElementById('googleVerifyBtn');
+    hideError('initialGoogleError');
+    btn.disabled = true;
+    btn.innerHTML = '<span style="opacity:.6;">Verifying…</span>';
+
     const provider = new firebase.auth.GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: 'select_account' });
+
     try {
         const result = await auth.signInWithPopup(provider);
-        // On success, hide the Google Card and reveal the actual Login/Registration form
-        document.getElementById('initialGoogleCard').style.display = 'none';
-        document.getElementById('mainAuthCard').style.display = 'block';
-        
-        // Populate email in register form for convenience
+
+        // Pre-fill email in register form
         const emailField = document.getElementById('reg-email');
-        if (emailField && result.user.email) {
-            emailField.value = result.user.email;
-        }
+        if (emailField && result.user.email) emailField.value = result.user.email;
+
+        // Reveal main auth card, hide verification card
+        document.getElementById('initialGoogleCard').style.display = 'none';
+        document.getElementById('mainAuthCard').style.display = 'flex';
+
     } catch (e) {
-        const err = document.getElementById('initialGoogleError');
-        err.textContent = e.message || 'Google sign in failed';
-        err.style.display = 'block';
+        // Reset button
+        btn.disabled = false;
+        btn.innerHTML = '<div class="google-icon"></div> Continue with Google';
+
+        let msg = 'Google sign-in failed. Please try again.';
+        if (e.code === 'auth/popup-closed-by-user')  msg = 'Sign-in window was closed. Please try again.';
+        if (e.code === 'auth/popup-blocked')          msg = 'Pop-up was blocked. Please allow pop-ups for this site and try again.';
+        if (e.code === 'auth/cancelled-popup-request') msg = 'Another sign-in is already in progress.';
+        if (e.code === 'auth/network-request-failed') msg = 'Network error. Check your connection.';
+
+        showError('initialGoogleError', msg);
     }
 }
 
+// ── Tab switching ─────────────────────────────────────────────────────────
 function switchAuthTab(tab) {
-    document.querySelectorAll('.auth-tab').forEach((t, i) => t.classList.toggle('active', (tab === 'login' && i === 0) || (tab === 'register' && i === 1)));
-    document.getElementById('loginPanel').style.display = tab === 'login' ? 'block' : 'none';
+    document.querySelectorAll('.auth-tab').forEach((t, i) => {
+        t.classList.toggle('active', (tab === 'login' && i === 0) || (tab === 'register' && i === 1));
+    });
+    document.getElementById('loginPanel').style.display    = tab === 'login'    ? 'block' : 'none';
     document.getElementById('registerPanel').style.display = tab === 'register' ? 'block' : 'none';
 }
 
+// ── Multi-step registration ───────────────────────────────────────────────
+function updateStepDots(current) {
+    [0, 1, 2].forEach(i => {
+        const dot = document.getElementById('dot-' + i);
+        dot.className = 'step-dot' + (i === current ? ' active' : i < current ? ' done' : '');
+    });
+}
+
 function regNext(step) {
-    const err = document.getElementById('regError'); err.style.display = 'none';
+    hideError('regError');
     if (step === 0) {
-        if (!document.getElementById('reg-name').value.trim()) { err.textContent = 'Name required'; err.style.display = 'block'; return; }
-        if (!document.getElementById('reg-city').value.trim()) { err.textContent = 'City required'; err.style.display = 'block'; return; }
-        if (!document.getElementById('reg-province').value) { err.textContent = 'Select province'; err.style.display = 'block'; return; }
+        if (!document.getElementById('reg-name').value.trim())    return showError('regError', 'Business name is required.');
+        if (!document.getElementById('reg-city').value.trim())    return showError('regError', 'City is required.');
+        if (!document.getElementById('reg-province').value)       return showError('regError', 'Please select a province.');
     } else if (step === 1) {
-        if (!document.getElementById('reg-owner').value.trim()) { err.textContent = 'Owner name required'; err.style.display = 'block'; return; }
-        if (!document.getElementById('reg-phone').value.trim()) { err.textContent = 'Phone required'; err.style.display = 'block'; return; }
-        if (!document.getElementById('reg-email').value.trim()) { err.textContent = 'Email required'; err.style.display = 'block'; return; }
+        if (!document.getElementById('reg-owner').value.trim())   return showError('regError', 'Owner name is required.');
+        if (!document.getElementById('reg-phone').value.trim())   return showError('regError', 'Phone number is required.');
+        if (!document.getElementById('reg-email').value.trim())   return showError('regError', 'Email address is required.');
     }
     document.getElementById('step' + step).classList.remove('active');
     document.getElementById('step' + (step + 1)).classList.add('active');
+    updateStepDots(step + 1);
 }
 
-function regBack(step) { 
-    document.getElementById('step' + step).classList.remove('active'); 
-    document.getElementById('step' + (step - 1)).classList.add('active'); 
+function regBack(step) {
+    document.getElementById('step' + step).classList.remove('active');
+    document.getElementById('step' + (step - 1)).classList.add('active');
+    updateStepDots(step - 1);
 }
 
+// ── Vendor ID login ───────────────────────────────────────────────────────
 async function partnerLogin() {
-    const id = document.getElementById('vendorLoginId').value.trim().toUpperCase();
-    const err = document.getElementById('loginError');
+    const id  = document.getElementById('vendorLoginId').value.trim().toUpperCase();
     const btn = document.getElementById('loginBtn');
-    if (!id) { err.textContent = 'Enter ID'; err.style.display = 'block'; return; }
-    btn.disabled = true; btn.textContent = 'Signing in…';
+    hideError('loginError');
+
+    if (!id) return showError('loginError', 'Please enter your Vendor ID.');
+
+    btn.disabled = true;
+    btn.textContent = 'Signing in…';
+
     try {
         const snap = await db.ref('vendors').orderByChild('vendorID').equalTo(id).once('value');
         const data = snap.val();
-        if (!data) throw new Error('Vendor ID not found');
-        const key = Object.keys(data)[0];
+        if (!data) throw new Error('Vendor ID not found. Check your ID and try again.');
+
+        const key     = Object.keys(data)[0];
         const partner = data[key];
-        if (partner.status === 'pending') throw new Error('Your account is pending approval');
-        if (partner.status === 'disabled') throw new Error('Your account has been disabled');
-        
-        localStorage.setItem('vynix_vendor_session', JSON.stringify({ key, id, role: 'vendor', loggedAt: Date.now() }));
+
+        if (partner.status === 'pending')  throw new Error('Your account is pending admin approval.');
+        if (partner.status === 'disabled') throw new Error('Your account has been disabled. Contact support.');
+
+        localStorage.setItem('vynix_vendor_session', JSON.stringify({
+            key, id, role: 'vendor', loggedAt: Date.now()
+        }));
         window.location.href = 'dashboard.html';
+
     } catch (e) {
-        err.textContent = e.message; err.style.display = 'block';
-        btn.disabled = false; btn.textContent = 'Sign In to Portal';
+        showError('loginError', e.message);
+        btn.disabled = false;
+        btn.textContent = 'Sign In to Portal';
     }
 }
 
+// ── Google sign-in (for existing vendors) ────────────────────────────────
 async function signInWithGoogle() {
     const provider = new firebase.auth.GoogleAuthProvider();
+    provider.setCustomParameters({ prompt: 'select_account' });
+    hideError('loginError');
+
     try {
         const result = await auth.signInWithPopup(provider);
-        const user = result.user;
-        let snap = await db.ref('vendors').orderByChild('email').equalTo(user.email).once('value');
-        if (!snap.val()) throw new Error('No vendor account linked to this Google email.');
-        const key = Object.keys(snap.val())[0];
+        const user   = result.user;
+
+        const snap = await db.ref('vendors').orderByChild('email').equalTo(user.email).once('value');
+        if (!snap.val()) throw new Error('No vendor account is linked to this Google account.');
+
+        const key     = Object.keys(snap.val())[0];
         const partner = snap.val()[key];
-        if (partner.status === 'pending') throw new Error('Your account is pending approval');
-        if (partner.status === 'disabled') throw new Error('Your account has been disabled');
-        
-        localStorage.setItem('vynix_vendor_session', JSON.stringify({ key, id: partner.vendorID || 'GOOGLE', role: 'vendor', loggedAt: Date.now() }));
+
+        if (partner.status === 'pending')  throw new Error('Your account is pending admin approval.');
+        if (partner.status === 'disabled') throw new Error('Your account has been disabled. Contact support.');
+
+        localStorage.setItem('vynix_vendor_session', JSON.stringify({
+            key, id: partner.vendorID || 'GOOGLE', role: 'vendor', loggedAt: Date.now()
+        }));
         window.location.href = 'dashboard.html';
+
     } catch (e) {
-        document.getElementById('loginError').textContent = e.message || 'Google sign in failed';
-        document.getElementById('loginError').style.display = 'block';
+        let msg = e.message || 'Google sign-in failed.';
+        if (e.code === 'auth/popup-closed-by-user')   msg = 'Sign-in window was closed. Please try again.';
+        if (e.code === 'auth/popup-blocked')           msg = 'Pop-up was blocked. Please allow pop-ups for this site.';
+        showError('loginError', msg);
     }
 }
 
+// ── Registration submission ───────────────────────────────────────────────
 async function submitRegistration() {
-    const err = document.getElementById('regError');
-    const suc = document.getElementById('regSuccess');
     const btn = document.getElementById('regSubmitBtn');
-    btn.disabled = true; err.style.display = 'none';
+    hideError('regError');
+    btn.disabled = true;
+    btn.textContent = 'Submitting…';
+
     const application = {
-        name: document.getElementById('reg-name').value.trim(),
-        address: { city: document.getElementById('reg-city').value.trim(), province: document.getElementById('reg-province').value },
-        ownerName: document.getElementById('reg-owner').value.trim(),
-        phone: document.getElementById('reg-phone').value.trim(),
-        email: document.getElementById('reg-email').value.trim(),
+        name:          document.getElementById('reg-name').value.trim(),
+        address: {
+            city:     document.getElementById('reg-city').value.trim(),
+            province: document.getElementById('reg-province').value
+        },
+        ownerName:     document.getElementById('reg-owner').value.trim(),
+        phone:         document.getElementById('reg-phone').value.trim(),
+        email:         document.getElementById('reg-email').value.trim(),
         businessRegNo: document.getElementById('reg-regno').value.trim(),
-        status: 'pending', vendorID: null, appliedAt: Date.now(), updatedAt: Date.now()
+        status:        'pending',
+        vendorID:      null,
+        appliedAt:     Date.now(),
+        updatedAt:     Date.now()
     };
+
     try {
         await db.ref('vendors').push(application);
-        suc.innerHTML = `✅ Application submitted! Admin will review and assign your Vendor ID.`;
-        suc.style.display = 'block'; btn.textContent = 'Application Sent!';
-        setTimeout(() => { switchAuthTab('login'); btn.disabled = false; btn.textContent = 'Submit Application'; suc.style.display = 'none'; }, 3500);
+        showSuccess('regSuccess', '✅ Application submitted! An admin will review and assign your Vendor ID.');
+        btn.textContent = 'Application Sent!';
+        setTimeout(() => {
+            switchAuthTab('login');
+            btn.disabled = false;
+            btn.textContent = 'Submit Application';
+            document.getElementById('regSuccess').style.display = 'none';
+            // Reset steps
+            [0,1,2].forEach(i => document.getElementById('step'+i).classList.remove('active'));
+            document.getElementById('step0').classList.add('active');
+            updateStepDots(0);
+        }, 3500);
     } catch (e) {
-        err.textContent = 'Submission failed. Try again.'; err.style.display = 'block'; btn.disabled = false;
+        showError('regError', 'Submission failed. Please try again.');
+        btn.disabled = false;
+        btn.textContent = 'Submit Application';
     }
 }
 </script>
