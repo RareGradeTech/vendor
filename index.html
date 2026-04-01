@@ -40,7 +40,6 @@
         body[data-store="pets"] { --accent:#f59e0b;--accent-dark:#d97706;--accent-light:#fef3c7;--accent-rgb:245,158,11;--store-gradient:linear-gradient(135deg,#f59e0b,#fbbf24);--store-bg-gradient:linear-gradient(135deg,#fffbeb 0%,#fef3c7 100%); }
         body[data-store="electronics"] { --accent:#3b82f6;--accent-dark:#2563eb;--accent-light:#dbeafe;--accent-rgb:59,130,246;--store-gradient:linear-gradient(135deg,#3b82f6,#6366f1);--store-bg-gradient:linear-gradient(135deg,#eff6ff 0%,#dbeafe 100%); }
         body[data-store="restaurant"] { --accent:#ff751f;--accent-dark:#e0661c;--accent-light:#ffe8d6;--accent-rgb:255,117,31;--store-gradient:linear-gradient(135deg,#ff751f,#ff8c42);--store-bg-gradient:linear-gradient(135deg,#fff8f4 0%,#ffe8d6 100%); }
-
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); display: flex; min-height: 100vh; overflow-x: hidden; line-height: 1.5; transition: background 0.4s ease; }
         ::-webkit-scrollbar { width: 6px; }
@@ -330,16 +329,13 @@
         /* DEBUG BANNER */
         .debug-banner { background:#fff5cc;border:1px solid #ffe066;border-radius:12px;padding:10px 16px;margin-bottom:16px;font-size:0.82rem;font-weight:600;color:#997300;display:none; }
         .debug-banner.show { display:block; }
-
 /* Brand consistency overrides */
 body[data-store="grocery"] { --accent:#22c55e;--accent-dark:#16a34a;--accent-light:#dcfce7;--accent-rgb:34,197,94;--store-gradient:linear-gradient(135deg,#22c55e,#4ade80);--store-bg-gradient:linear-gradient(135deg,#f0fdf4 0%,#dcfce7 100%); }
 body[data-store="alcohol"] { --accent:#7c3aed;--accent-dark:#6d28d9;--accent-light:#ede9fe;--accent-rgb:124,58,237;--store-gradient:linear-gradient(135deg,#7c3aed,#a855f7);--store-bg-gradient:linear-gradient(135deg,#faf5ff 0%,#ede9fe 100%); }
 body[data-store="health"] { --accent:#0ea5e9;--accent-dark:#0284c7;--accent-light:#e0f2fe;--accent-rgb:14,165,233;--store-gradient:linear-gradient(135deg,#0ea5e9,#38bdf8);--store-bg-gradient:linear-gradient(135deg,#f0f9ff 0%,#e0f2fe 100%); }
 body[data-store="pets"] { --accent:#f59e0b;--accent-dark:#d97706;--accent-light:#fef3c7;--accent-rgb:245,158,11;--store-gradient:linear-gradient(135deg,#f59e0b,#fbbf24);--store-bg-gradient:linear-gradient(135deg,#fffbeb 0%,#fef3c7 100%); }
 body[data-store="electronics"] { --accent:#3b82f6;--accent-dark:#2563eb;--accent-light:#dbeafe;--accent-rgb:59,130,246;--store-gradient:linear-gradient(135deg,#3b82f6,#6366f1);--store-bg-gradient:linear-gradient(135deg,#eff6ff 0%,#dbeafe 100%); }
-
-
-        
+       
     </style>
 </head>
 <body>
@@ -347,7 +343,7 @@ body[data-store="electronics"] { --accent:#3b82f6;--accent-dark:#2563eb;--accent
 <div id="authScreen">
     <div class="auth-bg-circles"><div class="auth-circle"></div><div class="auth-circle"></div><div class="auth-circle"></div></div>
     <div class="auth-card">
-        <div class="auth-logo"><i data-lucide="utensils" style="width:32px;height:32px;color:#ff751f;"></i><div class="auth-logo-text">1BUSKET<span></span></div></div>
+        <div class="auth-logo"><img src="https://i.postimg.cc/d30sLt05/1BUSKET-LOGO.png" alt="1BUSKET" style="height:32px;width:auto;object-fit:contain;"></div>
         <div class="auth-tabs"><button class="auth-tab active" onclick="switchAuthTab('login')">Sign In</button><button class="auth-tab" onclick="switchAuthTab('register')">Register</button></div>
         <div id="loginPanel">
             <div class="auth-title">Welcome Back 👋</div><div class="auth-sub">Sign in with your Vendor ID</div>
@@ -407,7 +403,7 @@ body[data-store="electronics"] { --accent:#3b82f6;--accent-dark:#2563eb;--accent
 </div>
 <!-- SIDEBAR -->
 <nav class="sidebar" id="vendorSidebar" style="display:none;">
-    <div class="logo"><i data-lucide="utensils" class="logo-icon" id="sidebarLogoIcon"></i><span class="logo-text">1BUSKET<span id="sidebarLogoSuffix">EATS</span></span></div>
+    <div class="logo"><img src="https://i.postimg.cc/d30sLt05/1BUSKET-LOGO.png" alt="1BUSKET" class="logo-icon" id="sidebarLogoIcon" style="width:28px;height:28px;object-fit:contain;"></div>
     <div class="store-type-badge"><div class="store-type-dot"></div><div class="store-type-info"><div class="store-name" id="sidebarStoreName">My Store</div><div class="store-type-label" id="sidebarStoreType">Restaurant</div></div></div>
     <div class="nav-scroll">
         <div class="nav-section">
@@ -683,7 +679,6 @@ const auth = firebase.auth();
 const MAPBOX_TOKEN = 'pk.eyJ1Ijoia2F0bGVnb3BoYXNoYSIsImEiOiJjbTlpOTdzbmYwMGNsMmpzYWJtZzN4d3pqIn0.Zt-aSMEoahrV3zkiVVHbOw';
 const CLOUDINARY_CLOUD = 'dqkujefxj';
 const CLOUDINARY_PRESET = 'banter_box';
-
 /* ══════════════════════════════════════════════════════
    CLOUDINARY UPLOAD
 ══════════════════════════════════════════════════════ */
@@ -707,7 +702,6 @@ function previewItemImage(input) {
     reader.onload = e => { document.getElementById('item-img-preview').src = e.target.result; document.getElementById('item-img-preview-wrap').style.display = 'block'; };
     reader.readAsDataURL(file);
 }
-
 /* ══════════════════════════════════════════════════════
    STORE CONFIGS
 ══════════════════════════════════════════════════════ */
@@ -752,7 +746,6 @@ STORE_CONFIGS.alcohol = { ...STORE_CONFIGS.restaurant, storeType:'alcohol', labe
 STORE_CONFIGS.health = { ...STORE_CONFIGS.restaurant, storeType:'health', label:'Health & Pharmacy', emoji:'💊', logoSuffix:'CARE', logoIcon:'heart-pulse', theme:'health', heroTitle: n=>`Welcome, ${n}! 💊`, heroSub:'Manage your health store.' };
 STORE_CONFIGS.pets = { ...STORE_CONFIGS.restaurant, storeType:'pets', label:'Pet Store', emoji:'🐾', logoSuffix:'PAWS', logoIcon:'dog', theme:'pets', heroTitle: n=>`Welcome, ${n}! 🐾`, heroSub:'Manage your pet store.' };
 STORE_CONFIGS.electronics = { ...STORE_CONFIGS.restaurant, storeType:'electronics', label:'Electronics Store', emoji:'📱', logoSuffix:'TECH', logoIcon:'smartphone', theme:'electronics', heroTitle: n=>`Welcome, ${n}! 📱`, heroSub:'Manage your electronics store.' };
-
 /* ══════════════════════════════════════════════════════
    STATE
 ══════════════════════════════════════════════════════ */
@@ -761,7 +754,6 @@ let manualStoreStatus = null, menuFilter = { search: '', category: '' }, setting
 let previousPendingCount = 0;
 // Global raw orders cache — all orders from Firebase, unfiltered
 window._allOrdersCache = {};
-
 /* ══════════════════════════════════════════════════════
    THEME
 ══════════════════════════════════════════════════════ */
@@ -846,7 +838,6 @@ function buildShopCategories(cats) {
 }
 function toggleProfileCategory(label) { const cb = label.querySelector('input[type="checkbox"]'); setTimeout(() => label.classList.toggle('checked', cb.checked), 10); }
 function togglePDay(cb) { cb.closest('label').classList.toggle('checked', cb.checked); }
-
 /* ══════════════════════════════════════════════════════
    AUTH
 ══════════════════════════════════════════════════════ */
@@ -935,7 +926,6 @@ async function submitRegistration() {
         err.textContent = 'Submission failed. Try again.'; err.style.display = 'block'; btn.disabled = false;
     }
 }
-
 /* ══════════════════════════════════════════════════════
    PORTAL INIT
 ══════════════════════════════════════════════════════ */
@@ -951,7 +941,6 @@ function enterPortal() {
 }
 function showShimmer() { const s = document.getElementById('shimmerOverlay'); s.classList.add('active'); }
 function hideShimmer() { const s = document.getElementById('shimmerOverlay'); s.classList.add('fade-out'); setTimeout(() => s.classList.remove('active', 'fade-out'), 600); }
-
 /* ══════════════════════════════════════════════════════
    SYNC — FIXED ORDERS LISTENER
    Strategy:
@@ -963,7 +952,6 @@ function hideShimmer() { const s = document.getElementById('shimmerOverlay'); s.
 ══════════════════════════════════════════════════════ */
 function startSync() {
     if (!VENDOR_KEY) return;
-
     // Listen to vendor data FIRST, then start orders listener inside callback
     db.ref('vendors/' + VENDOR_KEY).on('value', snap => {
         vendorData = snap.val();
@@ -974,7 +962,6 @@ function startSync() {
         // Re-filter orders every time vendorData updates
         reFilterOrders();
     });
-
     // Listen to menu
     db.ref('vendors/' + VENDOR_KEY + '/menu').on('value', snap => {
         menuCache = snap.val() || {};
@@ -983,48 +970,39 @@ function startSync() {
         updateStats();
         updateAnalytics();
     });
-
     // Orders listener — stores ALL orders, filtering happens in reFilterOrders()
     db.ref('orders').on('value', snap => {
         window._allOrdersCache = snap.val() || {};
         reFilterOrders();
     });
 }
-
 function reFilterOrders() {
     const allOrders = window._allOrdersCache || {};
     if (!VENDOR_KEY) return;
-
     // Collect all possible IDs this vendor could be stored under
     const matchIds = new Set([VENDOR_KEY]);
     if (vendorData?.vendorID) matchIds.add(vendorData.vendorID);
     if (vendorData?.name) matchIds.add(vendorData.name); // fallback
-
     ordersCache = {};
     Object.entries(allOrders).forEach(([orderKey, o]) => {
         const orderVendorFields = [
             o.vendorKey, o.vendorId, o.vendorID,
             o.vendor, o.storeKey, o.storeId
         ].filter(Boolean);
-
         const matches = orderVendorFields.some(f => matchIds.has(f));
         if (matches) ordersCache[orderKey] = o;
     });
-
     const pendingCount = Object.values(ordersCache).filter(o => o.status === 'pending').length;
-
     if (pendingCount > previousPendingCount && previousPendingCount >= 0) {
         const newCount = pendingCount - previousPendingCount;
         showToast(`🔔 ${newCount} new order${newCount > 1 ? 's' : ''} received!`, 'info');
     }
     previousPendingCount = pendingCount;
-
     const badge = document.getElementById('pendingOrdersBadge');
     if (badge) {
         badge.style.display = pendingCount > 0 ? 'inline' : 'none';
         badge.textContent = pendingCount;
     }
-
     renderOrders();
     renderRecentOrders();
     updateStats();
@@ -1038,22 +1016,18 @@ function reFilterOrders() {
 function reFilterOrders() {
     if (!VENDOR_KEY) return;
     const allOrders = window._allOrdersCache || {};
-
     // Build a set of all IDs this vendor might appear as in an order
     const matchIds = new Set();
-    matchIds.add(VENDOR_KEY);                              // Firebase push key e.g. -OQxyz123
+    matchIds.add(VENDOR_KEY); // Firebase push key e.g. -OQxyz123
     if (vendorData) {
-        if (vendorData.vendorID)  matchIds.add(vendorData.vendorID);   // Human ID e.g. VYX-ABC
-        if (vendorData.name)      matchIds.add(vendorData.name);       // Store name fallback
-        if (vendorData.email)     matchIds.add(vendorData.email);      // Email fallback
+        if (vendorData.vendorID) matchIds.add(vendorData.vendorID); // Human ID e.g. VYX-ABC
+        if (vendorData.name) matchIds.add(vendorData.name); // Store name fallback
+        if (vendorData.email) matchIds.add(vendorData.email); // Email fallback
     }
-
     // Field names that orders might use to reference the vendor
     const vendorFields = ['vendorKey', 'vendorId', 'vendorID', 'vendor', 'storeKey', 'storeId', 'vendorName'];
-
     ordersCache = {};
     let matchCount = 0;
-
     Object.entries(allOrders).forEach(([orderKey, o]) => {
         const matched = vendorFields.some(field => {
             const val = o[field];
@@ -1064,7 +1038,6 @@ function reFilterOrders() {
             matchCount++;
         }
     });
-
     // Show debug info on orders page if vendor is loaded
     const debugBanner = document.getElementById('debugBanner');
     if (debugBanner && vendorData) {
@@ -1076,9 +1049,7 @@ function reFilterOrders() {
             debugBanner.classList.remove('show');
         }
     }
-
     const pendingCount = Object.values(ordersCache).filter(o => o.status === 'pending').length;
-
     // New order alert — only after initial load (previousPendingCount starts at 0)
     if (pendingCount > previousPendingCount && previousPendingCount >= 0 && Object.keys(ordersCache).length > 0) {
         const diff = pendingCount - previousPendingCount;
@@ -1089,20 +1060,17 @@ function reFilterOrders() {
     }
     window._ordersInitialized = true;
     previousPendingCount = pendingCount;
-
     // Update pending badge on nav
     const badge = document.getElementById('pendingOrdersBadge');
     if (badge) {
         badge.style.display = pendingCount > 0 ? 'inline' : 'none';
         badge.textContent = pendingCount;
     }
-
     renderOrders();
     renderRecentOrders();
     updateStats();
     updateAnalytics();
 }
-
 function applyVendorUI() {
     if (!vendorData) return;
     const name = vendorData.name || 'My Store';
@@ -1132,7 +1100,6 @@ function applyVendorUI() {
         <div class="info-row"><i data-lucide="navigation"></i><span>Delivery radius: ${vendorData.deliveryRadius || '5'} km</span></div>`;
     setTimeout(() => lucide.createIcons(), 50);
 }
-
 /* ══════════════════════════════════════════════════════
    STATS
 ══════════════════════════════════════════════════════ */
@@ -1149,7 +1116,6 @@ function updateStats() {
     safeSet('stat-revenue', 'R ' + revenue.toFixed(0));
 }
 function safeSet(id, val) { const el = document.getElementById(id); if (el) el.textContent = val; }
-
 /* ══════════════════════════════════════════════════════
    STORE STATUS
 ══════════════════════════════════════════════════════ */
@@ -1197,7 +1163,6 @@ function setStoreStatus(status) {
     updateStoreStatusDisplay();
     showToast(`Store ${status === 'open' ? 'opened' : 'closed'} manually`, 'success');
 }
-
 /* ══════════════════════════════════════════════════════
    MENU RENDERING
 ══════════════════════════════════════════════════════ */
@@ -1221,7 +1186,6 @@ function renderMenuGrid() {
     lucide.createIcons();
 }
 function filterMenuItems(search) { menuFilter.search = search; menuFilter.category = document.getElementById('menuCatFilter').value; renderMenuGrid(); }
-
 /* ══════════════════════════════════════════════════════
    FEATURED
 ══════════════════════════════════════════════════════ */
@@ -1253,7 +1217,6 @@ function syncFeaturedGlobal() {
         }, {});
     db.ref(`featured_items/${VENDOR_KEY}`).set(Object.keys(featured).length ? featured : null);
 }
-
 /* ══════════════════════════════════════════════════════
    ORDER RENDERING
 ══════════════════════════════════════════════════════ */
@@ -1371,7 +1334,6 @@ function updateOrderStatus(key, newStatus) {
         .then(() => showToast(`Order ${newStatus}`, 'success'))
         .catch(() => showToast('Error updating order', 'error'));
 }
-
 /* ══════════════════════════════════════════════════════
    ANALYTICS
 ══════════════════════════════════════════════════════ */
@@ -1402,7 +1364,6 @@ function updateAnalytics() {
     }).join('');
 }
 function getLast6Months() { const m = [], now = new Date(); for (let i = 5; i >= 0; i--) { const d = new Date(now.getFullYear(), now.getMonth() - i, 1); m.push(d.toLocaleDateString('en-ZA', { month: 'short', year: '2-digit' })); } return m; }
-
 /* ══════════════════════════════════════════════════════
    ITEM MODAL
 ══════════════════════════════════════════════════════ */
@@ -1483,7 +1444,6 @@ function confirmDelete() {
         .then(() => { showToast('Item deleted', 'success'); hideModal('deleteModal'); syncFeaturedGlobal(); })
         .catch(() => showToast('Error deleting item', 'error'));
 }
-
 /* ══════════════════════════════════════════════════════
    PROFILE
 ══════════════════════════════════════════════════════ */
@@ -1508,7 +1468,6 @@ function saveStoreProfile() {
     const upd = { name, cuisine: document.getElementById('p-cuisine').value.trim(), ownerName: document.getElementById('p-owner').value.trim(), phone: document.getElementById('p-phone').value.trim(), email: document.getElementById('p-email').value.trim(), whatsapp: document.getElementById('p-whatsapp').value.trim(), address: { street: document.getElementById('p-street').value.trim(), suburb: document.getElementById('p-suburb').value.trim(), city: document.getElementById('p-city').value.trim(), province: document.getElementById('p-province').value }, lat: document.getElementById('p-lat').value ? parseFloat(document.getElementById('p-lat').value) : null, lng: document.getElementById('p-lng').value ? parseFloat(document.getElementById('p-lng').value) : null, deliveryRadius: document.getElementById('p-radius').value, minOrderValue: document.getElementById('p-minorder').value, openingTime: document.getElementById('p-open').value, closingTime: document.getElementById('p-close').value, avgPrepTime: document.getElementById('p-preptime').value, operatingDays: days, shopCategories, updatedAt: Date.now() };
     db.ref('vendors/' + VENDOR_KEY).update(upd).then(() => showToast(`Profile saved for "${name}"!`, 'success')).catch(() => showToast('Error saving profile', 'error'));
 }
-
 /* ══════════════════════════════════════════════════════
    LOCATION PICKER
 ══════════════════════════════════════════════════════ */
@@ -1574,7 +1533,6 @@ function selectInlineLocation(lat, lng, address) {
     toggleInlineLocationPicker();
     showToast(`Location set: ${address.split(',')[0]}`, 'success');
 }
-
 /* ══════════════════════════════════════════════════════
    SETTINGS
 ══════════════════════════════════════════════════════ */
@@ -1591,7 +1549,6 @@ function saveSettings() {
     if (VENDOR_KEY) db.ref('vendors/' + VENDOR_KEY).update({ manualStoreStatus: !settingsState.storeOpen ? 'closed' : 'open', updatedAt: Date.now() });
     showToast('Settings saved!', 'success');
 }
-
 /* ══════════════════════════════════════════════════════
    NAVIGATION
 ══════════════════════════════════════════════════════ */
@@ -1606,7 +1563,6 @@ function showTab(id, el) {
     if (id === 'featured') renderFeaturedItems();
     setTimeout(() => lucide.createIcons(), 50);
 }
-
 /* ══════════════════════════════════════════════════════
    LOGOUT
 ══════════════════════════════════════════════════════ */
@@ -1621,20 +1577,17 @@ function confirmLogout() {
     document.getElementById('authScreen').classList.remove('hidden');
     switchAuthTab('login'); hideModal('logoutModal');
 }
-
 /* ══════════════════════════════════════════════════════
    MODAL HELPERS
 ══════════════════════════════════════════════════════ */
 function showModal(id) { const el = document.getElementById(id); el.style.display = 'flex'; setTimeout(() => { el.classList.add('active'); lucide.createIcons(); }, 10); }
 function hideModal(id) { const el = document.getElementById(id); el.classList.remove('active'); setTimeout(() => el.style.display = 'none', 320); }
 window.onclick = e => { if (e.target.classList.contains('modal-overlay')) ['itemModal', 'deleteModal', 'logoutModal', 'googleAuthModal'].forEach(id => { const el = document.getElementById(id); if (el && el === e.target) hideModal(id); }); };
-
 /* ══════════════════════════════════════════════════════
    SIDEBAR HOVER
 ══════════════════════════════════════════════════════ */
 document.getElementById('vendorSidebar').addEventListener('mouseenter', () => { document.getElementById('vendorSidebar').classList.add('expanded'); document.getElementById('vendorMainPanel').classList.add('shifted'); });
 document.getElementById('vendorSidebar').addEventListener('mouseleave', () => { document.getElementById('vendorSidebar').classList.remove('expanded'); document.getElementById('vendorMainPanel').classList.remove('shifted'); });
-
 /* ══════════════════════════════════════════════════════
    TOAST
 ══════════════════════════════════════════════════════ */
@@ -1645,13 +1598,11 @@ function showToast(msg, type = 'success') {
     clearTimeout(t._timer);
     t._timer = setTimeout(() => t.classList.remove('show'), 2800);
 }
-
 /* ══════════════════════════════════════════════════════
    DATE HELPERS
 ══════════════════════════════════════════════════════ */
 function fmtDate(ts) { return ts ? new Date(ts).toLocaleDateString('en-ZA') : '—'; }
 function fmtTime(ts) { return ts ? new Date(ts).toLocaleTimeString('en-ZA', { hour: '2-digit', minute: '2-digit' }) : ''; }
-
 /* ══════════════════════════════════════════════════════
    SESSION RESTORE
 ══════════════════════════════════════════════════════ */
@@ -1662,14 +1613,12 @@ function fmtTime(ts) { return ts ? new Date(ts).toLocaleTimeString('en-ZA', { ho
         enterPortal();
     }
 })();
-
 // Only show Google modal if not restoring session
 setTimeout(() => {
     if (!JSON.parse(localStorage.getItem('vynix_vendor_session') || 'null')) {
         showModal('googleAuthModal');
     }
 }, 1000);
-
 lucide.createIcons();
 </script>
 </body>
