@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1BUSKET | Vendor Portal</title>
+    <title>1BUSKET | Vendor Portal Dashboard</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
@@ -48,43 +48,7 @@
         ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
         input[type="text"], input[type="email"], input[type="tel"], input[type="number"], input[type="password"], input[type="url"], input[type="time"], input[type="file"], select, textarea { border-radius: 999px !important; }
         textarea { border-radius: 20px !important; }
-        /* AUTH */
-        #authScreen { position:fixed;inset:0;z-index:8000;background:linear-gradient(135deg,#1a0f08 0%,#2d1a0f 50%,#1a0f08 100%);display:flex;align-items:center;justify-content:center;padding:20px;transition:opacity 0.4s ease; }
-        #authScreen.hidden { display:none; }
-        .auth-bg-circles { position:absolute;inset:0;overflow:hidden;pointer-events:none; }
-        .auth-circle { position:absolute;border-radius:50%;background:radial-gradient(circle,rgba(255,117,31,0.15) 0%,transparent 70%); }
-        .auth-circle:nth-child(1) { width:600px;height:600px;top:-200px;right:-100px; }
-        .auth-circle:nth-child(2) { width:400px;height:400px;bottom:-100px;left:-50px; }
-        .auth-circle:nth-child(3) { width:300px;height:300px;top:40%;left:40%; }
-        .auth-card { background:rgba(255,255,255,0.04);backdrop-filter:blur(20px);border:1px solid rgba(6,193,103,0.2);border-radius:28px;padding:44px 40px;width:100%;max-width:460px;position:relative;z-index:1;box-shadow:0 32px 80px rgba(0,0,0,0.4); }
-        .auth-logo { display:flex;align-items:center;gap:12px;margin-bottom:32px;justify-content:center; }
-        .auth-logo-text { font-size:1.6rem;font-weight:800;color:white;letter-spacing:-1px; }
-        .auth-logo-text span { color:#ff751f; }
-        .auth-title { font-size:1.2rem;font-weight:800;color:white;margin-bottom:4px;text-align:center; }
-        .auth-sub { color:rgba(255,255,255,0.5);font-size:0.82rem;text-align:center;margin-bottom:24px; }
-        .auth-form { display:flex;flex-direction:column;gap:14px; }
-        .auth-form-group { display:flex;flex-direction:column;gap:6px; }
-        .auth-form-group label { font-size:0.75rem;font-weight:700;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.5px; }
-        .auth-input { padding:13px 18px!important;background:rgba(255,255,255,0.07)!important;border:1.5px solid rgba(255,255,255,0.1)!important;border-radius:999px!important;color:white!important;font-family:inherit;font-size:0.9rem;outline:none;transition:var(--transition);width:100%; }
-        .auth-input::placeholder { color:rgba(255,255,255,0.3); }
-        .auth-input:focus { border-color:#ff751f!important;background:rgba(255,117,31,0.08)!important;box-shadow:0 0 0 3px rgba(255,117,31,0.15)!important; }
-        .auth-btn { background:#ff751f;color:white;border:none;padding:13px;border-radius:999px;font-weight:700;font-family:inherit;font-size:0.9rem;cursor:pointer;transition:var(--transition);margin-top:6px;box-shadow:0 6px 20px rgba(6,193,103,0.4); }
-        .auth-btn:hover { background:#05a357;transform:translateY(-2px); }
-        .auth-btn:disabled { opacity:0.6;cursor:not-allowed;transform:none; }
-        .auth-error { background:rgba(255,59,48,0.15);border:1px solid rgba(255,59,48,0.3);border-radius:12px;padding:10px 14px;color:#ff6b63;font-size:0.82rem;font-weight:600;display:none;margin-bottom:8px; }
-        .auth-tabs { display:flex;background:rgba(255,255,255,0.06);border-radius:999px;padding:4px;margin-bottom:18px;gap:4px; }
-        .auth-tab { flex:1;padding:8px;border-radius:999px;border:none;background:transparent;color:rgba(255,255,255,0.5);font-family:inherit;font-weight:600;font-size:0.82rem;cursor:pointer;transition:var(--transition); }
-        .auth-tab.active { background:#ff751f;color:white; }
-        .auth-divider { display:flex;align-items:center;gap:12px;margin:8px 0;color:rgba(255,255,255,0.25);font-size:0.8rem; }
-        .auth-divider::before,.auth-divider::after { content:'';flex:1;height:1px;background:rgba(255,255,255,0.1); }
-        .auth-success { background:rgba(6,193,103,0.15);border:1px solid rgba(6,193,103,0.3);border-radius:12px;padding:10px 14px;color:#ff751f;font-size:0.82rem;font-weight:600;display:none;margin-bottom:8px; }
-        .reg-step { display:none; }
-        .reg-step.active { display:flex;flex-direction:column;gap:14px; }
-        .step-indicator { display:flex;gap:8px;justify-content:center;margin-bottom:16px; }
-        .step-dot { width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,0.45);border:1.5px solid rgba(255,255,255,0.6);transition:var(--transition); }
-        .step-dot.active { background:#ff751f;border-color:#ff751f;width:24px;border-radius:4px; }
-        .step-dot.done { background:#ff751f;border-color:#ff751f; }
-        .auth-form-row { display:grid;grid-template-columns:1fr 1fr;gap:12px; }
+        
         /* SHIMMER */
         #shimmerOverlay { position:fixed;inset:0;z-index:9999;background:var(--bg);display:none;flex-direction:column;transition:opacity .55s ease; }
         #shimmerOverlay.active { display:flex; }
@@ -101,6 +65,7 @@
         .shim-table { height:320px;border-radius:20px; }
         .shim-logo { width:42px;height:42px;border-radius:14px; }
         .shim-nav { height:36px;border-radius:999px;width:42px; }
+        
         /* SIDEBAR */
         .sidebar { width:72px;background:var(--surface);border-right:1px solid var(--border);padding:24px 12px;position:fixed;height:100vh;z-index:100;display:flex;flex-direction:column;transition:width 0.35s cubic-bezier(0.4,0,0.2,1);overflow:hidden; }
         .sidebar.expanded { width:280px;padding:30px 20px; }
@@ -132,12 +97,14 @@
         .user-avatar { width:40px;height:40px;border-radius:12px;flex-shrink:0;background:var(--store-gradient);display:flex;align-items:center;justify-content:center;color:white;font-weight:700;font-size:0.85rem;transition:var(--transition); }
         .user-info { opacity:0;transform:translateX(-8px);transition:opacity 0.2s ease,transform 0.2s ease; }
         .sidebar.expanded .user-info { opacity:1;transform:translateX(0); }
+        
         /* MAIN PANEL */
         .main-panel { margin-left:72px;flex:1;padding:36px;max-width:calc(100% - 72px);transition:margin-left 0.35s cubic-bezier(0.4,0,0.2,1),max-width 0.35s cubic-bezier(0.4,0,0.2,1); }
         .main-panel.shifted { margin-left:280px;max-width:calc(100% - 280px); }
         .page-content { display:none;animation:fadeInUp 0.35s ease-out; }
         .page-content.active { display:block; }
         @keyframes fadeInUp { from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);} }
+        
         /* DASHBOARD HERO */
         .dashboard-hero { border-radius:24px;padding:28px 32px;margin-bottom:28px;background:var(--store-gradient);position:relative;overflow:hidden;box-shadow:0 8px 32px rgba(var(--accent-rgb),0.3); }
         .dashboard-hero::before { content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.1); }
@@ -153,11 +120,13 @@
         .hero-status-closed.active { background:rgba(0,0,0,0.35);color:white;border-color:rgba(255,255,255,0.5); }
         .hero-add-btn { background:white;color:var(--accent);border:none;padding:10px 20px;border-radius:999px;font-weight:700;font-size:0.88rem;cursor:pointer;display:flex;align-items:center;gap:7px;transition:var(--transition);box-shadow:0 4px 14px rgba(0,0,0,0.15);font-family:inherit; }
         .hero-add-btn:hover { transform:translateY(-2px);box-shadow:0 8px 20px rgba(0,0,0,0.2); }
+        
         /* STATUS BANNER */
         .status-banner { border-radius:16px;padding:14px 20px;margin-bottom:24px;display:flex;align-items:center;gap:14px;border:1px solid var(--accent);background:var(--accent-light);transition:all 0.35s ease; }
         .status-banner.closed-state { background:#fff1f0;border-color:var(--danger); }
         .status-dot { width:12px;height:12px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px rgba(var(--accent-rgb),0.2);animation:pulseDot 2s infinite;flex-shrink:0; }
         .status-banner.closed-state .status-dot { background:var(--danger);box-shadow:0 0 0 4px rgba(255,59,48,0.15);animation:none; }
+        
         /* STATS */
         .stats-grid { display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:16px;margin-bottom:28px; }
         .stat-card { background:white;padding:22px;border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);transition:var(--transition);position:relative;overflow:hidden; }
@@ -169,12 +138,14 @@
         .stat-card h3 { font-size:0.7rem;text-transform:uppercase;color:var(--dim);letter-spacing:0.5px;margin-bottom:8px;font-weight:700; }
         .stat-card p { font-size:2rem;font-weight:800;color:var(--text); }
         .stat-trend { font-size:0.72rem;color:var(--accent);font-weight:600;margin-top:4px;display:flex;align-items:center;gap:3px; }
+        
         /* CONTENT CARDS */
         .content-card { background:white;border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);overflow:hidden; }
         .card-header { padding:18px 22px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px; }
         .card-header h2 { font-size:0.95rem;font-weight:700;display:flex;align-items:center;gap:8px; }
         .search-bar { padding:10px 16px;border:1.5px solid var(--border);border-radius:999px!important;font-family:inherit;font-size:0.88rem;outline:none;transition:var(--transition);background:var(--bg);color:var(--text);width:260px; }
         .search-bar:focus { border-color:var(--accent);box-shadow:0 0 0 3px rgba(var(--accent-rgb),0.12);background:white; }
+        
         /* STORE WELCOME */
         .store-welcome { border-radius:20px;padding:20px 24px;margin-bottom:24px;background:var(--store-bg-gradient);border:1px solid var(--accent);display:flex;align-items:center;gap:20px; }
         .store-welcome-icon { width:64px;height:64px;border-radius:18px;background:var(--store-gradient);display:flex;align-items:center;justify-content:center;font-size:2rem;flex-shrink:0;box-shadow:0 4px 16px rgba(var(--accent-rgb),0.35); }
@@ -182,6 +153,7 @@
         .store-welcome p { font-size:0.82rem;color:var(--dim);line-height:1.5; }
         .store-welcome-tips { margin-top:8px;display:flex;gap:6px;flex-wrap:wrap; }
         .store-tip { background:var(--accent-light);color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:3px 10px;font-size:0.7rem;font-weight:700; }
+        
         /* MENU GRID */
         .menu-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;padding:20px; }
         .menu-item-card { background:var(--bg);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:var(--transition);position:relative; }
@@ -199,6 +171,7 @@
         .icon-btn-edit:hover { background:var(--text);color:white; }
         .icon-btn-delete { background:white;color:var(--danger);box-shadow:0 2px 8px rgba(0,0,0,0.15); }
         .icon-btn-delete:hover { background:var(--danger);color:white; }
+        
         /* ORDERS */
         .order-card { padding:18px 22px;border-bottom:1px solid var(--border);transition:var(--transition); }
         .order-card:hover { background:var(--accent-light); }
@@ -216,6 +189,7 @@
         .order-customer-name { font-weight:700;font-size:0.86rem;color:var(--text); }
         .order-customer-id { font-size:0.72rem;color:var(--dim);font-weight:600; }
         .driver-banner { margin-top:8px;padding:8px 12px;background:var(--accent-light);border:1px solid var(--accent);border-radius:10px;display:flex;align-items:center;gap:8px;font-size:0.82rem;font-weight:700;color:var(--accent); }
+        
         /* PROFILE */
         .profile-section { background:white;border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);padding:26px;margin-bottom:18px; }
         .profile-section h3 { font-size:0.88rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;color:var(--dim);text-transform:uppercase;letter-spacing:0.5px; }
@@ -225,6 +199,7 @@
         .form-group { margin-bottom:14px; }
         .form-group label { display:block;font-size:0.78rem;font-weight:700;margin-bottom:5px;color:var(--dim);text-transform:uppercase;letter-spacing:0.4px; }
         .form-row { display:grid;grid-template-columns:1fr 1fr;gap:14px; }
+        
         /* BUTTONS */
         .btn-primary { background:var(--accent);color:white;border:none;padding:11px 20px;border-radius:999px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:7px;transition:var(--transition);box-shadow:0 4px 14px rgba(var(--accent-rgb),0.35);font-family:inherit;font-size:0.88rem; }
         .btn-primary:hover { background:var(--accent-dark);transform:translateY(-2px);box-shadow:0 8px 22px rgba(var(--accent-rgb),0.45); }
@@ -236,11 +211,13 @@
         .btn-danger:hover { background:var(--danger);color:white;transform:translateY(-1px); }
         .btn-success { background:var(--accent-light);color:var(--accent); }
         .btn-success:hover { background:var(--accent);color:white;transform:translateY(-1px); }
+        
         /* BADGES */
         .badge { padding:4px 10px;border-radius:20px;font-size:0.7rem;font-weight:700;display:inline-flex;align-items:center;gap:4px;white-space:nowrap; }
         .badge-open { background:var(--accent-light);color:var(--accent);border:1px solid var(--accent); }
         .badge-pending { background:#fff5cc;color:#997300;border:1px solid #ffe066; }
         .badge-closed { background:#fff1f0;color:var(--danger);border:1px solid var(--danger); }
+        
         /* MODALS */
         .modal-overlay { display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.45);backdrop-filter:blur(12px);z-index:2000;justify-content:center;align-items:center;opacity:0;transition:opacity .3s ease; }
         .modal-overlay.active { opacity:1; }
@@ -251,8 +228,10 @@
         .modal-content textarea { border-radius:16px!important; }
         .modal-content input:focus,.modal-content select:focus,.modal-content textarea:focus { border-color:var(--accent);box-shadow:0 0 0 3px rgba(var(--accent-rgb),0.12);background:white; }
         .modal-btn-row { display:flex;gap:10px;margin-top:20px; }
+        
         /* FEATURED */
         .featured-banner { background:linear-gradient(135deg,var(--accent-light) 0%,var(--store-bg-gradient));border:1px solid var(--accent);border-radius:16px;padding:16px 20px;margin-bottom:18px;display:flex;align-items:center;gap:12px; }
+        
         /* SETTINGS */
         .settings-row { display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--border);gap:12px; }
         .settings-row:last-child { border-bottom:none; }
@@ -260,6 +239,7 @@
         .toggle.on { background:var(--accent); }
         .toggle::after { content:'';position:absolute;width:22px;height:22px;background:white;border-radius:50%;top:2px;left:2px;transition:transform .3s cubic-bezier(.4,0,.2,1);box-shadow:0 2px 4px rgba(0,0,0,.2); }
         .toggle.on::after { transform:translateX(22px); }
+        
         /* INLINE LOCATION PICKER */
         .inline-location-picker { display:none;margin-top:16px;background:var(--bg);border:1.5px solid var(--accent);border-radius:20px;padding:20px;animation:fadeInUp 0.25s ease; }
         .inline-location-picker.open { display:block; }
@@ -274,6 +254,7 @@
         .picker-suggestions { display:flex;flex-direction:column;gap:6px;max-height:200px;overflow-y:auto; }
         .picker-suggestion-item { padding:12px 14px;background:white;border:1px solid var(--border);border-radius:12px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:var(--transition);font-size:0.86rem; }
         .picker-suggestion-item:hover { border-color:var(--accent);background:var(--accent-light); }
+        
         /* CHART */
         .chart-container { padding:20px;height:220px;display:flex;align-items:flex-end;justify-content:space-around;gap:10px;overflow:hidden; }
         .bar-wrapper { flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end;max-width:60px; }
@@ -282,6 +263,7 @@
         .bar-label { font-size:0.7rem;color:var(--dim);font-weight:600;text-align:center; }
         .bar-val { position:absolute;top:-20px;left:50%;transform:translateX(-50%);font-weight:700;font-size:0.75rem;opacity:0;transition:opacity .2s;white-space:nowrap;color:var(--text); }
         .bar:hover .bar-val { opacity:1; }
+        
         /* CATEGORIES */
         .categories-checkbox-grid { display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-top:10px; }
         .category-check-label { display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg);border:1.5px solid var(--border);border-radius:12px;cursor:pointer;transition:var(--transition);font-size:0.88rem;font-weight:600;user-select:none; }
@@ -291,42 +273,51 @@
         .day-label { display:flex;align-items:center;gap:5px;font-size:0.83rem;font-weight:600;background:var(--bg);border:1px solid var(--border);border-radius:999px;padding:7px 16px;cursor:pointer;transition:var(--transition); }
         .day-label.checked { background:var(--accent);border-color:var(--accent);color:white; }
         .day-label input[type=checkbox] { display:none; }
+        
         /* EMPTY STATE */
         .empty-state { text-align:center;padding:56px 24px;color:var(--dim); }
         .empty-state .es-emoji { font-size:3rem;margin-bottom:14px; }
         .empty-state p { font-weight:600;margin-bottom:4px;font-size:1.05rem;color:var(--text); }
         .empty-state small { font-size:0.85rem; }
+        
         /* TOAST */
         .toast { position:fixed;bottom:24px;right:24px;background:var(--text);color:white;padding:15px 22px;border-radius:999px;box-shadow:var(--shadow-hover);display:flex;align-items:center;gap:12px;transform:translateY(100px);opacity:0;transition:all 0.4s cubic-bezier(0.4,0,0.2,1);z-index:3000;font-size:0.9rem;font-weight:600;max-width:360px; }
         .toast.show { transform:translateY(0);opacity:1; }
         .toast.success { border-left:4px solid var(--accent); }
         .toast.error { border-left:4px solid var(--danger); }
         .toast.info { border-left:4px solid var(--purple); }
+        
         /* PENDING */
         .pending-banner { background:#fff5cc;border:1px solid #ffe066;border-radius:16px;padding:16px 20px;margin-bottom:24px;display:flex;align-items:center;gap:14px; }
         @keyframes spin { from{transform:rotate(0deg);}to{transform:rotate(360deg);} }
         @media (max-width:768px) { .main-panel { padding:20px; } .form-row { grid-template-columns:1fr; } }
+        
         /* QUICK ACTIONS */
         .quick-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:16px; }
         .quick-btn { padding:14px;border-radius:14px;border:1.5px solid var(--border);background:var(--bg);cursor:pointer;transition:var(--transition);display:flex;align-items:center;gap:10px;font-weight:600;font-size:0.85rem;font-family:inherit;color:var(--text); }
         .quick-btn:hover { border-color:var(--accent);background:var(--accent-light);color:var(--accent);transform:translateY(-2px); }
         .quick-btn i { width:18px;height:18px;color:var(--accent);flex-shrink:0; }
+        
         /* STORE INFO */
         .info-row { display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid var(--border); }
         .info-row:last-child { border-bottom:none; }
         .info-row i { width:15px;height:15px;color:var(--accent);flex-shrink:0; }
         .info-row span { font-size:0.85rem;color:var(--dim); }
+        
         /* ANALYTICS */
         .cat-bar-row { margin-bottom:14px; }
         .cat-bar-header { display:flex;justify-content:space-between;font-size:0.85rem;font-weight:600;margin-bottom:6px; }
         .cat-bar-track { height:8px;background:var(--border);border-radius:4px;overflow:hidden; }
         .cat-bar-fill { height:100%;background:var(--store-gradient);border-radius:4px;transition:width 1s ease; }
+        
         /* FEATURED TOGGLE */
         .feat-toggle-item { display:flex;align-items:center;gap:10px;padding:10px;border-radius:12px;margin-bottom:6px;border:1px solid var(--border);transition:var(--transition); }
         .feat-toggle-item.is-featured { background:var(--accent-light);border-color:var(--accent); }
+        
         /* ORDER NOTIFICATION PULSE */
         .new-order-pulse { animation: newOrderPulse 1s ease-in-out 3; }
         @keyframes newOrderPulse { 0%,100%{background:var(--accent-light);}50%{background:rgba(var(--accent-rgb),0.3);} }
+        
         /* DEBUG BANNER */
         .debug-banner { background:#fff5cc;border:1px solid #ffe066;border-radius:12px;padding:10px 16px;margin-bottom:16px;font-size:0.82rem;font-weight:600;color:#997300;display:none; }
         .debug-banner.show { display:block; }
@@ -337,71 +328,15 @@ body[data-store="alcohol"] { --accent:#7c3aed;--accent-dark:#6d28d9;--accent-lig
 body[data-store="health"] { --accent:#0ea5e9;--accent-dark:#0284c7;--accent-light:#e0f2fe;--accent-rgb:14,165,233;--store-gradient:linear-gradient(135deg,#0ea5e9,#38bdf8);--store-bg-gradient:linear-gradient(135deg,#f0f9ff 0%,#e0f2fe 100%); }
 body[data-store="pets"] { --accent:#f59e0b;--accent-dark:#d97706;--accent-light:#fef3c7;--accent-rgb:245,158,11;--store-gradient:linear-gradient(135deg,#f59e0b,#fbbf24);--store-bg-gradient:linear-gradient(135deg,#fffbeb 0%,#fef3c7 100%); }
 body[data-store="electronics"] { --accent:#3b82f6;--accent-dark:#2563eb;--accent-light:#dbeafe;--accent-rgb:59,130,246;--store-gradient:linear-gradient(135deg,#3b82f6,#6366f1);--store-bg-gradient:linear-gradient(135deg,#eff6ff 0%,#dbeafe 100%); }
-
-
-        
     </style>
 </head>
 <body>
-<div id="authScreen">
-    <div class="auth-bg-circles"><div class="auth-circle"></div><div class="auth-circle"></div><div class="auth-circle"></div></div>
-    <div class="auth-card">
-        <div class="auth-logo"><img src="https://i.postimg.cc/d30sLt05/1BUSKET-LOGO.png" alt="1BUSKET" style="height:48px; width:auto; object-fit:contain; display:block;"></div>
-        <div class="auth-tabs"><button class="auth-tab active" onclick="switchAuthTab('login')">Sign In</button><button class="auth-tab" onclick="switchAuthTab('register')">Register</button></div>
-        <div id="loginPanel">
-            <div class="auth-title">Welcome Back 👋</div><div class="auth-sub">Sign in with your Vendor ID</div>
-            <div class="auth-error" id="loginError"></div>
-            <div class="auth-form">
-                <div class="auth-form-group"><label>Vendor ID</label><input type="text" class="auth-input" id="vendorLoginId" placeholder="e.g. VYN-ABC123"></div>
-                <button class="auth-btn" onclick="partnerLogin()" id="loginBtn">Sign In to Portal</button>
-            </div>
-            <div class="auth-divider">or sign in with Google</div>
-            <button class="auth-btn" style="background:#ff751f;" onclick="signInWithGoogle()">Sign in with Google</button>
-            <div class="auth-divider">New store?</div>
-            <button class="auth-btn" style="background:transparent;border:1.5px solid rgba(6,193,103,0.4);color:#ff751f;" onclick="switchAuthTab('register')">Register Your Business</button>
-        </div>
-        <div id="registerPanel" style="display:none;">
-            <div class="step-indicator"><div class="step-dot active" id="dot-0"></div><div class="step-dot" id="dot-1"></div><div class="step-dot" id="dot-2"></div></div>
-            <div class="auth-error" id="regError"></div><div class="auth-success" id="regSuccess"></div>
-            <div class="reg-step active" id="step0">
-                <div class="auth-title">Your Business</div><div class="auth-sub">Tell us about your store</div>
-                <div class="auth-form-group"><label>Business Name *</label><input type="text" class="auth-input" id="reg-name" placeholder="e.g. Fresh Mart SA"></div>
-                <div class="auth-form-row">
-                    <div class="auth-form-group"><label>City *</label><input type="text" class="auth-input" id="reg-city" placeholder="Johannesburg"></div>
-                    <div class="auth-form-group"><label>Province *</label><select class="auth-input" id="reg-province"><option value="">Province…</option><option>Gauteng</option><option>Western Cape</option><option>KwaZulu-Natal</option><option>Eastern Cape</option><option>Limpopo</option><option>Mpumalanga</option><option>North West</option><option>Free State</option><option>Northern Cape</option></select></div>
-                </div>
-                <button class="auth-btn" onclick="regNext(0)">Next →</button>
-            </div>
-            <div class="reg-step" id="step1">
-                <div class="auth-title">Contact Info</div><div class="auth-sub">How can we reach you?</div>
-                <div class="auth-form-group"><label>Owner Name *</label><input type="text" class="auth-input" id="reg-owner" placeholder="Full name"></div>
-                <div class="auth-form-row">
-                    <div class="auth-form-group"><label>Phone *</label><input type="tel" class="auth-input" id="reg-phone" placeholder="+27 71 000 0000"></div>
-                    <div class="auth-form-group"><label>Email *</label><input type="email" class="auth-input" id="reg-email" placeholder="you@business.co.za"></div>
-                </div>
-                <div style="display:flex;gap:10px;"><button class="auth-btn" style="background:rgba(255,255,255,0.1);flex:1;" onclick="regBack(1)">← Back</button><button class="auth-btn" style="flex:2;" onclick="regNext(1)">Next →</button></div>
-            </div>
-            <div class="reg-step" id="step2">
-                <div class="auth-title">Almost Done!</div><div class="auth-sub">Optional details to speed up approval</div>
-                <div class="auth-form-group"><label>Business Reg. No. (optional)</label><input type="text" class="auth-input" id="reg-regno"></div>
-                <div style="display:flex;gap:10px;"><button class="auth-btn" style="background:rgba(255,255,255,0.1);flex:1;" onclick="regBack(2)">← Back</button><button class="auth-btn" style="flex:2;" onclick="submitRegistration()" id="regSubmitBtn">Submit Application</button></div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="modal-overlay" id="googleAuthModal">
-    <div class="modal-content" style="max-width:420px;text-align:center;">
-        <div style="width:80px;height:80px;border-radius:50%;background:#ff751f;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;color:white;font-size:2.4rem;font-weight:700;">G</div>
-        <h3 style="margin-bottom:8px;">Sign in with Google</h3>
-        <p style="color:var(--dim);margin-bottom:24px;font-size:0.95rem;">To access the Partner Portal, please sign in with your Google account first.</p>
-        <button onclick="signInWithGoogle()" style="background:#ff751f;color:white;border:none;padding:16px 24px;border-radius:999px;font-weight:700;font-size:1.05rem;width:100%;">Continue with Google</button>
-        <div style="margin-top:20px;font-size:0.82rem;color:var(--dim);">or use your Vendor ID above</div>
-    </div>
-</div>
+
 <div id="shimmerOverlay">
     <div class="shim-sidebar"><div class="shim-block shim-logo"></div><div style="display:flex;flex-direction:column;gap:12px;margin-top:16px;"><div class="shim-block shim-nav"></div><div class="shim-block shim-nav"></div><div class="shim-block shim-nav"></div><div class="shim-block shim-nav"></div></div></div>
     <div class="shim-main"><div class="shim-block shim-header"></div><div class="shim-stats"><div class="shim-block shim-stat"></div><div class="shim-block shim-stat"></div><div class="shim-block shim-stat"></div><div class="shim-block shim-stat"></div></div><div class="shim-row"><div class="shim-block shim-card"></div><div class="shim-block shim-card"></div></div><div class="shim-block shim-table"></div></div>
 </div>
+
 <nav class="sidebar" id="vendorSidebar" style="display:none;">
     <div class="logo"><img src="https://i.postimg.cc/d30sLt05/1BUSKET-LOGO.png" alt="1BUSKET" style="height: 32px; width: auto; flex-shrink: 0;"><i data-lucide="utensils" class="logo-icon" id="sidebarLogoIcon" style="display:none;"></i><span class="logo-text" style="display:none;">1BUSKET<span id="sidebarLogoSuffix">EATS</span></span></div>
     <div class="store-type-badge"><div class="store-type-dot"></div><div class="store-type-info"><div class="store-name" id="sidebarStoreName">My Store</div><div class="store-type-label" id="sidebarStoreType">Restaurant</div></div></div>
@@ -426,6 +361,7 @@ body[data-store="electronics"] { --accent:#3b82f6;--accent-dark:#2563eb;--accent
         <div class="user-info"><div style="font-weight:700;" id="vendorSidebarName">Vendor</div><div style="font-size:0.72rem;color:var(--accent);" id="vendorSidebarStatus">Active</div></div>
     </div>
 </nav>
+
 <main class="main-panel" id="vendorMainPanel" style="display:none;">
     <section id="dashboard" class="page-content active">
         <div class="dashboard-hero" id="dashHero">
@@ -473,6 +409,7 @@ body[data-store="electronics"] { --accent:#3b82f6;--accent-dark:#2563eb;--accent
             </div>
         </div>
     </section>
+    
     <section id="menu" class="page-content">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;flex-wrap:wrap;gap:12px;">
             <h1 style="font-size:1.9rem;font-weight:800;letter-spacing:-0.5px;" id="menuPageTitle">Menu Items</h1>
@@ -484,6 +421,7 @@ body[data-store="electronics"] { --accent:#3b82f6;--accent-dark:#2563eb;--accent
         </div>
         <div id="menuGrid" class="menu-grid"></div>
     </section>
+    
     <section id="featured" class="page-content">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;flex-wrap:wrap;gap:12px;">
             <h1 style="font-size:1.9rem;font-weight:800;letter-spacing:-0.5px;" id="featuredPageTitle">Featured Items</h1>
@@ -501,6 +439,7 @@ body[data-store="electronics"] { --accent:#3b82f6;--accent-dark:#2563eb;--accent
             </div>
         </div>
     </section>
+    
     <section id="orders" class="page-content">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;flex-wrap:wrap;gap:12px;">
             <h1 style="font-size:1.9rem;font-weight:800;letter-spacing:-0.5px;" id="ordersPageTitle">Orders</h1>
@@ -521,6 +460,7 @@ body[data-store="electronics"] { --accent:#3b82f6;--accent-dark:#2563eb;--accent
             <div class="empty-state"><div class="es-emoji" id="emptyOrdersEmoji2">📦</div><p>No orders found</p><small>Orders from all your customers appear here</small></div>
         </div>
     </section>
+    
     <section id="analytics" class="page-content">
         <div style="margin-bottom:28px;"><h1 style="font-size:1.9rem;font-weight:800;letter-spacing:-0.5px;">Analytics</h1></div>
         <div class="stats-grid" style="grid-template-columns:repeat(3,1fr);">
@@ -539,6 +479,7 @@ body[data-store="electronics"] { --accent:#3b82f6;--accent-dark:#2563eb;--accent
             </div>
         </div>
     </section>
+    
     <section id="profile" class="page-content">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;flex-wrap:wrap;gap:12px;">
             <h1 style="font-size:1.9rem;font-weight:800;letter-spacing:-0.5px;" id="profilePageTitle">Store Profile</h1>
@@ -586,6 +527,7 @@ body[data-store="electronics"] { --accent:#3b82f6;--accent-dark:#2563eb;--accent
             </div>
         </div>
     </section>
+    
     <section id="settings" class="page-content">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:26px;flex-wrap:wrap;gap:12px;">
             <h1 style="font-size:1.9rem;font-weight:800;letter-spacing:-0.5px;">Settings</h1>
@@ -611,6 +553,7 @@ body[data-store="electronics"] { --accent:#3b82f6;--accent-dark:#2563eb;--accent
         </div>
     </section>
 </main>
+
 <div class="modal-overlay" id="itemModal">
     <div class="modal-content">
         <h3 id="itemModalTitle"><i data-lucide="package" style="width:22px;height:22px;color:var(--accent);"></i> Add Item</h3>
@@ -632,6 +575,7 @@ body[data-store="electronics"] { --accent:#3b82f6;--accent-dark:#2563eb;--accent
         <div class="modal-btn-row"><button class="btn-primary" style="flex:2;justify-content:center;" onclick="saveMenuItem()"><i data-lucide="check" style="width:16px;height:16px;"></i> <span id="itemSaveLabel">Add Item</span></button><button class="btn btn-edit" style="flex:1;justify-content:center;padding:13px;" onclick="hideModal('itemModal')">Cancel</button></div>
     </div>
 </div>
+
 <div class="modal-overlay" id="deleteModal">
     <div class="modal-content" style="max-width:400px;text-align:center;">
         <div style="width:64px;height:64px;border-radius:50%;background:#fff1f0;border:2px solid #ffcdc9;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;"><i data-lucide="trash-2" style="width:28px;height:28px;color:var(--danger);"></i></div>
@@ -641,6 +585,7 @@ body[data-store="electronics"] { --accent:#3b82f6;--accent-dark:#2563eb;--accent
         <div class="modal-btn-row"><button class="btn btn-danger" style="flex:1;justify-content:center;padding:14px;" onclick="confirmDelete()"><i data-lucide="trash-2" style="width:15px;height:15px;"></i> Delete</button><button class="btn btn-edit" style="flex:1;justify-content:center;padding:14px;" onclick="hideModal('deleteModal')">Cancel</button></div>
     </div>
 </div>
+
 <div class="modal-overlay" id="logoutModal">
     <div class="modal-content" style="max-width:400px;text-align:center;">
         <div style="width:64px;height:64px;border-radius:50%;background:#fff1f0;border:2px solid #ffcdc9;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;"><i data-lucide="log-out" style="width:28px;height:28px;color:var(--danger);"></i></div>
@@ -649,7 +594,9 @@ body[data-store="electronics"] { --accent:#3b82f6;--accent-dark:#2563eb;--accent
         <div class="modal-btn-row"><button class="btn btn-danger" style="flex:1;justify-content:center;padding:14px;" onclick="confirmLogout()"><i data-lucide="log-out" style="width:15px;height:15px;"></i> Log Out</button><button class="btn btn-edit" style="flex:1;justify-content:center;padding:14px;" onclick="hideModal('logoutModal')">Cancel</button></div>
     </div>
 </div>
+
 <div class="toast" id="toast"><i data-lucide="check-circle" style="width:18px;height:18px;"></i><span id="toastMsg">Done</span></div>
+
 <script>
 lucide.createIcons();
 const firebaseConfig = {
@@ -832,134 +779,42 @@ function toggleProfileCategory(label) { const cb = label.querySelector('input[ty
 function togglePDay(cb) { cb.closest('label').classList.toggle('checked', cb.checked); }
 
 /* ══════════════════════════════════════════════════════
-   AUTH
-══════════════════════════════════════════════════════ */
-function switchAuthTab(tab) {
-    document.querySelectorAll('.auth-tab').forEach((t, i) => t.classList.toggle('active', (tab === 'login' && i === 0) || (tab === 'register' && i === 1)));
-    document.getElementById('loginPanel').style.display = tab === 'login' ? 'block' : 'none';
-    document.getElementById('registerPanel').style.display = tab === 'register' ? 'block' : 'none';
-}
-function regNext(step) {
-    const err = document.getElementById('regError'); err.style.display = 'none';
-    if (step === 0) {
-        if (!document.getElementById('reg-name').value.trim()) { err.textContent = 'Name required'; err.style.display = 'block'; return; }
-        if (!document.getElementById('reg-city').value.trim()) { err.textContent = 'City required'; err.style.display = 'block'; return; }
-        if (!document.getElementById('reg-province').value) { err.textContent = 'Select province'; err.style.display = 'block'; return; }
-    } else if (step === 1) {
-        if (!document.getElementById('reg-owner').value.trim()) { err.textContent = 'Owner name required'; err.style.display = 'block'; return; }
-        if (!document.getElementById('reg-phone').value.trim()) { err.textContent = 'Phone required'; err.style.display = 'block'; return; }
-        if (!document.getElementById('reg-email').value.trim()) { err.textContent = 'Email required'; err.style.display = 'block'; return; }
-    }
-    document.getElementById('step' + step).classList.remove('active');
-    document.getElementById('step' + (step + 1)).classList.add('active');
-}
-function regBack(step) { document.getElementById('step' + step).classList.remove('active'); document.getElementById('step' + (step - 1)).classList.add('active'); }
-async function partnerLogin() {
-    const id = document.getElementById('vendorLoginId').value.trim().toUpperCase();
-    const err = document.getElementById('loginError');
-    const btn = document.getElementById('loginBtn');
-    if (!id) { err.textContent = 'Enter ID'; err.style.display = 'block'; return; }
-    btn.disabled = true; btn.textContent = 'Signing in…';
-    try {
-        const snap = await db.ref('vendors').orderByChild('vendorID').equalTo(id).once('value');
-        const data = snap.val();
-        if (!data) throw new Error('Vendor ID not found');
-        const key = Object.keys(data)[0];
-        const partner = data[key];
-        if (partner.status === 'pending') throw new Error('Your account is pending approval');
-        if (partner.status === 'disabled') throw new Error('Your account has been disabled');
-        VENDOR_KEY = key;
-        localStorage.setItem('vynix_vendor_session', JSON.stringify({ key, id, role: 'vendor', loggedAt: Date.now() }));
-        enterPortal();
-    } catch (e) {
-        err.textContent = e.message; err.style.display = 'block';
-        btn.disabled = false; btn.textContent = 'Sign In to Portal';
-    }
-}
-async function signInWithGoogle() {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    try {
-        const result = await auth.signInWithPopup(provider);
-        const user = result.user;
-        let snap = await db.ref('vendors').orderByChild('email').equalTo(user.email).once('value');
-        if (!snap.val()) throw new Error('No vendor account linked to this Google email.');
-        const key = Object.keys(snap.val())[0];
-        const partner = snap.val()[key];
-        if (partner.status === 'pending') throw new Error('Your account is pending approval');
-        if (partner.status === 'disabled') throw new Error('Your account has been disabled');
-        VENDOR_KEY = key;
-        localStorage.setItem('vynix_vendor_session', JSON.stringify({ key, id: partner.vendorID || 'GOOGLE', role: 'vendor', loggedAt: Date.now() }));
-        enterPortal();
-        hideModal('googleAuthModal');
-    } catch (e) {
-        document.getElementById('loginError').textContent = e.message || 'Google sign in failed';
-        document.getElementById('loginError').style.display = 'block';
-    }
-}
-async function submitRegistration() {
-    const err = document.getElementById('regError');
-    const suc = document.getElementById('regSuccess');
-    const btn = document.getElementById('regSubmitBtn');
-    btn.disabled = true; err.style.display = 'none';
-    const application = {
-        name: document.getElementById('reg-name').value.trim(),
-        address: { city: document.getElementById('reg-city').value.trim(), province: document.getElementById('reg-province').value },
-        ownerName: document.getElementById('reg-owner').value.trim(),
-        phone: document.getElementById('reg-phone').value.trim(),
-        email: document.getElementById('reg-email').value.trim(),
-        businessRegNo: document.getElementById('reg-regno').value.trim(),
-        status: 'pending', vendorID: null, appliedAt: Date.now(), updatedAt: Date.now()
-    };
-    try {
-        await db.ref('vendors').push(application);
-        suc.innerHTML = `✅ Application submitted! Admin will review and assign your Vendor ID.`;
-        suc.style.display = 'block'; btn.textContent = 'Application Sent!';
-        setTimeout(() => { switchAuthTab('login'); btn.disabled = false; btn.textContent = 'Submit Application'; suc.style.display = 'none'; }, 3500);
-    } catch (e) {
-        err.textContent = 'Submission failed. Try again.'; err.style.display = 'block'; btn.disabled = false;
-    }
-}
-
-/* ══════════════════════════════════════════════════════
    PORTAL INIT
 ══════════════════════════════════════════════════════ */
-function enterPortal() {
-    document.getElementById('authScreen').classList.add('hidden');
-    showShimmer();
-    startSync();
-    setTimeout(() => {
+(function checkSession() {
+    const s = JSON.parse(localStorage.getItem('vynix_vendor_session') || 'null');
+    if (s && s.key && (Date.now() - s.loggedAt) < 24 * 60 * 60 * 1000) {
+        VENDOR_KEY = s.key;
         document.getElementById('vendorSidebar').style.display = 'flex';
         document.getElementById('vendorMainPanel').style.display = 'block';
-        hideShimmer();
-    }, 1500);
-}
+        showShimmer();
+        startSync();
+        setTimeout(() => {
+            hideShimmer();
+        }, 1500);
+    } else {
+        window.location.href = 'login.html';
+    }
+})();
+
 function showShimmer() { const s = document.getElementById('shimmerOverlay'); s.classList.add('active'); }
 function hideShimmer() { const s = document.getElementById('shimmerOverlay'); s.classList.add('fade-out'); setTimeout(() => s.classList.remove('active', 'fade-out'), 600); }
 
 /* ══════════════════════════════════════════════════════
    SYNC — FIXED ORDERS LISTENER
-   Strategy:
-   1. vendorData listener fires first and calls reFilterOrders()
-   2. orders listener stores ALL orders globally and calls reFilterOrders()
-   3. reFilterOrders() does the matching AFTER vendorData is available,
-      checking ALL possible field names on every order against ALL
-      possible IDs this vendor could have been stored under.
 ══════════════════════════════════════════════════════ */
 function startSync() {
     if (!VENDOR_KEY) return;
 
-    // Listen to vendor data FIRST, then start orders listener inside callback
     db.ref('vendors/' + VENDOR_KEY).on('value', snap => {
         vendorData = snap.val();
         if (!vendorData) return;
         const storeType = (vendorData.storeType || 'restaurant').toLowerCase();
         applyStoreTheme(storeType);
         applyVendorUI();
-        // Re-filter orders every time vendorData updates
         reFilterOrders();
     });
 
-    // Listen to menu
     db.ref('vendors/' + VENDOR_KEY + '/menu').on('value', snap => {
         menuCache = snap.val() || {};
         renderMenuGrid();
@@ -968,7 +823,6 @@ function startSync() {
         updateAnalytics();
     });
 
-    // Orders listener — stores ALL orders, filtering happens in reFilterOrders()
     db.ref('orders').on('value', snap => {
         window._allOrdersCache = snap.val() || {};
         reFilterOrders();
@@ -979,16 +833,14 @@ function reFilterOrders() {
     if (!VENDOR_KEY) return;
     const allOrders = window._allOrdersCache || {};
 
-    // Build a set of all IDs this vendor might appear as in an order
     const matchIds = new Set();
-    matchIds.add(VENDOR_KEY);                              // Firebase push key e.g. -OQxyz123
+    matchIds.add(VENDOR_KEY);
     if (vendorData) {
-        if (vendorData.vendorID)  matchIds.add(vendorData.vendorID);   // Human ID e.g. VYX-ABC
-        if (vendorData.name)      matchIds.add(vendorData.name);       // Store name fallback
-        if (vendorData.email)     matchIds.add(vendorData.email);      // Email fallback
+        if (vendorData.vendorID)  matchIds.add(vendorData.vendorID);
+        if (vendorData.name)      matchIds.add(vendorData.name);
+        if (vendorData.email)     matchIds.add(vendorData.email);
     }
 
-    // Field names that orders might use to reference the vendor
     const vendorFields = ['vendorKey', 'vendorId', 'vendorID', 'vendor', 'storeKey', 'storeId', 'vendorName'];
 
     ordersCache = {};
@@ -1005,7 +857,6 @@ function reFilterOrders() {
         }
     });
 
-    // Show debug info on orders page if vendor is loaded
     const debugBanner = document.getElementById('debugBanner');
     if (debugBanner && vendorData) {
         const totalOrders = Object.keys(allOrders).length;
@@ -1019,10 +870,8 @@ function reFilterOrders() {
 
     const pendingCount = Object.values(ordersCache).filter(o => o.status === 'pending').length;
 
-    // New order alert — only after initial load (previousPendingCount starts at 0)
     if (pendingCount > previousPendingCount && previousPendingCount >= 0 && Object.keys(ordersCache).length > 0) {
         const diff = pendingCount - previousPendingCount;
-        // Only toast if we've already had at least one sync (not first load)
         if (window._ordersInitialized) {
             showToast(`🔔 ${diff} new order${diff > 1 ? 's' : ''} received!`, 'info');
         }
@@ -1030,7 +879,6 @@ function reFilterOrders() {
     window._ordersInitialized = true;
     previousPendingCount = pendingCount;
 
-    // Update pending badge on nav
     const badge = document.getElementById('pendingOrdersBadge');
     if (badge) {
         badge.style.display = pendingCount > 0 ? 'inline' : 'none';
@@ -1553,13 +1401,7 @@ function showTab(id, el) {
 function openLogoutModal() { showModal('logoutModal'); }
 function confirmLogout() {
     localStorage.removeItem('vynix_vendor_session');
-    VENDOR_KEY = null; vendorData = null; menuCache = {}; ordersCache = {};
-    window._allOrdersCache = {}; window._ordersInitialized = false;
-    previousPendingCount = 0;
-    document.getElementById('vendorSidebar').style.display = 'none';
-    document.getElementById('vendorMainPanel').style.display = 'none';
-    document.getElementById('authScreen').classList.remove('hidden');
-    switchAuthTab('login'); hideModal('logoutModal');
+    window.location.href = 'login.html';
 }
 
 /* ══════════════════════════════════════════════════════
@@ -1567,7 +1409,7 @@ function confirmLogout() {
 ══════════════════════════════════════════════════════ */
 function showModal(id) { const el = document.getElementById(id); el.style.display = 'flex'; setTimeout(() => { el.classList.add('active'); lucide.createIcons(); }, 10); }
 function hideModal(id) { const el = document.getElementById(id); el.classList.remove('active'); setTimeout(() => el.style.display = 'none', 320); }
-window.onclick = e => { if (e.target.classList.contains('modal-overlay')) ['itemModal', 'deleteModal', 'logoutModal', 'googleAuthModal'].forEach(id => { const el = document.getElementById(id); if (el && el === e.target) hideModal(id); }); };
+window.onclick = e => { if (e.target.classList.contains('modal-overlay')) ['itemModal', 'deleteModal', 'logoutModal'].forEach(id => { const el = document.getElementById(id); if (el && el === e.target) hideModal(id); }); };
 
 /* ══════════════════════════════════════════════════════
    SIDEBAR HOVER
@@ -1591,24 +1433,6 @@ function showToast(msg, type = 'success') {
 ══════════════════════════════════════════════════════ */
 function fmtDate(ts) { return ts ? new Date(ts).toLocaleDateString('en-ZA') : '—'; }
 function fmtTime(ts) { return ts ? new Date(ts).toLocaleTimeString('en-ZA', { hour: '2-digit', minute: '2-digit' }) : ''; }
-
-/* ══════════════════════════════════════════════════════
-   SESSION RESTORE
-══════════════════════════════════════════════════════ */
-(function checkSession() {
-    const s = JSON.parse(localStorage.getItem('vynix_vendor_session') || 'null');
-    if (s && s.key && (Date.now() - s.loggedAt) < 24 * 60 * 60 * 1000) {
-        VENDOR_KEY = s.key;
-        enterPortal();
-    }
-})();
-
-// Only show Google modal if not restoring session
-setTimeout(() => {
-    if (!JSON.parse(localStorage.getItem('vynix_vendor_session') || 'null')) {
-        showModal('googleAuthModal');
-    }
-}, 1000);
 
 lucide.createIcons();
 </script>
