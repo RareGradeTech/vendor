@@ -769,7 +769,7 @@ async function partnerLogin() {
         localStorage.setItem('vynix_vendor_session', JSON.stringify({
             key, id, role: 'vendor', loggedAt: Date.now()
         }));
-        window.location.href = 'dashboard.html';
+        window.location.href = 'index.html';
 
     } catch (e) {
         showError('loginError', e.message);
@@ -801,7 +801,7 @@ async function signInWithGoogle() {
         localStorage.setItem('vynix_vendor_session', JSON.stringify({
             key, id: partner.vendorID, role: 'vendor', loggedAt: Date.now()
         }));
-        window.location.href = 'dashboard.html';
+        window.location.href = 'index.html';
 
     } catch (e) {
         let msg = e.message || 'Google sign-in failed.';
