@@ -980,51 +980,80 @@ function startSync() {
         updateStats();
         updateAnalytics();
     });
-    db.ref('orders').on('value', snap => {
-        window._allOrdersCache = snap.val() || {};
-        reFilterOrders();
+
+
+    
+    // Listen to vendor-specific orders node (written by all pages)
+    db.ref(`vendors/${VENDOR_KEY}/orders`).on('value', snap => {
+    window._vendorDirectOrders = snap.val() || {};
+    reFilterOrders();
     });
+
+    // Also listen to flat orders node for backwards compatibility
+    db.ref('orders').on('value', snap => {
+    window._allOrdersCache = snap.val() || {};
+    reFilterOrders();
+    });
+
+    
 }
 
+    
 function reFilterOrders() {
     if (!VENDOR_KEY) return;
-    const allOrders = window._allOrdersCache || {};
-    const matchIds = new Set();
-    matchIds.add(VENDOR_KEY);
+    
+    // Start with orders written directly to this vendor's node
+    const directOrders = window._vendorDirectOrders || {};
+    const flatOrders   = window._allOrdersCache || {};
+    
+    // Build match set for flat-order fallback
+    const matchIds = new Set([VENDOR_KEY]);
     if (vendorData) {
-        if (vendorData.vendorID)  matchIds.add(vendorData.vendorID);
-        if (vendorData.name)      matchIds.add(vendorData.name);
-        if (vendorData.email)     matchIds.add(vendorData.email);
+        if (vendorData.vendorID) matchIds.add(vendorData.vendorID);
+        if (vendorData.name)     matchIds.add(vendorData.name);
+        if (vendorData.email)    matchIds.add(vendorData.email);
     }
-    const vendorFields = ['vendorKey', 'vendorId', 'vendorID', 'vendor', 'storeKey', 'storeId', 'vendorName'];
-    ordersCache = {};
-    let matchCount = 0;
-    Object.entries(allOrders).forEach(([orderKey, o]) => {
-        const matched = vendorFields.some(field => { const val = o[field]; return val && matchIds.has(val); });
-        if (matched) { ordersCache[orderKey] = o; matchCount++; }
+    const vendorFields = ['vendorKey','vendorId','vendorID','vendor','storeKey','storeId','vendorName'];
+    
+    // Merge: direct orders take priority, then flat-order matches
+    ordersCache = { ...directOrders };
+    
+    Object.entries(flatOrders).forEach(([key, o]) => {
+        if (ordersCache[key]) return; // already have it from direct node
+        const matched = vendorFields.some(f => o[f] && matchIds.has(o[f]));
+        if (matched) ordersCache[key] = o;
     });
-    const debugBanner = document.getElementById('debugBanner');
-    if (debugBanner && vendorData) {
-        const totalOrders = Object.keys(allOrders).length;
-        if (matchCount === 0 && totalOrders > 0) {
-            debugBanner.textContent = `⚠️ ${totalOrders} total orders in DB but 0 matched. Vendor key: ${VENDOR_KEY} | Vendor ID: ${vendorData.vendorID || 'N/A'}`;
-            debugBanner.classList.add('show');
-        } else { debugBanner.classList.remove('show'); }
-    }
+    
+    // New order notification
     const pendingCount = Object.values(ordersCache).filter(o => o.status === 'pending').length;
-    if (pendingCount > previousPendingCount && previousPendingCount >= 0 && Object.keys(ordersCache).length > 0) {
+    if (pendingCount > previousPendingCount && window._ordersInitialized) {
         const diff = pendingCount - previousPendingCount;
-        if (window._ordersInitialized) { showToast(`🔔 ${diff} new order${diff > 1 ? 's' : ''} received!`, 'info'); }
+        showToast(`🔔 ${diff} new order${diff > 1 ? 's' : ''} received!`, 'info');
     }
     window._ordersInitialized = true;
     previousPendingCount = pendingCount;
+    
     const badge = document.getElementById('pendingOrdersBadge');
     if (badge) { badge.style.display = pendingCount > 0 ? 'inline' : 'none'; badge.textContent = pendingCount; }
+    
+    const debugBanner = document.getElementById('debugBanner');
+    if (debugBanner && vendorData) {
+        const totalFlat = Object.keys(flatOrders).length;
+        const totalDirect = Object.keys(directOrders).length;
+        const matched = Object.keys(ordersCache).length;
+        if (matched === 0 && (totalFlat > 0 || totalDirect > 0)) {
+            debugBanner.textContent = `⚠️ ${totalFlat} flat orders, ${totalDirect} direct orders, 0 matched. Key: ${VENDOR_KEY}`;
+            debugBanner.classList.add('show');
+        } else { debugBanner.classList.remove('show'); }
+    }
+    
     renderOrders();
     renderRecentOrders();
     updateStats();
     updateAnalytics();
 }
+
+    
 
 function applyVendorUI() {
     if (!vendorData) return;
@@ -1289,11 +1318,20 @@ function renderRecentOrders() {
         </div>`;
     }).join('');
 }
+
+
+
+    
 function updateOrderStatus(key, newStatus) {
-    db.ref('orders/' + key).update({ status: newStatus, updatedAt: Date.now() })
-        .then(() => showToast(`Order ${newStatus}`, 'success'))
-        .catch(() => showToast('Error updating order', 'error'));
+    const updates = { status: newStatus, updatedAt: Date.now() };
+    Promise.all([
+        db.ref('orders/' + key).update(updates),
+        db.ref(`vendors/${VENDOR_KEY}/orders/${key}`).update(updates)
+    ])
+    .then(() => showToast(`Order ${newStatus}`, 'success'))
+    .catch(() => showToast('Error updating order', 'error'));
 }
+
 
 /* ══════════════════════════════════════════════════════
    ANALYTICS
