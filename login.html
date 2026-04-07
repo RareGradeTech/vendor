@@ -45,14 +45,12 @@
         input[type="text"], input[type="email"], input[type="tel"],
         input[type="number"], input[type="password"], select { border-radius: 999px !important; }
 
-        /* ── BACKGROUND ── */
         .auth-bg { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; background-image: linear-gradient(rgba(0,0,0,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.025) 1px, transparent 1px); background-size: 40px 40px; }
         .auth-circle { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.35; }
         .auth-circle:nth-child(1) { width: 500px; height: 500px; background: radial-gradient(circle, #ffe0c8 0%, #ffd4b0 60%, transparent 100%); top: -120px; right: -80px; }
         .auth-circle:nth-child(2) { width: 380px; height: 380px; background: radial-gradient(circle, #ffeedd 0%, transparent 70%); bottom: -80px; left: -60px; }
         .auth-circle:nth-child(3) { width: 200px; height: 200px; background: radial-gradient(circle, #ffe8d4 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%,-50%); }
 
-        /* ── AUTH CARD ── */
         .auth-card {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -67,7 +65,6 @@
         .auth-title { font-size: 1.5rem; font-weight: 800; color: var(--text); margin-bottom: 4px; text-align: center; letter-spacing: -0.3px; }
         .auth-sub { color: var(--dim); font-size: 0.84rem; text-align: center; margin-bottom: 24px; line-height: 1.55; }
 
-        /* ── FORM ── */
         .auth-form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
         .auth-form-group label { font-size: 0.71rem; font-weight: 700; color: var(--dim); text-transform: uppercase; letter-spacing: 0.6px; }
         .auth-input {
@@ -85,7 +82,6 @@
         .auth-input option { color: #000 !important; background: #fff !important; }
         .auth-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
-        /* ── BUTTONS ── */
         .auth-btn {
             background: linear-gradient(135deg, #ff751f, #e0621a);
             color: white; border: none; padding: 13px 20px;
@@ -122,20 +118,16 @@
             background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath fill='%23EA4335' d='M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z'/%3E%3Cpath fill='%234285F4' d='M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z'/%3E%3Cpath fill='%23FBBC05' d='M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z'/%3E%3Cpath fill='%2334A853' d='M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.36-8.16 2.36-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z'/%3E%3C/svg%3E") no-repeat center/contain;
         }
 
-        /* ── MESSAGES ── */
         .auth-error { background: #fff1f0; border: 1px solid #fcd9d7; border-radius: 12px; padding: 11px 14px; color: var(--danger); font-size: 0.82rem; font-weight: 600; display: none; margin-bottom: 14px; }
         .auth-success { background: #edf9f2; border: 1px solid #bbf0d3; border-radius: 12px; padding: 11px 14px; color: var(--green); font-size: 0.82rem; font-weight: 600; display: none; margin-bottom: 14px; }
 
-        /* ── DIVIDER ── */
         .auth-divider { display: flex; align-items: center; gap: 12px; margin: 20px 0; color: var(--text-muted); font-size: 0.78rem; font-weight: 500; }
         .auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
-        /* ── GATE CARD ── */
         #initialGoogleCard { text-align: center; }
         #mainAuthCard { display: none; }
         .gate-icon { width: 68px; height: 68px; background: var(--accent-light); border-radius: 22px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; border: 1px solid var(--accent-muted); }
 
-        /* ── BADGE ── */
         .google-verified-badge {
             display: flex; align-items: center; gap: 10px;
             background: #edf9f2; border: 1px solid #bbf0d3; border-radius: 12px;
@@ -145,7 +137,6 @@
         .google-verified-badge span { font-size: 0.82rem; font-weight: 600; color: var(--green); }
         .google-verified-badge strong { color: #0a5c35; word-break: break-all; }
 
-        /* ── SECURITY NOTICE ── */
         .security-notice {
             display: flex; align-items: flex-start; gap: 10px;
             background: #fef9c3; border: 1px solid #fcd34d; border-radius: 12px;
@@ -154,7 +145,93 @@
         }
         .security-notice svg { flex-shrink: 0; margin-top: 1px; }
 
-        /* ── REGISTER MODAL ── */
+        /* ── MOBILE ONLY NOTICE on gate card ── */
+        .mobile-only-notice {
+            display: none;
+            background: #fff8f0;
+            border: 1.5px solid var(--accent-muted);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .mobile-only-notice .mon-icon {
+            width: 52px; height: 52px;
+            background: var(--accent-light);
+            border-radius: 14px;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 12px;
+            border: 1px solid var(--accent-muted);
+        }
+        .mobile-only-notice h3 { font-size: 1rem; font-weight: 800; color: var(--text); margin-bottom: 6px; }
+        .mobile-only-notice p { font-size: 0.82rem; color: var(--dim); line-height: 1.6; }
+        .mobile-only-notice .mon-url {
+            display: inline-block;
+            margin-top: 10px;
+            background: var(--accent);
+            color: white;
+            border-radius: 999px;
+            padding: 7px 18px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.2px;
+        }
+
+        /* ── DESKTOP ONLY MODAL (shown on mobile sign-in attempt) ── */
+        .desktop-modal-overlay {
+            display: none;
+            position: fixed; inset: 0;
+            background: rgba(10,8,6,0.6);
+            backdrop-filter: blur(16px);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .desktop-modal-overlay.open { display: flex; }
+        .desktop-modal-box {
+            background: var(--surface);
+            border-radius: 28px;
+            padding: 36px 28px;
+            width: 100%; max-width: 380px;
+            box-shadow: 0 32px 80px rgba(0,0,0,0.22);
+            border: 1px solid var(--border);
+            text-align: center;
+            animation: modalPop 0.38s cubic-bezier(0.34,1.56,0.64,1) both;
+        }
+        @keyframes modalPop {
+            from { transform: scale(0.88) translateY(24px); opacity: 0; }
+            to   { transform: scale(1) translateY(0); opacity: 1; }
+        }
+        .desktop-modal-box .dm-icon {
+            width: 72px; height: 72px;
+            background: #fff8f0;
+            border: 1.5px solid var(--accent-muted);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 18px;
+        }
+        .desktop-modal-box h2 { font-size: 1.2rem; font-weight: 800; margin-bottom: 8px; letter-spacing: -0.2px; }
+        .desktop-modal-box p { font-size: 0.85rem; color: var(--dim); line-height: 1.65; margin-bottom: 18px; }
+        .desktop-modal-box .dm-steps {
+            background: var(--surface2);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 14px 16px;
+            text-align: left;
+            margin-bottom: 20px;
+        }
+        .desktop-modal-box .dm-steps p { font-size: 0.8rem; color: var(--dim); margin-bottom: 0; line-height: 1.8; }
+        .desktop-modal-box .dm-steps strong { color: var(--text); }
+        .desktop-modal-box .dm-close {
+            background: transparent; color: var(--dim);
+            border: 1.5px solid var(--border); padding: 11px 20px;
+            border-radius: 999px; font-weight: 600; font-family: inherit; font-size: 0.88rem;
+            cursor: pointer; width: 100%;
+        }
+        .desktop-modal-box .dm-close:hover { background: var(--surface2); }
+
+        /* ── REGISTRATION MODAL ── */
         .modal-overlay {
             display: none; position: fixed; inset: 0;
             background: rgba(10,8,6,0.55); backdrop-filter: blur(14px);
@@ -163,7 +240,6 @@
         }
         .modal-overlay.open { display: flex; }
         .modal-overlay.visible { opacity: 1; }
-
         .modal-box {
             background: var(--surface);
             border-radius: 28px;
@@ -175,26 +251,18 @@
             border: 1px solid var(--border);
         }
         .modal-overlay.visible .modal-box { transform: scale(1) translateY(0); }
-
-        .modal-header {
-            padding: 26px 28px 0;
-            display: flex; justify-content: space-between; align-items: flex-start;
-        }
+        .modal-header { padding: 26px 28px 0; display: flex; justify-content: space-between; align-items: flex-start; }
         .modal-header-text h2 { font-size: 1.2rem; font-weight: 800; letter-spacing: -0.3px; margin-bottom: 3px; }
         .modal-header-text p { font-size: 0.81rem; color: var(--dim); }
-
         .modal-close {
             width: 34px; height: 34px; border-radius: 50%;
             border: 1.5px solid var(--border); background: var(--surface2);
             cursor: pointer; display: flex; align-items: center; justify-content: center;
-            font-size: 1rem; color: var(--dim); transition: var(--transition); flex-shrink: 0;
-            line-height: 1;
+            font-size: 1rem; color: var(--dim); transition: var(--transition); flex-shrink: 0; line-height: 1;
         }
         .modal-close:hover { background: var(--border); color: var(--text); }
-
         .modal-body { padding: 20px 28px 30px; }
 
-        /* Step track */
         .step-track { display: flex; gap: 6px; margin-bottom: 22px; }
         .step-pip { height: 5px; border-radius: 999px; background: var(--border); transition: var(--transition); flex: 1; }
         .step-pip.done { background: var(--accent-muted); }
@@ -203,17 +271,14 @@
         .reg-step { display: none; }
         .reg-step.active { display: block; }
 
-        /* Success screen */
         .success-screen { text-align: center; padding: 8px 0; }
         .success-icon { width: 72px; height: 72px; border-radius: 50%; background: #edf9f2; border: 2px solid #bbf0d3; display: flex; align-items: center; justify-content: center; margin: 0 auto 18px; font-size: 2rem; }
         .success-screen h3 { font-size: 1.2rem; font-weight: 800; margin-bottom: 8px; }
         .success-screen p { font-size: 0.84rem; color: var(--dim); line-height: 1.6; }
-
         .steps-info { background: var(--surface2); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; margin: 16px 0 20px; text-align: left; }
         .steps-info-title { font-size: 0.68rem; font-weight: 700; color: var(--dim); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
         .steps-info-body { font-size: 0.82rem; color: var(--dim); line-height: 1.7; }
 
-        /* ── RESPONSIVE ── */
         @media (max-width: 480px) {
             .auth-card { padding: 32px 22px; border-radius: 22px; }
             .auth-form-row { grid-template-columns: 1fr; }
@@ -239,14 +304,26 @@
     </div>
     <img src="https://i.postimg.cc/d30sLt05/1BUSKET-LOGO.png" alt="1BUSKET" style="height:36px;display:block;margin:0 auto 16px;">
     <h1 class="auth-title">Vendor Portal</h1>
-    <p class="auth-sub">Already a registered vendor? Sign in with Google.<br>New here? Apply to list your business.</p>
 
-    <div class="auth-error" id="initialGoogleError"></div>
+    <!-- Mobile notice block — shown only on mobile, replaces sign-in button -->
+    <div class="mobile-only-notice" id="mobileSigninNotice">
+        <div class="mon-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        </div>
+        <h3>Desktop Required to Sign In</h3>
+        <p>The 1BUSKET Vendor Portal is designed for desktop use. To sign in and manage your store, please open this page on a laptop or desktop computer.</p>
+        <span class="mon-url">vendor.1busket.co.za</span>
+    </div>
 
-    <button class="btn-google" onclick="initialGoogleSignIn()" id="googleVerifyBtn">
-        <div class="google-icon"></div>
-        Sign In with Google
-    </button>
+    <!-- Desktop sign-in section — hidden on mobile -->
+    <div id="desktopSigninSection">
+        <p class="auth-sub">Already a registered vendor? Sign in with Google.<br>New here? Apply to list your business.</p>
+        <div class="auth-error" id="initialGoogleError"></div>
+        <button class="btn-google" onclick="initialGoogleSignIn()" id="googleVerifyBtn">
+            <div class="google-icon"></div>
+            Sign In with Google
+        </button>
+    </div>
 
     <div class="auth-divider">new vendor</div>
 
@@ -259,51 +336,61 @@
 </div>
 
 <!-- ═══════════════════════════════════════════
-     MAIN SIGN-IN CARD (after Google verify)
+     MAIN SIGN-IN CARD (after Google verify — desktop only)
      ═══════════════════════════════════════════ -->
 <div class="auth-card" id="mainAuthCard">
     <img src="https://i.postimg.cc/d30sLt05/1BUSKET-LOGO.png" alt="1BUSKET" style="height:32px;object-fit:contain;display:block;margin-bottom:24px;">
-
     <h2 style="font-size:1.4rem;font-weight:800;letter-spacing:-0.3px;margin-bottom:4px;">Welcome back 🏪</h2>
     <p style="font-size:0.84rem;color:var(--dim);margin-bottom:20px;">Enter your Vendor ID to access your portal.</p>
-
-    <!-- Google verified badge -->
     <div class="google-verified-badge" id="googleBadge" style="display:none;">
         <div class="google-icon"></div>
         <span>Verified as <strong id="googleBadgeEmail"></strong></span>
     </div>
-
-    <!-- Security notice -->
     <div class="security-notice">
         <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
         Your Vendor ID must match the Google account you signed in with. You can only use your own Vendor ID.
     </div>
-
     <div class="auth-error" id="loginError"></div>
-
     <div class="auth-form-group">
         <label>Vendor ID</label>
         <input type="text" class="auth-input" id="vendorLoginId" placeholder="e.g. VYN-ABC123" autocomplete="off" onkeydown="if(event.key==='Enter')partnerLogin()">
     </div>
-
     <button class="auth-btn" onclick="partnerLogin()" id="loginBtn">
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
         Sign In to Portal
     </button>
-
     <p style="margin-top:18px;font-size:0.78rem;color:var(--dim);text-align:center;">
-        Wrong account?
-        <a href="#" onclick="resetToGate();return false;" style="color:var(--accent);font-weight:700;text-decoration:none;">Switch Google account</a>
+        Wrong account? <a href="#" onclick="resetToGate();return false;" style="color:var(--accent);font-weight:700;text-decoration:none;">Switch Google account</a>
     </p>
 </div>
 
+<!-- ═══════════════════════════════════════════
+     DESKTOP-ONLY MODAL (shown if mobile user taps sign-in)
+     ═══════════════════════════════════════════ -->
+<div class="desktop-modal-overlay" id="desktopOnlyModal">
+    <div class="desktop-modal-box">
+        <div class="dm-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        </div>
+        <h2>Desktop Only</h2>
+        <p>The 1BUSKET Vendor Portal is optimised for desktop use and cannot be accessed from a mobile device.</p>
+        <div class="dm-steps">
+            <p>
+                <strong>To access your portal:</strong><br>
+                ① Open a laptop or desktop computer<br>
+                ② Visit <strong>vendor.1busket.co.za</strong><br>
+                ③ Sign in with Google + your Vendor ID
+            </p>
+        </div>
+        <button class="dm-close" onclick="document.getElementById('desktopOnlyModal').classList.remove('open')">Got it</button>
+    </div>
+</div>
 
 <!-- ═══════════════════════════════════════════
      REGISTRATION MODAL
      ═══════════════════════════════════════════ -->
 <div class="modal-overlay" id="registerModal">
     <div class="modal-box">
-
         <div class="modal-header">
             <div class="modal-header-text">
                 <h2 id="modalTitle">Register Your Business</h2>
@@ -311,25 +398,19 @@
             </div>
             <button class="modal-close" onclick="closeRegisterModal()">✕</button>
         </div>
-
         <div class="modal-body">
-
-            <!-- Google verified badge (shows after step 0) -->
             <div class="google-verified-badge" id="regGoogleBadge" style="display:none;">
                 <div class="google-icon"></div>
                 <span>Registering as <strong id="regGoogleEmail"></strong></span>
             </div>
-
-            <!-- Step progress track (shown from step 1 onward) -->
             <div class="step-track" id="regStepTrack" style="display:none;">
                 <div class="step-pip active" id="rpip-0"></div>
                 <div class="step-pip" id="rpip-1"></div>
                 <div class="step-pip" id="rpip-2"></div>
             </div>
-
             <div class="auth-error" id="regModalError"></div>
 
-            <!-- ── STEP 0: Google verification ── -->
+            <!-- STEP 0: Google verification -->
             <div class="reg-step active" id="rStep0">
                 <p style="font-size:0.88rem;color:var(--dim);line-height:1.6;margin-bottom:20px;">
                     To register, first verify your identity with Google. Your account will be <strong>permanently tied to this email address</strong> — you'll use it every time you sign in.
@@ -341,7 +422,7 @@
                 <p style="margin-top:14px;font-size:0.73rem;color:var(--text-muted);text-align:center;">We only read your name &amp; email address.</p>
             </div>
 
-            <!-- ── STEP 1: Business details ── -->
+            <!-- STEP 1: Business details -->
             <div class="reg-step" id="rStep1">
                 <div class="auth-form-group">
                     <label>Business Name *</label>
@@ -380,7 +461,7 @@
                 </button>
             </div>
 
-            <!-- ── STEP 2: Additional business details ── -->
+            <!-- STEP 2: Additional details -->
             <div class="reg-step" id="rStep2">
                 <div class="auth-form-group">
                     <label>Business Reg. No. <span style="font-weight:400;text-transform:none;letter-spacing:0;">(optional)</span></label>
@@ -402,7 +483,7 @@
                 </div>
             </div>
 
-            <!-- ── STEP 3: Success ── -->
+            <!-- STEP 3: Success -->
             <div class="reg-step" id="rStep3">
                 <div class="success-screen">
                     <div class="success-icon">🎉</div>
@@ -413,21 +494,19 @@
                         <div class="steps-info-body">
                             ① Admin reviews &amp; approves your application<br>
                             ② You're assigned a unique Vendor ID<br>
-                            ③ Sign in with Google + your Vendor ID<br>
+                            ③ Sign in on desktop with Google + your Vendor ID<br>
                             ④ Start selling!
                         </div>
                     </div>
                     <button class="btn-outline" onclick="closeRegisterModal()">Close</button>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
 
-
 <script>
-/* ─── Firebase ───────────────────────────── */
+/* ─── Firebase ─────────────────────────── */
 const firebaseConfig = {
     apiKey: "AIzaSyCh7Ute6LeSAxcNDEQwZg5m0cA4ujnLCfg",
     authDomain: "test-17881.firebaseapp.com",
@@ -441,25 +520,54 @@ firebase.initializeApp(firebaseConfig);
 const db   = firebase.database();
 const auth = firebase.auth();
 
-/* ─── State ──────────────────────────────── */
+/* ─── State ───────────────────────────── */
 let verifiedGoogleUser = null;
 let registerGoogleUser = null;
 let currentRegStep     = 0;
 const TOTAL_REG_PIPS   = 3;
 
-/* ─── Session guard ──────────────────────── */
+/* ─── Mobile Detection ────────────────── */
+function isMobileDevice() {
+    const ua = navigator.userAgent || navigator.vendor || window.opera;
+    const mobileRE = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|mobile|tablet/i;
+    const isTouchSmall = (window.innerWidth <= 900) && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+    return mobileRE.test(ua) || isTouchSmall;
+}
+
+/* ─── Apply mobile restrictions on load ── */
+(function applyMobileRestrictions() {
+    if (isMobileDevice()) {
+        // Show the mobile notice block
+        document.getElementById('mobileSigninNotice').style.display = 'block';
+        // Hide the desktop sign-in section
+        document.getElementById('desktopSigninSection').style.display = 'none';
+    }
+})();
+
+/* ─── Session guard ───────────────────── */
 (function checkSession() {
     const s = JSON.parse(localStorage.getItem('vynix_vendor_session') || 'null');
     if (s && s.key && (Date.now() - s.loggedAt) < 86400000) {
+        if (isMobileDevice()) {
+            // On mobile, clear session and show mobile block instead of redirecting
+            localStorage.removeItem('vynix_vendor_session');
+            return;
+        }
         window.location.href = 'index.html';
     }
 })();
 
 
 /* ═══════════════════════════════════════════════
-   GATE — Sign In with Google (existing vendors)
+   GATE — Sign In with Google
    ═══════════════════════════════════════════════ */
 async function initialGoogleSignIn() {
+    // Hard block on mobile — show modal instead
+    if (isMobileDevice()) {
+        document.getElementById('desktopOnlyModal').classList.add('open');
+        return;
+    }
+
     const btn = document.getElementById('googleVerifyBtn');
     const err = document.getElementById('initialGoogleError');
     err.style.display = 'none';
@@ -473,7 +581,6 @@ async function initialGoogleSignIn() {
         const result = await auth.signInWithPopup(provider);
         const user   = result.user;
 
-        // Must have a vendor record
         const snap = await db.ref('vendors').orderByChild('email').equalTo(user.email).once('value');
         if (!snap.val()) {
             await auth.signOut();
@@ -493,7 +600,6 @@ async function initialGoogleSignIn() {
 
         verifiedGoogleUser = user;
 
-        // Transition to Vendor ID sign-in card
         document.getElementById('initialGoogleCard').style.display = 'none';
         document.getElementById('mainAuthCard').style.display      = 'block';
         document.getElementById('googleBadge').style.display       = 'flex';
@@ -512,9 +618,15 @@ async function initialGoogleSignIn() {
 
 
 /* ═══════════════════════════════════════════════
-   MAIN SIGN-IN — Vendor ID (email-bound security)
+   MAIN SIGN-IN — Vendor ID
    ═══════════════════════════════════════════════ */
 async function partnerLogin() {
+    // Extra safety: block on mobile even on the second screen
+    if (isMobileDevice()) {
+        document.getElementById('desktopOnlyModal').classList.add('open');
+        return;
+    }
+
     const id  = document.getElementById('vendorLoginId').value.trim().toUpperCase();
     const err = document.getElementById('loginError');
     err.style.display = 'none';
@@ -538,10 +650,6 @@ async function partnerLogin() {
         const key    = Object.keys(snap.val())[0];
         const vendor = snap.val()[key];
 
-        /* ── CORE SECURITY CHECK ─────────────────────────────────────
-           The Vendor ID must belong to the Google account that signed in.
-           This prevents any vendor from using another vendor's ID.
-        ──────────────────────────────────────────────────────────── */
         if (!vendor.email || vendor.email.toLowerCase() !== verifiedGoogleUser.email.toLowerCase()) {
             throw new Error('This Vendor ID does not belong to your Google account. You can only sign in with your own Vendor ID.');
         }
@@ -568,7 +676,6 @@ async function partnerLogin() {
     }
 }
 
-/* Reset gate */
 function resetToGate() {
     verifiedGoogleUser = null;
     auth.signOut().catch(() => {});
@@ -583,7 +690,7 @@ function resetToGate() {
 
 
 /* ═══════════════════════════════════════════════
-   REGISTRATION MODAL
+   REGISTRATION MODAL (works on all devices)
    ═══════════════════════════════════════════════ */
 function openRegisterModal() {
     resetRegModal();
@@ -647,7 +754,6 @@ function updateRegPips() {
     }
 }
 
-/* ── Step 0: Google auth for new registrations ── */
 async function googleRegisterAuth() {
     const btn = document.getElementById('regGoogleBtn');
     const err = document.getElementById('regModalError');
@@ -662,7 +768,6 @@ async function googleRegisterAuth() {
         const result = await auth.signInWithPopup(provider);
         const user   = result.user;
 
-        // Check not already registered
         const snap = await db.ref('vendors').orderByChild('email').equalTo(user.email).once('value');
         if (snap.val()) {
             await auth.signOut();
@@ -694,7 +799,6 @@ async function googleRegisterAuth() {
     }
 }
 
-/* ── Step 1 → 2 ── */
 function regModalNext(fromStep) {
     const err = document.getElementById('regModalError');
     err.style.display = 'none';
@@ -716,7 +820,6 @@ function regModalNext(fromStep) {
     }
 }
 
-/* ── Step 2 → 1 ── */
 function regModalBack(fromStep) {
     if (fromStep === 2) {
         document.getElementById('modalTitle').textContent    = 'Business Details';
@@ -725,7 +828,6 @@ function regModalBack(fromStep) {
     }
 }
 
-/* ── Final submit ── */
 async function submitRegistration() {
     const err = document.getElementById('regModalError');
     const btn = document.getElementById('rSubmitBtn');
