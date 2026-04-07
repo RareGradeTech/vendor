@@ -964,28 +964,33 @@ function hideShimmer() { const s = document.getElementById('shimmerOverlay'); s.
    SYNC
 ══════════════════════════════════════════════════════ */
 function startSync() {
-// REPLACE the existing db.ref('orders').on('value', ...) block in startSync() with:
-
-db.ref(`vendors/${VENDOR_KEY}/orders`).on('value', snap => {
-    const vendorDirectOrders = snap.val() || {};
-    // Merge with flat orders cache
-    Object.entries(vendorDirectOrders).forEach(([key, o]) => {
-        window._allOrdersCache[key] = { ...o, _source: 'vendor_direct' };
+    if (!VENDOR_KEY) return;
+    db.ref('vendors/' + VENDOR_KEY).on('value', snap => {
+        vendorData = snap.val();
+        if (!vendorData) return;
+        const storeType = (vendorData.storeType || 'restaurant').toLowerCase();
+        applyStoreTheme(storeType);
+        applyVendorUI();
+        reFilterOrders();
     });
-    reFilterOrders();
-});
-
-db.ref('orders').on('value', snap => {
-    window._allOrdersCache = snap.val() || {};
-    // Overlay vendor-direct orders (they may have been written there already)
-    reFilterOrders();
-});
+    db.ref('vendors/' + VENDOR_KEY + '/menu').on('value', snap => {
+        menuCache = snap.val() || {};
+        renderMenuGrid();
+        renderFeaturedItems();
+        updateStats();
+        updateAnalytics();
+    });
+    db.ref('orders').on('value', snap => {
+        window._allOrdersCache = snap.val() || {};
+        reFilterOrders();
+    });
 }
 
 function reFilterOrders() {
     if (!VENDOR_KEY) return;
     const allOrders = window._allOrdersCache || {};
-    const matchIds = new Set([VENDOR_KEY]);
+    const matchIds = new Set();
+    matchIds.add(VENDOR_KEY);
     if (vendorData) {
         if (vendorData.vendorID)  matchIds.add(vendorData.vendorID);
         if (vendorData.name)      matchIds.add(vendorData.name);
@@ -993,19 +998,10 @@ function reFilterOrders() {
     }
     const vendorFields = ['vendorKey', 'vendorId', 'vendorID', 'vendor', 'storeKey', 'storeId', 'vendorName'];
     ordersCache = {};
-    
+    let matchCount = 0;
     Object.entries(allOrders).forEach(([orderKey, o]) => {
-        // Match 1: came from vendors/{VENDOR_KEY}/orders directly
-        if (o._source === 'vendor_direct') { ordersCache[orderKey] = o; return; }
-        // Match 2: any vendorKey/vendorId field matches our key or known IDs
-        const matched = vendorFields.some(field => {
-            const val = o[field];
-            return val && matchIds.has(val);
-        });
-        if (matched) ordersCache[orderKey] = o;
-    });
-    // ... rest of function unchanged
-}
+        const matched = vendorFields.some(field => { const val = o[field]; return val && matchIds.has(val); });
+        if (matched) { ordersCache[orderKey] = o; matchCount++; }
     });
     const debugBanner = document.getElementById('debugBanner');
     if (debugBanner && vendorData) {
