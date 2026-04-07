@@ -49,7 +49,9 @@
         input[type="text"], input[type="email"], input[type="tel"], input[type="number"], input[type="password"], input[type="url"], input[type="time"], input[type="file"], select, textarea { border-radius: 999px !important; }
         textarea { border-radius: 20px !important; }
 
-        /* MOBILE BLOCK WALL */
+        /* ══════════════════════════════════════
+           MOBILE BLOCK WALL
+        ══════════════════════════════════════ */
         #mobileBlockWall {
             display: none;
             position: fixed;
@@ -65,18 +67,93 @@
         }
         #mobileBlockWall.show { display: flex; }
         .mbw-logo { height: 36px; object-fit: contain; margin-bottom: 32px; }
-        .mbw-icon-wrap { width: 88px; height: 88px; background: linear-gradient(135deg, #ff751f, #ff8c42); border-radius: 28px; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; box-shadow: 0 8px 28px rgba(255,117,31,0.35); }
+        .mbw-icon-wrap {
+            width: 88px; height: 88px;
+            background: linear-gradient(135deg, #ff751f, #ff8c42);
+            border-radius: 28px;
+            display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 24px;
+            box-shadow: 0 8px 28px rgba(255,117,31,0.35);
+        }
         .mbw-icon-wrap svg { width: 40px; height: 40px; color: white; }
-        .mbw-title { font-size: 1.4rem; font-weight: 800; color: #1a1d23; letter-spacing: -0.4px; margin-bottom: 10px; }
-        .mbw-desc { font-size: 0.88rem; color: #6c757d; line-height: 1.7; max-width: 320px; margin: 0 auto 24px; }
-        .mbw-steps { background: white; border: 1.5px solid #ffe8d6; border-radius: 18px; padding: 18px 20px; text-align: left; max-width: 320px; width: 100%; margin: 0 auto 24px; }
-        .mbw-steps-title { font-size: 0.68rem; font-weight: 800; color: #6c757d; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 10px; }
-        .mbw-step-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
+        .mbw-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #1a1d23;
+            letter-spacing: -0.4px;
+            margin-bottom: 10px;
+        }
+        .mbw-desc {
+            font-size: 0.88rem;
+            color: #6c757d;
+            line-height: 1.7;
+            max-width: 320px;
+            margin: 0 auto 24px;
+        }
+        .mbw-steps {
+            background: white;
+            border: 1.5px solid #ffe8d6;
+            border-radius: 18px;
+            padding: 18px 20px;
+            text-align: left;
+            max-width: 320px;
+            width: 100%;
+            margin: 0 auto 24px;
+        }
+        .mbw-steps-title {
+            font-size: 0.68rem;
+            font-weight: 800;
+            color: #6c757d;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 10px;
+        }
+        .mbw-step-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
         .mbw-step-row:last-child { margin-bottom: 0; }
-        .mbw-step-num { width: 22px; height: 22px; background: #ffe8d6; color: #ff751f; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.72rem; font-weight: 800; flex-shrink: 0; margin-top: 1px; }
-        .mbw-step-text { font-size: 0.83rem; color: #1a1d23; line-height: 1.5; }
-        .mbw-url-badge { display: inline-flex; align-items: center; gap: 6px; background: #ff751f; color: white; border-radius: 999px; padding: 10px 22px; font-size: 0.88rem; font-weight: 700; letter-spacing: 0.1px; box-shadow: 0 4px 14px rgba(255,117,31,0.35); }
-        .mbw-register-link { margin-top: 16px; display: block; font-size: 0.82rem; color: #ff751f; font-weight: 700; text-decoration: none; cursor: pointer; }
+        .mbw-step-num {
+            width: 22px; height: 22px;
+            background: #ffe8d6;
+            color: #ff751f;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.72rem;
+            font-weight: 800;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+        .mbw-step-text {
+            font-size: 0.83rem;
+            color: #1a1d23;
+            line-height: 1.5;
+        }
+        .mbw-url-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #ff751f;
+            color: white;
+            border-radius: 999px;
+            padding: 10px 22px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            letter-spacing: 0.1px;
+            box-shadow: 0 4px 14px rgba(255,117,31,0.35);
+        }
+        .mbw-register-link {
+            margin-top: 16px;
+            display: block;
+            font-size: 0.82rem;
+            color: #ff751f;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .mbw-register-link:hover { text-decoration: underline; }
 
         /* SHIMMER */
         #shimmerOverlay { position:fixed;inset:0;z-index:9999;background:var(--bg);display:none;flex-direction:column;transition:opacity .55s ease; }
@@ -316,9 +393,10 @@
         .toast.error { border-left:4px solid var(--danger); }
         .toast.info { border-left:4px solid var(--purple); }
 
-        /* DEBUG BANNER */
-        .debug-banner { background:#fff5cc;border:1px solid #ffe066;border-radius:12px;padding:10px 16px;margin-bottom:16px;font-size:0.82rem;font-weight:600;color:#997300;display:none; }
-        .debug-banner.show { display:block; }
+        /* PENDING */
+        .pending-banner { background:#fff5cc;border:1px solid #ffe066;border-radius:16px;padding:16px 20px;margin-bottom:24px;display:flex;align-items:center;gap:14px; }
+        @keyframes spin { from{transform:rotate(0deg);}to{transform:rotate(360deg);} }
+        @media (max-width:768px) { .main-panel { padding:20px; } .form-row { grid-template-columns:1fr; } }
 
         /* QUICK ACTIONS */
         .quick-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:16px; }
@@ -342,7 +420,13 @@
         .feat-toggle-item { display:flex;align-items:center;gap:10px;padding:10px;border-radius:12px;margin-bottom:6px;border:1px solid var(--border);transition:var(--transition); }
         .feat-toggle-item.is-featured { background:var(--accent-light);border-color:var(--accent); }
 
-        @media (max-width:768px) { .main-panel { padding:20px; } .form-row { grid-template-columns:1fr; } }
+        /* ORDER NOTIFICATION PULSE */
+        .new-order-pulse { animation: newOrderPulse 1s ease-in-out 3; }
+        @keyframes newOrderPulse { 0%,100%{background:var(--accent-light);}50%{background:rgba(var(--accent-rgb),0.3);} }
+
+        /* DEBUG BANNER */
+        .debug-banner { background:#fff5cc;border:1px solid #ffe066;border-radius:12px;padding:10px 16px;margin-bottom:16px;font-size:0.82rem;font-weight:600;color:#997300;display:none; }
+        .debug-banner.show { display:block; }
 
         body[data-store="grocery"] { --accent:#22c55e;--accent-dark:#16a34a;--accent-light:#dcfce7;--accent-rgb:34,197,94;--store-gradient:linear-gradient(135deg,#22c55e,#4ade80);--store-bg-gradient:linear-gradient(135deg,#f0fdf4 0%,#dcfce7 100%); }
         body[data-store="alcohol"] { --accent:#7c3aed;--accent-dark:#6d28d9;--accent-light:#ede9fe;--accent-rgb:124,58,237;--store-gradient:linear-gradient(135deg,#7c3aed,#a855f7);--store-bg-gradient:linear-gradient(135deg,#faf5ff 0%,#ede9fe 100%); }
@@ -353,34 +437,45 @@
 </head>
 <body>
 
-<!-- MOBILE BLOCK WALL -->
+<!-- ══════════════════════════════════════
+     MOBILE BLOCK WALL — shown on mobile, blocks all access
+══════════════════════════════════════ -->
 <div id="mobileBlockWall">
     <img src="https://i.postimg.cc/d30sLt05/1BUSKET-LOGO.png" alt="1BUSKET" class="mbw-logo">
     <div class="mbw-icon-wrap">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
     </div>
     <div class="mbw-title">Desktop Only</div>
-    <p class="mbw-desc">The 1BUSKET Vendor Portal is designed for desktop computers. Mobile access is not supported.</p>
+    <p class="mbw-desc">The 1BUSKET Vendor Portal is designed for desktop computers. Mobile access to the dashboard is not supported.</p>
     <div class="mbw-steps">
         <div class="mbw-steps-title">How to access your portal</div>
-        <div class="mbw-step-row"><div class="mbw-step-num">1</div><div class="mbw-step-text">Open a laptop or desktop computer</div></div>
-        <div class="mbw-step-row"><div class="mbw-step-num">2</div><div class="mbw-step-text">Navigate to your vendor portal URL</div></div>
-        <div class="mbw-step-row"><div class="mbw-step-num">3</div><div class="mbw-step-text">Sign in with Google and your Vendor ID</div></div>
+        <div class="mbw-step-row">
+            <div class="mbw-step-num">1</div>
+            <div class="mbw-step-text">Open a laptop or desktop computer</div>
+        </div>
+        <div class="mbw-step-row">
+            <div class="mbw-step-num">2</div>
+            <div class="mbw-step-text">Navigate to your vendor portal URL</div>
+        </div>
+        <div class="mbw-step-row">
+            <div class="mbw-step-num">3</div>
+            <div class="mbw-step-text">Sign in with Google and your Vendor ID</div>
+        </div>
     </div>
     <div class="mbw-url-badge">
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
         vendor.1busket.co.za
     </div>
-    <a class="mbw-register-link" onclick="window.location.href='login.html'">Want to register a new business? →</a>
+    <a class="mbw-register-link" onclick="handleMobileRegisterLink()">Want to register a new business? →</a>
 </div>
 
 <div id="shimmerOverlay">
-    <div class="shim-sidebar"><div class="shim-block shim-logo"></div><div style="display:flex;flex-direction:column;gap:12px;margin-top:16px;"><div class="shim-block shim-nav"></div><div class="shim-block shim-nav"></div><div class="shim-block shim-nav"></div></div></div>
+    <div class="shim-sidebar"><div class="shim-block shim-logo"></div><div style="display:flex;flex-direction:column;gap:12px;margin-top:16px;"><div class="shim-block shim-nav"></div><div class="shim-block shim-nav"></div><div class="shim-block shim-nav"></div><div class="shim-block shim-nav"></div></div></div>
     <div class="shim-main"><div class="shim-block shim-header"></div><div class="shim-stats"><div class="shim-block shim-stat"></div><div class="shim-block shim-stat"></div><div class="shim-block shim-stat"></div><div class="shim-block shim-stat"></div></div><div class="shim-row"><div class="shim-block shim-card"></div><div class="shim-block shim-card"></div></div><div class="shim-block shim-table"></div></div>
 </div>
 
 <nav class="sidebar" id="vendorSidebar" style="display:none;">
-    <div class="logo"><img src="https://i.postimg.cc/d30sLt05/1BUSKET-LOGO.png" alt="1BUSKET" style="height:32px;width:auto;flex-shrink:0;"><i data-lucide="utensils" class="logo-icon" id="sidebarLogoIcon" style="display:none;"></i><span class="logo-text" style="display:none;">1BUSKET<span id="sidebarLogoSuffix">EATS</span></span></div>
+    <div class="logo"><img src="https://i.postimg.cc/d30sLt05/1BUSKET-LOGO.png" alt="1BUSKET" style="height: 32px; width: auto; flex-shrink: 0;"><i data-lucide="utensils" class="logo-icon" id="sidebarLogoIcon" style="display:none;"></i><span class="logo-text" style="display:none;">1BUSKET<span id="sidebarLogoSuffix">EATS</span></span></div>
     <div class="store-type-badge"><div class="store-type-dot"></div><div class="store-type-info"><div class="store-name" id="sidebarStoreName">My Store</div><div class="store-type-label" id="sidebarStoreType">Restaurant</div></div></div>
     <div class="nav-scroll">
         <div class="nav-section">
@@ -388,7 +483,7 @@
             <div class="nav-item active" onclick="showTab('dashboard',this)" id="navDashboard"><i data-lucide="layout-dashboard" class="nav-icon"></i><span class="nav-text">Dashboard</span></div>
             <div class="nav-item" onclick="showTab('menu',this)" id="navMenu"><i data-lucide="book-open" class="nav-icon" id="navMenuIcon"></i><span class="nav-text" id="navMenuLabel">Menu Items</span></div>
             <div class="nav-item" onclick="showTab('featured',this)" id="navFeatured"><i data-lucide="star" class="nav-icon"></i><span class="nav-text" id="navFeaturedLabel">Featured Items</span></div>
-            <div class="nav-item" onclick="showTab('orders',this)" id="navOrders"><i data-lucide="shopping-bag" class="nav-icon" id="navOrdersIcon"></i><span class="nav-text" id="navOrdersLabel">Orders</span><span id="pendingOrdersBadge" style="display:none;background:#ff3b30;color:white;border-radius:999px;padding:1px 7px;font-size:0.65rem;font-weight:800;margin-left:auto;"></span></div>
+            <div class="nav-item" onclick="showTab('orders',this)" id="navOrders"><i data-lucide="shopping-bag" class="nav-icon" id="navOrdersIcon"></i><span class="nav-text" id="navOrdersLabel">Orders</span><span class="pending-count" id="pendingOrdersBadge" style="display:none;background:#ff3b30;color:white;border-radius:999px;padding:1px 7px;font-size:0.65rem;font-weight:800;margin-left:auto;"></span></div>
             <div class="nav-item" onclick="showTab('analytics',this)"><i data-lucide="bar-chart-3" class="nav-icon"></i><span class="nav-text">Analytics</span></div>
         </div>
         <div class="nav-section">
@@ -435,7 +530,9 @@
                     <h2 id="recentOrdersTitle"><i data-lucide="clock" style="width:18px;height:18px;color:var(--accent);"></i> Recent Orders</h2>
                     <button class="btn btn-edit" onclick="showTab('orders',document.querySelectorAll('.nav-item')[3])">View All</button>
                 </div>
-                <div id="recentOrdersList"><div class="empty-state"><div class="es-emoji" id="emptyOrdersEmoji">📦</div><p id="emptyOrdersText">No orders yet</p><small>Orders will appear here</small></div></div>
+                <div id="recentOrdersList">
+                    <div class="empty-state"><div class="es-emoji" id="emptyOrdersEmoji">📦</div><p id="emptyOrdersText">No orders yet</p><small>Orders will appear here</small></div>
+                </div>
             </div>
             <div style="display:flex;flex-direction:column;gap:16px;">
                 <div class="content-card">
@@ -497,7 +594,7 @@
         </div>
         <div class="debug-banner" id="debugBanner"></div>
         <div class="content-card" id="ordersContainer">
-            <div class="empty-state"><div class="es-emoji" id="emptyOrdersEmoji2">📦</div><p>No orders found</p><small>Orders from customers appear here</small></div>
+            <div class="empty-state"><div class="es-emoji" id="emptyOrdersEmoji2">📦</div><p>No orders found</p><small>Orders from all your customers appear here</small></div>
         </div>
     </section>
 
@@ -594,7 +691,6 @@
     </section>
 </main>
 
-<!-- ITEM MODAL -->
 <div class="modal-overlay" id="itemModal">
     <div class="modal-content">
         <h3 id="itemModalTitle"><i data-lucide="package" style="width:22px;height:22px;color:var(--accent);"></i> Add Item</h3>
@@ -642,7 +738,7 @@
 lucide.createIcons();
 
 /* ══════════════════════════════════════════════════════
-   MOBILE DETECTION
+   MOBILE DETECTION — runs before anything else
 ══════════════════════════════════════════════════════ */
 function isMobileDevice() {
     const ua = navigator.userAgent || navigator.vendor || window.opera;
@@ -650,9 +746,17 @@ function isMobileDevice() {
     const isTouchSmall = (window.innerWidth <= 900) && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
     return mobileRE.test(ua) || isTouchSmall;
 }
+
+// Immediately show the mobile wall and stop everything if on mobile
 if (isMobileDevice()) {
     document.getElementById('mobileBlockWall').classList.add('show');
+    // Clear any session so they can't get in via cached data
     localStorage.removeItem('vynix_vendor_session');
+}
+
+function handleMobileRegisterLink() {
+    // Redirect to login page where register modal is available on mobile
+    window.location.href = 'login.html';
 }
 
 const firebaseConfig = {
@@ -747,7 +851,6 @@ let VENDOR_KEY = null, vendorData = null, menuCache = {}, ordersCache = {}, curr
 let manualStoreStatus = null, menuFilter = { search: '', category: '' }, settingsState = {};
 let previousPendingCount = 0;
 window._allOrdersCache = {};
-window._vendorDirectOrders = {};
 
 /* ══════════════════════════════════════════════════════
    THEME
@@ -835,10 +938,12 @@ function toggleProfileCategory(label) { const cb = label.querySelector('input[ty
 function togglePDay(cb) { cb.closest('label').classList.toggle('checked', cb.checked); }
 
 /* ══════════════════════════════════════════════════════
-   SESSION CHECK
+   PORTAL INIT — blocked for mobile before reaching here
 ══════════════════════════════════════════════════════ */
 (function checkSession() {
+    // Extra guard: if somehow mobile, block
     if (isMobileDevice()) return;
+
     const s = JSON.parse(localStorage.getItem('vynix_vendor_session') || 'null');
     if (s && s.key && (Date.now() - s.loggedAt) < 24 * 60 * 60 * 1000) {
         VENDOR_KEY = s.key;
@@ -846,22 +951,20 @@ function togglePDay(cb) { cb.closest('label').classList.toggle('checked', cb.che
         document.getElementById('vendorMainPanel').style.display = 'block';
         showShimmer();
         startSync();
-        setTimeout(() => hideShimmer(), 1500);
+        setTimeout(() => { hideShimmer(); }, 1500);
     } else {
         window.location.href = 'login.html';
     }
 })();
 
-function showShimmer() { document.getElementById('shimmerOverlay').classList.add('active'); }
-function hideShimmer() { const s = document.getElementById('shimmerOverlay'); s.classList.add('fade-out'); setTimeout(() => s.classList.remove('active','fade-out'), 600); }
+function showShimmer() { const s = document.getElementById('shimmerOverlay'); s.classList.add('active'); }
+function hideShimmer() { const s = document.getElementById('shimmerOverlay'); s.classList.add('fade-out'); setTimeout(() => s.classList.remove('active', 'fade-out'), 600); }
 
 /* ══════════════════════════════════════════════════════
    SYNC
 ══════════════════════════════════════════════════════ */
 function startSync() {
     if (!VENDOR_KEY) return;
-
-    // Vendor profile listener
     db.ref('vendors/' + VENDOR_KEY).on('value', snap => {
         vendorData = snap.val();
         if (!vendorData) return;
@@ -870,8 +973,6 @@ function startSync() {
         applyVendorUI();
         reFilterOrders();
     });
-
-    // Menu listener
     db.ref('vendors/' + VENDOR_KEY + '/menu').on('value', snap => {
         menuCache = snap.val() || {};
         renderMenuGrid();
@@ -879,96 +980,52 @@ function startSync() {
         updateStats();
         updateAnalytics();
     });
-
-    /* ─────────────────────────────────────────────────────
-       ORDER LISTENERS
-       Priority 1: vendors/{vendorKey}/orders  ← written directly by customer checkout
-       Priority 2: orders/{orderId}             ← fallback flat node (backwards compat)
-       Priority 3: vendorOrders/{vendorKey}/... ← legacy node some older pages may use
-    ───────────────────────────────────────────────────── */
-
-    // Direct vendor orders node — highest priority, most reliable
-    db.ref(`vendors/${VENDOR_KEY}/orders`).on('value', snap => {
-        window._vendorDirectOrders = snap.val() || {};
-        reFilterOrders();
-    });
-
-    // Flat orders node — fallback for orders placed before per-vendor routing was implemented
-    db.ref('orders').orderByChild('vendorKey').equalTo(VENDOR_KEY).on('value', snap => {
+    db.ref('orders').on('value', snap => {
         window._allOrdersCache = snap.val() || {};
-        reFilterOrders();
-    });
-
-    // Also catch orders keyed by vendorID (some older checkout pages use vendorID not vendorKey)
-    db.ref('vendorOrders/' + VENDOR_KEY).on('value', snap => {
-        window._legacyVendorOrders = snap.val() || {};
         reFilterOrders();
     });
 }
 
-/* ══════════════════════════════════════════════════════
-   ORDER MERGE — combines all sources, deduplicates by key
-══════════════════════════════════════════════════════ */
 function reFilterOrders() {
     if (!VENDOR_KEY) return;
-
-    const directOrders   = window._vendorDirectOrders || {};
-    const flatOrders     = window._allOrdersCache || {};
-    const legacyOrders   = window._legacyVendorOrders || {};
-
-    // Build a set of all identifiers for this vendor for flat-order matching
-    const matchIds = new Set([VENDOR_KEY]);
+    const allOrders = window._allOrdersCache || {};
+    const matchIds = new Set();
+    matchIds.add(VENDOR_KEY);
     if (vendorData) {
         if (vendorData.vendorID)  matchIds.add(vendorData.vendorID);
         if (vendorData.name)      matchIds.add(vendorData.name);
         if (vendorData.email)     matchIds.add(vendorData.email);
     }
-    const vendorFields = ['vendorKey','vendorId','vendorID','vendor','storeKey','storeId','vendorName'];
-
-    // Merge: direct orders take priority (already vendor-scoped),
-    // then legacy, then matched flat orders
-    ordersCache = { ...directOrders, ...legacyOrders };
-
-    Object.entries(flatOrders).forEach(([key, o]) => {
-        if (ordersCache[key]) return; // already have from direct/legacy node
-        const matched = vendorFields.some(f => o[f] && matchIds.has(String(o[f])));
-        if (matched) ordersCache[key] = o;
+    const vendorFields = ['vendorKey', 'vendorId', 'vendorID', 'vendor', 'storeKey', 'storeId', 'vendorName'];
+    ordersCache = {};
+    let matchCount = 0;
+    Object.entries(allOrders).forEach(([orderKey, o]) => {
+        const matched = vendorFields.some(field => { const val = o[field]; return val && matchIds.has(val); });
+        if (matched) { ordersCache[orderKey] = o; matchCount++; }
     });
-
-    // Pending count badge & notification
+    const debugBanner = document.getElementById('debugBanner');
+    if (debugBanner && vendorData) {
+        const totalOrders = Object.keys(allOrders).length;
+        if (matchCount === 0 && totalOrders > 0) {
+            debugBanner.textContent = `⚠️ ${totalOrders} total orders in DB but 0 matched. Vendor key: ${VENDOR_KEY} | Vendor ID: ${vendorData.vendorID || 'N/A'}`;
+            debugBanner.classList.add('show');
+        } else { debugBanner.classList.remove('show'); }
+    }
     const pendingCount = Object.values(ordersCache).filter(o => o.status === 'pending').length;
-    if (pendingCount > previousPendingCount && window._ordersInitialized) {
+    if (pendingCount > previousPendingCount && previousPendingCount >= 0 && Object.keys(ordersCache).length > 0) {
         const diff = pendingCount - previousPendingCount;
-        showToast(`🔔 ${diff} new order${diff > 1 ? 's' : ''} received!`, 'info');
+        if (window._ordersInitialized) { showToast(`🔔 ${diff} new order${diff > 1 ? 's' : ''} received!`, 'info'); }
     }
     window._ordersInitialized = true;
     previousPendingCount = pendingCount;
-
     const badge = document.getElementById('pendingOrdersBadge');
     if (badge) { badge.style.display = pendingCount > 0 ? 'inline' : 'none'; badge.textContent = pendingCount; }
-
-    const debugBanner = document.getElementById('debugBanner');
-    if (debugBanner && vendorData) {
-        const totalFlat = Object.keys(flatOrders).length;
-        const totalDirect = Object.keys(directOrders).length;
-        const matched = Object.keys(ordersCache).length;
-        if (matched === 0 && (totalFlat > 0 || totalDirect > 0)) {
-            debugBanner.textContent = `⚠️ ${totalFlat} flat orders, ${totalDirect} direct orders found, 0 matched this vendor. Key: ${VENDOR_KEY}`;
-            debugBanner.classList.add('show');
-        } else {
-            debugBanner.classList.remove('show');
-        }
-    }
-
     renderOrders();
     renderRecentOrders();
     updateStats();
     updateAnalytics();
 }
 
-/* ══════════════════════════════════════════════════════
-   VENDOR UI
-══════════════════════════════════════════════════════ */
 function applyVendorUI() {
     if (!vendorData) return;
     const name = vendorData.name || 'My Store';
@@ -1049,12 +1106,13 @@ function checkStoreHours() {
     if (!vendorData) return { isOpen: false };
     const now = new Date();
     const currentTime = now.getHours() * 60 + now.getMinutes();
-    const days = vendorData.operatingDays || ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
-    const daysMap = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    const days = vendorData.operatingDays || ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    const daysMap = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     if (!days.includes(daysMap[now.getDay()])) return { isOpen: false };
     const [oh, om] = (vendorData.openingTime || '08:00').split(':').map(Number);
     const [ch, cm] = (vendorData.closingTime || '22:00').split(':').map(Number);
-    return { isOpen: (now.getHours()*60+now.getMinutes()) >= oh*60+om && (now.getHours()*60+now.getMinutes()) < ch*60+cm };
+    const openT = oh * 60 + om, closeT = ch * 60 + cm;
+    return { isOpen: currentTime >= openT && currentTime < closeT };
 }
 function setStoreStatus(status) {
     manualStoreStatus = status;
@@ -1069,19 +1127,19 @@ function setStoreStatus(status) {
 function renderMenuGrid() {
     const grid = document.getElementById('menuGrid');
     let items = Object.entries(menuCache).reverse();
-    if (menuFilter.search) { const s = menuFilter.search.toLowerCase(); items = items.filter(([,v]) => (v.name||'').toLowerCase().includes(s)); }
-    if (menuFilter.category) items = items.filter(([,v]) => v.category === menuFilter.category);
+    if (menuFilter.search) { const s = menuFilter.search.toLowerCase(); items = items.filter(([, v]) => (v.name || '').toLowerCase().includes(s)); }
+    if (menuFilter.category) items = items.filter(([, v]) => v.category === menuFilter.category);
     if (!items.length) {
         grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><div class="es-emoji">${currentConfig.emoji}</div><p>No ${currentConfig.navMenuLabel.toLowerCase()} yet</p><small>Add your first item to get started</small><br><button class="btn-primary" style="margin:16px auto 0;display:flex;" onclick="openAddItemModal()"><i data-lucide="plus" style="width:16px;height:16px;"></i> ${currentConfig.addItemBtnLabel}</button></div>`;
         lucide.createIcons(); return;
     }
-    const statusColors = { available:{bg:'var(--accent-light)',color:'var(--accent)',text:'Available'}, unavailable:{bg:'#fff5cc',color:'#997300',text:'Unavailable'}, sold_out:{bg:'#fff1f0',color:'var(--danger)',text:'Sold Out'} };
-    grid.innerHTML = items.map(([key,v]) => {
-        const sc = statusColors[v.status||'available'] || statusColors.available;
+    const statusColors = { available: { bg: 'var(--accent-light)', color: 'var(--accent)', text: 'Available' }, unavailable: { bg: '#fff5cc', color: '#997300', text: 'Unavailable' }, sold_out: { bg: '#fff1f0', color: 'var(--danger)', text: 'Sold Out' } };
+    grid.innerHTML = items.map(([key, v]) => {
+        const sc = statusColors[v.status || 'available'] || statusColors.available;
         const imgApproved = v.imageApproved === true;
         const imgEl = v.imageURL ? (imgApproved ? `<img src="${v.imageURL}" class="menu-item-img" alt="${v.name}" loading="lazy">` : `<div class="menu-item-img-placeholder" style="position:relative;">${currentConfig.emoji}<div style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);white-space:nowrap;background:#fff5cc;border:1px solid #ffe066;color:#997300;border-radius:8px;padding:3px 10px;font-size:0.68rem;font-weight:700;">⏳ Awaiting Approval</div></div>`) : `<div class="menu-item-img-placeholder">${currentConfig.emoji}</div>`;
         const isFeat = v.featured === true || v.featured === 'true';
-        return `<div class="menu-item-card"><div style="position:relative;">${imgEl}<div class="menu-item-actions"><button class="icon-btn icon-btn-edit" onclick="openEditItemModal('${key}')"><i data-lucide="edit-2" style="width:13px;height:13px;"></i></button><button class="icon-btn icon-btn-delete" onclick="openDeleteModal('${key}','${(v.name||'').replace(/'/g,"\\'")}')"><i data-lucide="trash-2" style="width:13px;height:13px;"></i></button></div><div style="position:absolute;top:10px;right:10px;"><span style="background:${sc.bg};color:${sc.color};border-radius:10px;font-size:0.68rem;font-weight:700;padding:3px 8px;">${sc.text}</span>${isFeat?'<span style="background:var(--yellow);color:#5a3e00;border-radius:10px;font-size:0.68rem;font-weight:700;padding:3px 8px;margin-left:4px;">⭐ Featured</span>':''}</div></div><div class="menu-item-body"><div class="menu-item-name">${v.name||'Unnamed'}</div><div style="font-size:0.72rem;color:var(--accent);font-weight:600;margin-bottom:4px;">${v.category||''}</div><div class="menu-item-desc">${v.description||''}</div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;"><div class="menu-item-price">R${Number(v.price||0).toFixed(2)}</div>${v.prepTime?`<div style="font-size:0.76rem;color:var(--dim);display:flex;align-items:center;gap:3px;"><i data-lucide="clock" style="width:12px;height:12px;"></i> ${v.prepTime} min</div>`:''}</div></div></div>`;
+        return `<div class="menu-item-card"><div style="position:relative;">${imgEl}<div class="menu-item-actions"><button class="icon-btn icon-btn-edit" onclick="openEditItemModal('${key}')"><i data-lucide="edit-2" style="width:13px;height:13px;"></i></button><button class="icon-btn icon-btn-delete" onclick="openDeleteModal('${key}','${(v.name || '').replace(/'/g, "\\'")}')"><i data-lucide="trash-2" style="width:13px;height:13px;"></i></button></div><div style="position:absolute;top:10px;right:10px;"><span style="background:${sc.bg};color:${sc.color};border-radius:10px;font-size:0.68rem;font-weight:700;padding:3px 8px;">${sc.text}</span>${isFeat ? '<span style="background:var(--yellow);color:#5a3e00;border-radius:10px;font-size:0.68rem;font-weight:700;padding:3px 8px;margin-left:4px;">⭐ Featured</span>' : ''}</div></div><div class="menu-item-body"><div class="menu-item-name">${v.name || 'Unnamed'}</div><div style="font-size:0.72rem;color:var(--accent);font-weight:600;margin-bottom:4px;">${v.category || ''}</div><div class="menu-item-desc">${v.description || ''}</div><div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px;"><div class="menu-item-price">R${Number(v.price || 0).toFixed(2)}</div>${v.prepTime ? `<div style="font-size:0.76rem;color:var(--dim);display:flex;align-items:center;gap:3px;"><i data-lucide="clock" style="width:12px;height:12px;"></i> ${v.prepTime} min</div>` : ''}</div></div></div>`;
     }).join('');
     lucide.createIcons();
 }
@@ -1092,13 +1150,13 @@ function filterMenuItems(search) { menuFilter.search = search; menuFilter.catego
 ══════════════════════════════════════════════════════ */
 function renderFeaturedItems() {
     const items = Object.entries(menuCache);
-    const feat = items.filter(([,v]) => v.featured === true || v.featured === 'true');
+    const feat = items.filter(([, v]) => v.featured === true || v.featured === 'true');
     document.getElementById('featuredCount').textContent = feat.length;
     const listEl = document.getElementById('featuredItemsList');
     if (!feat.length) listEl.innerHTML = `<div style="color:var(--dim);text-align:center;padding:20px;font-size:0.88rem;">No featured items yet.</div>`;
-    else listEl.innerHTML = feat.map(([key,v]) => `<div style="display:flex;align-items:center;gap:12px;padding:10px;background:var(--accent-light);border-radius:12px;margin-bottom:8px;border:1px solid var(--accent);"><div style="width:44px;height:44px;border-radius:10px;background:var(--store-gradient);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;">${v.imageURL&&v.imageApproved?`<img src="${v.imageURL}" style="width:44px;height:44px;object-fit:cover;border-radius:10px;">`:currentConfig.emoji}</div><div style="flex:1;min-width:0;"><div style="font-weight:700;font-size:0.88rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${v.name}</div><div style="font-size:0.76rem;color:var(--accent);font-weight:600;">R${Number(v.price||0).toFixed(2)}</div></div><button class="btn btn-danger" style="padding:5px 12px;font-size:0.76rem;" onclick="toggleFeatured('${key}',false)"><i data-lucide="x" style="width:12px;height:12px;"></i> Remove</button></div>`).join('');
+    else listEl.innerHTML = feat.map(([key, v]) => `<div style="display:flex;align-items:center;gap:12px;padding:10px;background:var(--accent-light);border-radius:12px;margin-bottom:8px;border:1px solid var(--accent);"><div style="width:44px;height:44px;border-radius:10px;background:var(--store-gradient);display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;">${v.imageURL && v.imageApproved ? `<img src="${v.imageURL}" style="width:44px;height:44px;object-fit:cover;border-radius:10px;">` : currentConfig.emoji}</div><div style="flex:1;min-width:0;"><div style="font-weight:700;font-size:0.88rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${v.name}</div><div style="font-size:0.76rem;color:var(--accent);font-weight:600;">R${Number(v.price || 0).toFixed(2)}</div></div><button class="btn btn-danger" style="padding:5px 12px;font-size:0.76rem;" onclick="toggleFeatured('${key}',false)"><i data-lucide="x" style="width:12px;height:12px;"></i> Remove</button></div>`).join('');
     const toggleEl = document.getElementById('featuredToggleList');
-    toggleEl.innerHTML = items.length ? items.map(([key,v]) => { const isFeat = v.featured===true||v.featured==='true'; return `<div class="feat-toggle-item ${isFeat?'is-featured':''}"><div style="flex:1;min-width:0;"><div style="font-weight:700;font-size:0.86rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${v.name||'Unnamed'}</div><div style="font-size:0.74rem;color:var(--dim);">${v.category||''} · R${Number(v.price||0).toFixed(2)}</div></div><div class="toggle ${isFeat?'on':''}" onclick="toggleFeatured('${key}',${!isFeat})" style="flex-shrink:0;"></div></div>`; }).join('') : '<div style="color:var(--dim);text-align:center;padding:20px;font-size:0.88rem;">No items yet</div>';
+    toggleEl.innerHTML = items.length ? items.map(([key, v]) => { const isFeat = v.featured === true || v.featured === 'true'; return `<div class="feat-toggle-item ${isFeat ? 'is-featured' : ''}"><div style="flex:1;min-width:0;"><div style="font-weight:700;font-size:0.86rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${v.name || 'Unnamed'}</div><div style="font-size:0.74rem;color:var(--dim);">${v.category || ''} · R${Number(v.price || 0).toFixed(2)}</div></div><div class="toggle ${isFeat ? 'on' : ''}" onclick="toggleFeatured('${key}',${!isFeat})" style="flex-shrink:0;"></div></div>`; }).join('') : '<div style="color:var(--dim);text-align:center;padding:20px;font-size:0.88rem;">No items yet</div>';
     lucide.createIcons();
     syncFeaturedGlobal();
 }
@@ -1111,9 +1169,9 @@ function toggleFeatured(key, val) {
 function syncFeaturedGlobal() {
     if (!VENDOR_KEY || !vendorData) return;
     const featured = Object.entries(menuCache)
-        .filter(([,v]) => (v.featured===true||v.featured==='true') && v.imageApproved===true)
-        .reduce((obj,[k,v]) => {
-            obj[k] = { name:v.name, category:v.category, price:v.price, description:v.description, imageURL:v.imageURL||'', vendorKey:VENDOR_KEY, vendorName:vendorData.name||'', status:v.status, updatedAt:Date.now() };
+        .filter(([, v]) => (v.featured === true || v.featured === 'true') && v.imageApproved === true)
+        .reduce((obj, [k, v]) => {
+            obj[k] = { name: v.name, category: v.category, price: v.price, description: v.description, imageURL: v.imageURL || '', vendorKey: VENDOR_KEY, vendorName: vendorData.name || '', status: v.status, updatedAt: Date.now() };
             return obj;
         }, {});
     db.ref(`featured_items/${VENDOR_KEY}`).set(Object.keys(featured).length ? featured : null);
@@ -1133,36 +1191,36 @@ function buildOrderItemChips(o) {
     const orderItems = o.items ? (Array.isArray(o.items) ? o.items : Object.values(o.items)) : [];
     if (!orderItems.length) return '';
     const chips = orderItems.map(item => {
+        let imgEl = '';
         const menuItemKey = item.itemKey || item.itemId;
         const menuItem = menuItemKey ? menuCache[menuItemKey] : null;
         const menuItemByName = !menuItem ? Object.values(menuCache).find(m => m.name === item.name) : null;
         const resolvedItem = menuItem || menuItemByName;
-        let imgEl = '';
-        if (item.imageURL) {
-            imgEl = `<img class="order-item-chip-img" src="${item.imageURL}" alt="${item.name||'Item'}" loading="lazy" onerror="this.style.display='none'">`;
+        if (item.imageURL && item.imageURL !== '') {
+            imgEl = `<img class="order-item-chip-img" src="${item.imageURL}" alt="${item.name || 'Item'}" loading="lazy" onerror="this.style.display='none'"><div class="order-item-chip-placeholder" style="display:none;">${currentConfig.emoji}</div>`;
         } else if (resolvedItem && resolvedItem.imageURL && resolvedItem.imageApproved) {
-            imgEl = `<img class="order-item-chip-img" src="${resolvedItem.imageURL}" alt="${item.name||'Item'}" loading="lazy" onerror="this.style.display='none'">`;
+            imgEl = `<img class="order-item-chip-img" src="${resolvedItem.imageURL}" alt="${item.name || 'Item'}" loading="lazy" onerror="this.style.display='none'"><div class="order-item-chip-placeholder" style="display:none;">${currentConfig.emoji}</div>`;
         } else {
             imgEl = `<div class="order-item-chip-placeholder">${currentConfig.emoji}</div>`;
         }
-        return `<div class="order-item-chip">${imgEl}<div class="order-item-chip-info"><span class="order-item-chip-name">${item.name||'Item'}</span><span class="order-item-chip-qty">×${item.quantity||1}${item.price?' · R'+Number(item.price).toFixed(2):''}</span></div></div>`;
+        return `<div class="order-item-chip">${imgEl}<div class="order-item-chip-info"><span class="order-item-chip-name">${item.name || 'Item'}</span><span class="order-item-chip-qty">×${item.quantity || 1}${item.price ? ' · R' + Number(item.price).toFixed(2) : ''}</span></div></div>`;
     }).join('');
     return `<div class="order-items-strip">${chips}</div>`;
 }
 function renderOrders() {
     const container = document.getElementById('ordersContainer');
     const filter = document.getElementById('orderFilter')?.value || 'all';
-    let orders = Object.entries(ordersCache).sort((a,b) => (b[1].createdAt||0)-(a[1].createdAt||0));
-    if (filter !== 'all') orders = orders.filter(([,o]) => o.status === filter);
+    let orders = Object.entries(ordersCache).sort((a, b) => (b[1].createdAt || 0) - (a[1].createdAt || 0));
+    if (filter !== 'all') orders = orders.filter(([, o]) => o.status === filter);
     const countLabel = document.getElementById('ordersCountLabel');
-    if (countLabel) countLabel.textContent = `${orders.length} order${orders.length!==1?'s':''}`;
+    if (countLabel) countLabel.textContent = `${orders.length} order${orders.length !== 1 ? 's' : ''}`;
     if (!orders.length) {
-        container.innerHTML = `<div class="empty-state"><div class="es-emoji">${currentConfig.emptyOrdersEmoji}</div><p>${filter!=='all'?`No ${filter} orders`:currentConfig.emptyOrdersText}</p><small>Orders from all customer pages appear here</small></div>`;
+        container.innerHTML = `<div class="empty-state"><div class="es-emoji">${currentConfig.emptyOrdersEmoji}</div><p>${filter !== 'all' ? `No ${filter} orders` : currentConfig.emptyOrdersText}</p><small>Orders from all customer pages appear here</small></div>`;
         lucide.createIcons(); return;
     }
-    const statusColors = { pending:'#f5a623', preparing:'#0ea5e9', ready:'var(--accent)', delivered:'var(--accent)', cancelled:'var(--danger)', assigned:'#7c3aed' };
-    const statusLabels = { pending:'Pending', preparing:'Preparing', ready:'Ready', delivered:'Delivered', cancelled:'Cancelled', assigned:'Assigned' };
-    container.innerHTML = orders.map(([key,o]) => {
+    const statusColors = { pending: '#f5a623', preparing: '#0ea5e9', ready: 'var(--accent)', delivered: 'var(--accent)', cancelled: 'var(--danger)', assigned: '#7c3aed' };
+    const statusLabels = { pending: 'Pending', preparing: 'Preparing', ready: 'Ready', delivered: 'Delivered', cancelled: 'Cancelled', assigned: 'Assigned' };
+    container.innerHTML = orders.map(([key, o]) => {
         const color = statusColors[o.status] || '#f5a623';
         const label = statusLabels[o.status] || o.status;
         const customerName = o.customerName || o.customer?.name || o.userName || 'Customer';
@@ -1170,13 +1228,13 @@ function renderOrders() {
         const sourceType = o.orderType ? `<span style="background:var(--accent-light);color:var(--accent);border-radius:8px;font-size:0.65rem;font-weight:700;padding:2px 7px;margin-left:6px;">${o.orderType}</span>` : '';
         const itemChipsHtml = buildOrderItemChips(o);
         const locationCardHtml = buildLocationCard(o);
-        const driverBanner = o.driverKey||o.driverName ? `<div class="driver-banner"><i data-lucide="bike" style="width:14px;height:14px;flex-shrink:0;"></i> Driver: ${o.driverName||'Assigned'}</div>` : '';
+        const driverBanner = o.driverKey || o.driverName ? `<div class="driver-banner"><i data-lucide="bike" style="width:14px;height:14px;flex-shrink:0;"></i> Driver: ${o.driverName || 'Assigned'}</div>` : '';
         const paymentBadge = o.paymentMethod ? `<span style="font-size:0.68rem;color:var(--dim);font-weight:600;display:inline-flex;align-items:center;gap:3px;margin-left:8px;"><i data-lucide="credit-card" style="width:11px;height:11px;"></i>${o.paymentMethod}</span>` : '';
         return `<div class="order-card" id="order-${key}">
             <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;">
                 <div style="flex:1;min-width:0;">
                     <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
-                        <span style="font-weight:800;font-size:0.95rem;">Order #${o.orderNumber||key.slice(-6).toUpperCase()}</span>
+                        <span style="font-weight:800;font-size:0.95rem;">Order #${o.orderNumber || key.slice(-6).toUpperCase()}</span>
                         <span style="background:${color}22;color:${color};border:1px solid ${color}55;border-radius:10px;font-size:0.72rem;font-weight:700;padding:4px 10px;">${label}</span>
                         ${sourceType}${paymentBadge}
                     </div>
@@ -1185,69 +1243,55 @@ function renderOrders() {
                         <div class="order-customer-avatar">${customerName.charAt(0).toUpperCase()}</div>
                         <div>
                             <div class="order-customer-name">${customerName}</div>
-                            ${customerEmail?`<div class="order-customer-id">${customerEmail}</div>`:''}
+                            ${customerEmail ? `<div class="order-customer-id">${customerEmail}</div>` : ''}
                         </div>
                     </div>
                     ${itemChipsHtml}${locationCardHtml}${driverBanner}
                 </div>
                 <div style="text-align:right;flex-shrink:0;">
-                    <div style="font-weight:800;font-size:1.1rem;color:var(--accent);">R${Number(o.total||0).toFixed(2)}</div>
-                    ${o.deliveryFee>0?`<div style="font-size:0.72rem;color:var(--dim);">+ R${Number(o.deliveryFee).toFixed(2)} delivery</div>`:''}
+                    <div style="font-weight:800;font-size:1.1rem;color:var(--accent);">R${Number(o.total || 0).toFixed(2)}</div>
+                    ${o.deliveryFee > 0 ? `<div style="font-size:0.72rem;color:var(--dim);">+ R${Number(o.deliveryFee).toFixed(2)} delivery</div>` : ''}
                 </div>
             </div>
-            ${o.status==='pending'?`<div style="margin-top:12px;display:flex;gap:8px;">
+            ${o.status === 'pending' ? `<div style="margin-top:12px;display:flex;gap:8px;">
                 <button class="btn btn-success" onclick="updateOrderStatus('${key}','preparing')"><i data-lucide="chef-hat" style="width:13px;height:13px;"></i> Accept</button>
                 <button class="btn btn-danger" onclick="updateOrderStatus('${key}','cancelled')"><i data-lucide="x" style="width:13px;height:13px;"></i> Decline</button>
-            </div>`:''}
-            ${o.status==='preparing'?`<div style="margin-top:12px;">
+            </div>` : ''}
+            ${o.status === 'preparing' ? `<div style="margin-top:12px;">
                 <button class="btn btn-success" onclick="updateOrderStatus('${key}','ready')"><i data-lucide="check-circle" style="width:13px;height:13px;"></i> Mark as Ready</button>
-            </div>`:''}
-            ${o.status==='ready'?`<div style="margin-top:12px;">
+            </div>` : ''}
+            ${o.status === 'ready' ? `<div style="margin-top:12px;">
                 <button class="btn btn-success" onclick="updateOrderStatus('${key}','delivered')"><i data-lucide="check-check" style="width:13px;height:13px;"></i> Mark Delivered</button>
-            </div>`:''}
+            </div>` : ''}
         </div>`;
     }).join('');
     lucide.createIcons();
 }
 function renderRecentOrders() {
     const container = document.getElementById('recentOrdersList');
-    const recent = Object.entries(ordersCache).sort((a,b) => (b[1].createdAt||0)-(a[1].createdAt||0)).slice(0,5);
+    const recent = Object.entries(ordersCache).sort((a, b) => (b[1].createdAt || 0) - (a[1].createdAt || 0)).slice(0, 5);
     if (!recent.length) {
         container.innerHTML = `<div class="empty-state"><div class="es-emoji">${currentConfig.emptyOrdersEmoji}</div><p>${currentConfig.emptyOrdersText}</p></div>`;
         lucide.createIcons(); return;
     }
-    const statusColors = { pending:'var(--warning)', preparing:'#0ea5e9', ready:'var(--accent)', delivered:'var(--accent)', cancelled:'var(--danger)' };
-    container.innerHTML = recent.map(([key,o]) => {
+    const statusColors = { pending: 'var(--warning)', preparing: '#0ea5e9', ready: 'var(--accent)', delivered: 'var(--accent)', cancelled: 'var(--danger)' };
+    container.innerHTML = recent.map(([key, o]) => {
         const customerName = o.customerName || o.customer?.name || o.userName || 'Customer';
         return `<div style="padding:13px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;gap:12px;transition:var(--transition);" onmouseover="this.style.background='var(--accent-light)'" onmouseout="this.style.background=''">
             <div style="display:flex;align-items:center;gap:10px;">
-                <div style="width:8px;height:8px;border-radius:50%;background:${statusColors[o.status]||'var(--dim)'};flex-shrink:0;"></div>
+                <div style="width:8px;height:8px;border-radius:50%;background:${statusColors[o.status] || 'var(--dim)'};flex-shrink:0;"></div>
                 <div>
-                    <div style="font-weight:700;font-size:0.88rem;">Order #${o.orderNumber||key.slice(-6).toUpperCase()}</div>
-                    <div style="color:var(--dim);font-size:0.76rem;">${customerName} · ${fmtTime(o.createdAt)}${o.orderType?` · ${o.orderType}`:''}</div>
+                    <div style="font-weight:700;font-size:0.88rem;">Order #${o.orderNumber || key.slice(-6).toUpperCase()}</div>
+                    <div style="color:var(--dim);font-size:0.76rem;">${customerName} · ${fmtTime(o.createdAt)}${o.orderType ? ` · ${o.orderType}` : ''}</div>
                 </div>
             </div>
-            <div style="font-weight:700;color:var(--accent);font-size:0.9rem;">R${Number(o.total||0).toFixed(2)}</div>
+            <div style="font-weight:700;color:var(--accent);font-size:0.9rem;">R${Number(o.total || 0).toFixed(2)}</div>
         </div>`;
     }).join('');
 }
-
-/* ══════════════════════════════════════════════════════
-   UPDATE ORDER STATUS
-   Writes to BOTH flat orders node AND vendor-specific node
-══════════════════════════════════════════════════════ */
 function updateOrderStatus(key, newStatus) {
-    if (!VENDOR_KEY || !key) return;
-    const updates = { status: newStatus, updatedAt: Date.now() };
-    // Write to flat orders node (for customer app to read)
-    const flatWrite = db.ref('orders/' + key).update(updates);
-    // Write to this vendor's direct orders node
-    const vendorWrite = db.ref(`vendors/${VENDOR_KEY}/orders/${key}`).update(updates);
-    // Also write to legacy vendorOrders node if present
-    const legacyWrite = db.ref(`vendorOrders/${VENDOR_KEY}/${key}`).update(updates);
-
-    Promise.all([flatWrite, vendorWrite, legacyWrite])
-        .then(() => showToast(`Order marked as ${newStatus}`, 'success'))
+    db.ref('orders/' + key).update({ status: newStatus, updatedAt: Date.now() })
+        .then(() => showToast(`Order ${newStatus}`, 'success'))
         .catch(() => showToast('Error updating order', 'error'));
 }
 
@@ -1257,110 +1301,110 @@ function updateOrderStatus(key, newStatus) {
 function updateAnalytics() {
     const items = Object.values(menuCache);
     const orders = Object.values(ordersCache);
-    const revenue = orders.filter(o => o.status==='delivered').reduce((s,o) => s+Number(o.total||0), 0);
+    const revenue = orders.filter(o => o.status === 'delivered').reduce((s, o) => s + Number(o.total || 0), 0);
     safeSet('ana-items', items.length);
     safeSet('ana-orders', orders.length);
     safeSet('ana-revenue', 'R ' + revenue.toFixed(0));
     const cats = {};
-    items.forEach(v => { const c = v.category||'Other'; cats[c]=(cats[c]||0)+1; });
+    items.forEach(v => { const c = v.category || 'Other'; cats[c] = (cats[c] || 0) + 1; });
     const el = document.getElementById('categoryBreakdown');
-    if (!Object.keys(cats).length) { el.innerHTML='<p style="color:var(--dim);text-align:center;padding:20px;">No items yet</p>'; return; }
+    if (!Object.keys(cats).length) { el.innerHTML = '<p style="color:var(--dim);text-align:center;padding:20px;">No items yet</p>'; return; }
     const total = items.length;
-    el.innerHTML = Object.entries(cats).sort((a,b)=>b[1]-a[1]).map(([cat,count]) => {
-        const pct = Math.round((count/total)*100);
+    el.innerHTML = Object.entries(cats).sort((a, b) => b[1] - a[1]).map(([cat, count]) => {
+        const pct = Math.round((count / total) * 100);
         return `<div class="cat-bar-row"><div class="cat-bar-header"><span>${cat}</span><span>${count} (${pct}%)</span></div><div class="cat-bar-track"><div class="cat-bar-fill" style="width:${pct}%"></div></div></div>`;
     }).join('');
     const months = getLast6Months();
-    const counts = {}; months.forEach(m => counts[m]=0);
-    orders.forEach(o => { if (o.createdAt) { const k=new Date(o.createdAt).toLocaleDateString('en-ZA',{month:'short',year:'2-digit'}); if (k in counts) counts[k]++; } });
+    const counts = {}; months.forEach(m => counts[m] = 0);
+    orders.forEach(o => { if (o.createdAt) { const k = new Date(o.createdAt).toLocaleDateString('en-ZA', { month: 'short', year: '2-digit' }); if (k in counts) counts[k]++; } });
     const vals = months.map(m => counts[m]);
     const maxV = Math.max(...vals, 1);
-    document.getElementById('ordersChart').innerHTML = months.map((m,i) => {
-        const h = Math.max(Math.round((vals[i]/maxV)*170), vals[i]>0?8:4);
+    document.getElementById('ordersChart').innerHTML = months.map((m, i) => {
+        const h = Math.max(Math.round((vals[i] / maxV) * 170), vals[i] > 0 ? 8 : 4);
         return `<div class="bar-wrapper"><div class="bar" style="height:${h}px;"><div class="bar-val">${vals[i]}</div></div><div class="bar-label">${m}</div></div>`;
     }).join('');
 }
-function getLast6Months() { const m=[],now=new Date(); for(let i=5;i>=0;i--){const d=new Date(now.getFullYear(),now.getMonth()-i,1);m.push(d.toLocaleDateString('en-ZA',{month:'short',year:'2-digit'}));} return m; }
+function getLast6Months() { const m = [], now = new Date(); for (let i = 5; i >= 0; i--) { const d = new Date(now.getFullYear(), now.getMonth() - i, 1); m.push(d.toLocaleDateString('en-ZA', { month: 'short', year: '2-digit' })); } return m; }
 
 /* ══════════════════════════════════════════════════════
    ITEM MODAL
 ══════════════════════════════════════════════════════ */
 function openAddItemModal() {
-    document.getElementById('item-key').value='';
-    ['item-name','item-desc','item-price','item-preptime','item-calories','item-allergens'].forEach(id=>document.getElementById(id).value='');
-    document.getElementById('item-category').selectedIndex=0;
-    document.getElementById('item-image').value='';
-    document.getElementById('item-status').value='available';
-    document.getElementById('item-featured').value='false';
-    document.getElementById('item-img-preview-wrap').style.display='none';
-    document.getElementById('uploadProgressWrap').style.display='none';
-    document.getElementById('itemModalTitle').innerHTML=`<i data-lucide="plus" style="width:22px;height:22px;color:var(--accent);"></i> ${currentConfig.addItemBtnLabel}`;
-    document.getElementById('itemSaveLabel').textContent=currentConfig.addItemBtnLabel;
+    document.getElementById('item-key').value = '';
+    ['item-name', 'item-desc', 'item-price', 'item-preptime', 'item-calories', 'item-allergens'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('item-category').selectedIndex = 0;
+    document.getElementById('item-image').value = '';
+    document.getElementById('item-status').value = 'available';
+    document.getElementById('item-featured').value = 'false';
+    document.getElementById('item-img-preview-wrap').style.display = 'none';
+    document.getElementById('uploadProgressWrap').style.display = 'none';
+    document.getElementById('itemModalTitle').innerHTML = `<i data-lucide="plus" style="width:22px;height:22px;color:var(--accent);"></i> ${currentConfig.addItemBtnLabel}`;
+    document.getElementById('itemSaveLabel').textContent = currentConfig.addItemBtnLabel;
     showModal('itemModal');
 }
 function openEditItemModal(key) {
-    const v=menuCache[key]; if(!v)return;
-    document.getElementById('item-key').value=key;
-    document.getElementById('item-name').value=v.name||'';
-    document.getElementById('item-category').value=v.category||'';
-    document.getElementById('item-desc').value=v.description||'';
-    document.getElementById('item-price').value=v.price||'';
-    document.getElementById('item-preptime').value=v.prepTime||'';
-    document.getElementById('item-calories').value=v.calories||'';
-    document.getElementById('item-allergens').value=v.allergens||'';
-    document.getElementById('item-image').value='';
-    document.getElementById('item-status').value=v.status||'available';
-    document.getElementById('item-featured').value=String(v.featured||'false');
-    document.getElementById('uploadProgressWrap').style.display='none';
-    const previewWrap=document.getElementById('item-img-preview-wrap');
-    if(v.imageURL){document.getElementById('item-img-preview').src=v.imageURL;previewWrap.style.display='block';}
-    else previewWrap.style.display='none';
-    document.getElementById('itemModalTitle').innerHTML=`<i data-lucide="edit-2" style="width:22px;height:22px;color:var(--accent);"></i> Edit Item`;
-    document.getElementById('itemSaveLabel').textContent='Save Changes';
+    const v = menuCache[key]; if (!v) return;
+    document.getElementById('item-key').value = key;
+    document.getElementById('item-name').value = v.name || '';
+    document.getElementById('item-category').value = v.category || '';
+    document.getElementById('item-desc').value = v.description || '';
+    document.getElementById('item-price').value = v.price || '';
+    document.getElementById('item-preptime').value = v.prepTime || '';
+    document.getElementById('item-calories').value = v.calories || '';
+    document.getElementById('item-allergens').value = v.allergens || '';
+    document.getElementById('item-image').value = '';
+    document.getElementById('item-status').value = v.status || 'available';
+    document.getElementById('item-featured').value = String(v.featured || 'false');
+    document.getElementById('uploadProgressWrap').style.display = 'none';
+    const previewWrap = document.getElementById('item-img-preview-wrap');
+    if (v.imageURL) { document.getElementById('item-img-preview').src = v.imageURL; previewWrap.style.display = 'block'; }
+    else previewWrap.style.display = 'none';
+    document.getElementById('itemModalTitle').innerHTML = `<i data-lucide="edit-2" style="width:22px;height:22px;color:var(--accent);"></i> Edit Item`;
+    document.getElementById('itemSaveLabel').textContent = 'Save Changes';
     showModal('itemModal');
 }
 async function saveMenuItem() {
-    if (!VENDOR_KEY) { showToast('No partner loaded','error'); return; }
-    const key=document.getElementById('item-key').value;
-    const name=document.getElementById('item-name').value.trim();
-    const category=document.getElementById('item-category').value;
-    const price=parseFloat(document.getElementById('item-price').value);
-    if (!name) { showToast('Item name is required','error'); return; }
-    if (!category) { showToast('Please select a category','error'); return; }
-    if (!price||price<=0) { showToast('Please enter a valid price','error'); return; }
-    const file=document.getElementById('item-image').files[0];
-    const existingImageURL=key?(menuCache[key]?.imageURL||''):'';
-    const existingApproved=key?(menuCache[key]?.imageApproved||false):false;
-    if (!key&&!file) { showToast('An image is required for new items','error'); return; }
-    let imageURL=existingImageURL, imageApproved=existingApproved;
+    if (!VENDOR_KEY) { showToast('No partner loaded', 'error'); return; }
+    const key = document.getElementById('item-key').value;
+    const name = document.getElementById('item-name').value.trim();
+    const category = document.getElementById('item-category').value;
+    const price = parseFloat(document.getElementById('item-price').value);
+    if (!name) { showToast('Item name is required', 'error'); return; }
+    if (!category) { showToast('Please select a category', 'error'); return; }
+    if (!price || price <= 0) { showToast('Please enter a valid price', 'error'); return; }
+    const file = document.getElementById('item-image').files[0];
+    const existingImageURL = key ? (menuCache[key]?.imageURL || '') : '';
+    const existingApproved = key ? (menuCache[key]?.imageApproved || false) : false;
+    if (!key && !file) { showToast('An image is required for new items', 'error'); return; }
+    let imageURL = existingImageURL, imageApproved = existingApproved;
     if (file) {
-        const progressWrap=document.getElementById('uploadProgressWrap');
-        const progressFill=document.getElementById('uploadProgressFill');
-        const progressText=document.getElementById('uploadProgressText');
-        progressWrap.style.display='block'; progressFill.style.width='0%'; progressText.textContent='0%';
-        showToast('Uploading image…','info');
+        const progressWrap = document.getElementById('uploadProgressWrap');
+        const progressFill = document.getElementById('uploadProgressFill');
+        const progressText = document.getElementById('uploadProgressText');
+        progressWrap.style.display = 'block'; progressFill.style.width = '0%'; progressText.textContent = '0%';
+        showToast('Uploading image…', 'info');
         try {
-            imageURL=await uploadToCloudinary(file,pct=>{progressFill.style.width=pct+'%';progressText.textContent=pct+'%';});
-            progressFill.style.width='100%'; progressText.textContent='100%';
-            imageApproved=false;
-            showToast('Image uploaded — awaiting admin approval','info');
-            setTimeout(()=>progressWrap.style.display='none',1200);
-        } catch(err) {
-            showToast('Image upload failed: '+err.message,'error');
-            progressWrap.style.display='none'; return;
+            imageURL = await uploadToCloudinary(file, pct => { progressFill.style.width = pct + '%'; progressText.textContent = pct + '%'; });
+            progressFill.style.width = '100%'; progressText.textContent = '100%';
+            imageApproved = false;
+            showToast('Image uploaded — awaiting admin approval', 'info');
+            setTimeout(() => progressWrap.style.display = 'none', 1200);
+        } catch (err) {
+            showToast('Image upload failed: ' + err.message, 'error');
+            progressWrap.style.display = 'none'; return;
         }
     }
-    const data={name,category,description:document.getElementById('item-desc').value.trim(),price,prepTime:document.getElementById('item-preptime').value||'',calories:document.getElementById('item-calories').value||'',allergens:document.getElementById('item-allergens').value.trim(),status:document.getElementById('item-status').value,featured:document.getElementById('item-featured').value==='true',imageURL,imageApproved,updatedAt:Date.now(),vendorKey:VENDOR_KEY,vendorName:vendorData?.name||''};
-    const dbRef=key?db.ref(`vendors/${VENDOR_KEY}/menu/${key}`).update(data):db.ref(`vendors/${VENDOR_KEY}/menu`).push({...data,createdAt:Date.now()});
-    dbRef.then(()=>{showToast(key?`"${name}" updated!`:`"${name}" added!`,'success');hideModal('itemModal');syncFeaturedGlobal();}).catch(err=>showToast('Error saving item: '+err.message,'error'));
+    const data = { name, category, description: document.getElementById('item-desc').value.trim(), price, prepTime: document.getElementById('item-preptime').value || '', calories: document.getElementById('item-calories').value || '', allergens: document.getElementById('item-allergens').value.trim(), status: document.getElementById('item-status').value, featured: document.getElementById('item-featured').value === 'true', imageURL, imageApproved, updatedAt: Date.now(), vendorKey: VENDOR_KEY, vendorName: vendorData?.name || '' };
+    const dbRef = key ? db.ref(`vendors/${VENDOR_KEY}/menu/${key}`).update(data) : db.ref(`vendors/${VENDOR_KEY}/menu`).push({ ...data, createdAt: Date.now() });
+    dbRef.then(() => { showToast(key ? `"${name}" updated!` : `"${name}" added!`, 'success'); hideModal('itemModal'); syncFeaturedGlobal(); }).catch(err => showToast('Error saving item: ' + err.message, 'error'));
 }
-function openDeleteModal(key,name){document.getElementById('del-key').value=key;document.getElementById('del-name').textContent=`"${name}"`;showModal('deleteModal');}
-function confirmDelete(){
-    const key=document.getElementById('del-key').value;
-    if(!VENDOR_KEY||!key)return;
+function openDeleteModal(key, name) { document.getElementById('del-key').value = key; document.getElementById('del-name').textContent = `"${name}"`; showModal('deleteModal'); }
+function confirmDelete() {
+    const key = document.getElementById('del-key').value;
+    if (!VENDOR_KEY || !key) return;
     db.ref(`vendors/${VENDOR_KEY}/menu/${key}`).remove()
-        .then(()=>{showToast('Item deleted','success');hideModal('deleteModal');syncFeaturedGlobal();})
-        .catch(()=>showToast('Error deleting item','error'));
+        .then(() => { showToast('Item deleted', 'success'); hideModal('deleteModal'); syncFeaturedGlobal(); })
+        .catch(() => showToast('Error deleting item', 'error'));
 }
 
 /* ══════════════════════════════════════════════════════
@@ -1368,159 +1412,162 @@ function confirmDelete(){
 ══════════════════════════════════════════════════════ */
 function populateProfileForm() {
     if (!vendorData) return;
-    const addr=vendorData.address||{};
-    const fields={'p-name':vendorData.name,'p-cuisine':vendorData.cuisine,'p-owner':vendorData.ownerName,'p-phone':vendorData.phone,'p-email':vendorData.email,'p-whatsapp':vendorData.whatsapp,'p-street':addr.street,'p-suburb':addr.suburb,'p-city':addr.city,'p-province':addr.province,'p-radius':vendorData.deliveryRadius||'5','p-minorder':vendorData.minOrderValue||vendorData.minOrder,'p-open':vendorData.openingTime||'08:00','p-close':vendorData.closingTime||'22:00','p-preptime':vendorData.avgPrepTime,'p-lat':vendorData.lat||'','p-lng':vendorData.lng||''};
-    Object.entries(fields).forEach(([id,val])=>{const el=document.getElementById(id);if(el&&val!=null)el.value=val;});
-    const savedDays=Array.isArray(vendorData.operatingDays)?vendorData.operatingDays:[];
-    document.querySelectorAll('#p-days input[type=checkbox]').forEach(cb=>{cb.checked=savedDays.includes(cb.value);cb.closest('label').classList.toggle('checked',cb.checked);});
-    const savedCats=Array.isArray(vendorData.shopCategories)?vendorData.shopCategories:(Array.isArray(vendorData.categories)?vendorData.categories:[]);
-    document.querySelectorAll('#p-shop-categories input[type="checkbox"]').forEach(cb=>{cb.checked=savedCats.includes(cb.value);cb.closest('label').classList.toggle('checked',cb.checked);});
-    const savedRadius=parseInt(vendorData.deliveryRadius||'5');
+    const addr = vendorData.address || {};
+    const fields = { 'p-name': vendorData.name, 'p-cuisine': vendorData.cuisine, 'p-owner': vendorData.ownerName, 'p-phone': vendorData.phone, 'p-email': vendorData.email, 'p-whatsapp': vendorData.whatsapp, 'p-street': addr.street, 'p-suburb': addr.suburb, 'p-city': addr.city, 'p-province': addr.province, 'p-radius': vendorData.deliveryRadius || '5', 'p-minorder': vendorData.minOrderValue || vendorData.minOrder, 'p-open': vendorData.openingTime || '08:00', 'p-close': vendorData.closingTime || '22:00', 'p-preptime': vendorData.avgPrepTime, 'p-lat': vendorData.lat || '', 'p-lng': vendorData.lng || '' };
+    Object.entries(fields).forEach(([id, val]) => { const el = document.getElementById(id); if (el && val != null) el.value = val; });
+    const savedDays = Array.isArray(vendorData.operatingDays) ? vendorData.operatingDays : [];
+    document.querySelectorAll('#p-days input[type=checkbox]').forEach(cb => { cb.checked = savedDays.includes(cb.value); cb.closest('label').classList.toggle('checked', cb.checked); });
+    const savedCats = Array.isArray(vendorData.shopCategories) ? vendorData.shopCategories : (Array.isArray(vendorData.categories) ? vendorData.categories : []);
+    document.querySelectorAll('#p-shop-categories input[type="checkbox"]').forEach(cb => { cb.checked = savedCats.includes(cb.value); cb.closest('label').classList.toggle('checked', cb.checked); });
+    const savedRadius = parseInt(vendorData.deliveryRadius || '5');
     selectInlineRadius(savedRadius);
 }
 function saveStoreProfile() {
-    if (!VENDOR_KEY) { showToast('No partner loaded','error'); return; }
-    const name=document.getElementById('p-name').value.trim();
-    if (!name) { showToast('Business name is required','error'); return; }
-    const days=Array.from(document.querySelectorAll('#p-days input[type=checkbox]:checked')).map(c=>c.value);
-    const shopCategories=Array.from(document.querySelectorAll('#p-shop-categories input[type="checkbox"]:checked')).map(c=>c.value);
-    const upd={name,cuisine:document.getElementById('p-cuisine').value.trim(),ownerName:document.getElementById('p-owner').value.trim(),phone:document.getElementById('p-phone').value.trim(),email:document.getElementById('p-email').value.trim(),whatsapp:document.getElementById('p-whatsapp').value.trim(),address:{street:document.getElementById('p-street').value.trim(),suburb:document.getElementById('p-suburb').value.trim(),city:document.getElementById('p-city').value.trim(),province:document.getElementById('p-province').value},lat:document.getElementById('p-lat').value?parseFloat(document.getElementById('p-lat').value):null,lng:document.getElementById('p-lng').value?parseFloat(document.getElementById('p-lng').value):null,deliveryRadius:document.getElementById('p-radius').value,minOrderValue:document.getElementById('p-minorder').value,openingTime:document.getElementById('p-open').value,closingTime:document.getElementById('p-close').value,avgPrepTime:document.getElementById('p-preptime').value,operatingDays:days,shopCategories,updatedAt:Date.now()};
-    db.ref('vendors/'+VENDOR_KEY).update(upd).then(()=>showToast(`Profile saved for "${name}"!`,'success')).catch(()=>showToast('Error saving profile','error'));
+    if (!VENDOR_KEY) { showToast('No partner loaded', 'error'); return; }
+    const name = document.getElementById('p-name').value.trim();
+    if (!name) { showToast('Business name is required', 'error'); return; }
+    const days = Array.from(document.querySelectorAll('#p-days input[type=checkbox]:checked')).map(c => c.value);
+    const shopCategories = Array.from(document.querySelectorAll('#p-shop-categories input[type="checkbox"]:checked')).map(c => c.value);
+    const upd = { name, cuisine: document.getElementById('p-cuisine').value.trim(), ownerName: document.getElementById('p-owner').value.trim(), phone: document.getElementById('p-phone').value.trim(), email: document.getElementById('p-email').value.trim(), whatsapp: document.getElementById('p-whatsapp').value.trim(), address: { street: document.getElementById('p-street').value.trim(), suburb: document.getElementById('p-suburb').value.trim(), city: document.getElementById('p-city').value.trim(), province: document.getElementById('p-province').value }, lat: document.getElementById('p-lat').value ? parseFloat(document.getElementById('p-lat').value) : null, lng: document.getElementById('p-lng').value ? parseFloat(document.getElementById('p-lng').value) : null, deliveryRadius: document.getElementById('p-radius').value, minOrderValue: document.getElementById('p-minorder').value, openingTime: document.getElementById('p-open').value, closingTime: document.getElementById('p-close').value, avgPrepTime: document.getElementById('p-preptime').value, operatingDays: days, shopCategories, updatedAt: Date.now() };
+    db.ref('vendors/' + VENDOR_KEY).update(upd).then(() => showToast(`Profile saved for "${name}"!`, 'success')).catch(() => showToast('Error saving profile', 'error'));
 }
 
 /* ══════════════════════════════════════════════════════
    LOCATION PICKER
 ══════════════════════════════════════════════════════ */
 function toggleInlineLocationPicker() {
-    const picker=document.getElementById('inlineLocationPicker');
+    const picker = document.getElementById('inlineLocationPicker');
     picker.classList.toggle('open');
-    const btn=document.getElementById('setLocationBtn');
-    btn.innerHTML=picker.classList.contains('open')?'<i data-lucide="x" style="width:18px;height:18px;"></i> Close Location Picker':'<i data-lucide="map" style="width:18px;height:18px;"></i> 📍 Set Store Location';
-    if(picker.classList.contains('open'))document.getElementById('inlineLocationInput').focus();
+    const btn = document.getElementById('setLocationBtn');
+    btn.innerHTML = picker.classList.contains('open') ? '<i data-lucide="x" style="width:18px;height:18px;"></i> Close Location Picker' : '<i data-lucide="map" style="width:18px;height:18px;"></i> 📍 Set Store Location';
+    if (picker.classList.contains('open')) document.getElementById('inlineLocationInput').focus();
     lucide.createIcons();
 }
 function selectInlineRadius(r) {
-    document.querySelectorAll('#inlineRadiusGrid .picker-radius-opt').forEach(opt=>opt.classList.toggle('selected',parseInt(opt.dataset.value)===r));
-    document.getElementById('p-radius').value=r;
+    document.querySelectorAll('#inlineRadiusGrid .picker-radius-opt').forEach(opt => opt.classList.toggle('selected', parseInt(opt.dataset.value) === r));
+    document.getElementById('p-radius').value = r;
 }
 function detectCurrentLocationInline() {
-    if(!navigator.geolocation){showToast('Geolocation not supported','error');return;}
-    showToast('Detecting location…','info');
-    navigator.geolocation.getCurrentPosition(async pos=>{
-        const{latitude:lat,longitude:lng}=pos.coords;
-        try{
-            const res=await fetch(`https://api.mapbox.com/search/geocode/v6/reverse?longitude=${lng}&latitude=${lat}&access_token=${MAPBOX_TOKEN}&limit=1`);
-            const d=await res.json();
-            const addr=d.features?.[0]?.properties?.full_address||'Current Location';
-            fillLocationFields(lat,lng,addr);
+    if (!navigator.geolocation) { showToast('Geolocation not supported', 'error'); return; }
+    showToast('Detecting location…', 'info');
+    navigator.geolocation.getCurrentPosition(async pos => {
+        const { latitude: lat, longitude: lng } = pos.coords;
+        try {
+            const res = await fetch(`https://api.mapbox.com/search/geocode/v6/reverse?longitude=${lng}&latitude=${lat}&access_token=${MAPBOX_TOKEN}&limit=1`);
+            const d = await res.json();
+            const addr = d.features?.[0]?.properties?.full_address || 'Current Location';
+            fillLocationFields(lat, lng, addr);
             toggleInlineLocationPicker();
-            showToast('Location set!','success');
-        }catch{showToast('Could not get address','error');}
-    },()=>showToast('Location denied','error'),{enableHighAccuracy:true,timeout:10000});
+            showToast('Location set!', 'success');
+        } catch { showToast('Could not get address', 'error'); }
+    }, () => showToast('Location denied', 'error'), { enableHighAccuracy: true, timeout: 10000 });
 }
-function fillLocationFields(lat,lng,address) {
-    document.getElementById('p-lat').value=lat;
-    document.getElementById('p-lng').value=lng;
-    const parts=address.split(',').map(s=>s.trim());
-    if(parts[0])document.getElementById('p-street').value=parts[0];
-    if(parts[1])document.getElementById('p-suburb').value=parts[1];
-    if(parts[2])document.getElementById('p-city').value=parts[2];
+function fillLocationFields(lat, lng, address) {
+    document.getElementById('p-lat').value = lat;
+    document.getElementById('p-lng').value = lng;
+    const parts = address.split(',').map(s => s.trim());
+    if (parts[0]) document.getElementById('p-street').value = parts[0];
+    if (parts[1]) document.getElementById('p-suburb').value = parts[1];
+    if (parts[2]) document.getElementById('p-city').value = parts[2];
 }
 let inlineDebounce;
-document.getElementById('inlineLocationInput')?.addEventListener('input',e=>{
+document.getElementById('inlineLocationInput')?.addEventListener('input', e => {
     clearTimeout(inlineDebounce);
-    const q=e.target.value;
-    if(q.length<3){document.getElementById('inlineLocationSuggestions').innerHTML='';return;}
-    inlineDebounce=setTimeout(()=>fetchInlineSuggestions(q),300);
+    const q = e.target.value;
+    if (q.length < 3) { document.getElementById('inlineLocationSuggestions').innerHTML = ''; return; }
+    inlineDebounce = setTimeout(() => fetchInlineSuggestions(q), 300);
 });
 async function fetchInlineSuggestions(q) {
-    try{
-        const res=await fetch(`https://api.mapbox.com/search/geocode/v6/forward?q=${encodeURIComponent(q)}&access_token=${MAPBOX_TOKEN}&autocomplete=true&limit=5`);
-        const d=await res.json();
-        const container=document.getElementById('inlineLocationSuggestions');
-        container.innerHTML=(d.features||[]).map(f=>{
-            const addr=f.properties?.full_address||f.properties?.name||'Unknown';
-            const[lng,lat]=f.geometry.coordinates;
-            return `<div class="picker-suggestion-item" onclick="selectInlineLocation(${lat},${lng},'${addr.replace(/'/g,"\\'")}')"><i data-lucide="map-pin" style="width:16px;height:16px;color:var(--accent);"></i><span>${addr}</span></div>`;
+    try {
+        const res = await fetch(`https://api.mapbox.com/search/geocode/v6/forward?q=${encodeURIComponent(q)}&access_token=${MAPBOX_TOKEN}&autocomplete=true&limit=5`);
+        const d = await res.json();
+        const container = document.getElementById('inlineLocationSuggestions');
+        container.innerHTML = (d.features || []).map(f => {
+            const addr = f.properties?.full_address || f.properties?.name || 'Unknown';
+            const [lng, lat] = f.geometry.coordinates;
+            return `<div class="picker-suggestion-item" onclick="selectInlineLocation(${lat},${lng},'${addr.replace(/'/g, "\\'")}')"><i data-lucide="map-pin" style="width:16px;height:16px;color:var(--accent);"></i><span>${addr}</span></div>`;
         }).join('');
         lucide.createIcons();
-    }catch{}
+    } catch {}
 }
-function selectInlineLocation(lat,lng,address) {
-    fillLocationFields(lat,lng,address);
-    document.getElementById('inlineLocationSuggestions').innerHTML='';
-    document.getElementById('inlineLocationInput').value='';
+function selectInlineLocation(lat, lng, address) {
+    fillLocationFields(lat, lng, address);
+    document.getElementById('inlineLocationSuggestions').innerHTML = '';
+    document.getElementById('inlineLocationInput').value = '';
     toggleInlineLocationPicker();
-    showToast(`Location set: ${address.split(',')[0]}`,'success');
+    showToast(`Location set: ${address.split(',')[0]}`, 'success');
 }
 
 /* ══════════════════════════════════════════════════════
    SETTINGS
 ══════════════════════════════════════════════════════ */
-const defaultSettings={storeOpen:true,onlineOrders:true,deliveryAvailable:true,takeawayAvailable:true,orderAlerts:true,smsNotifs:false};
-const toggleMap={storeOpen:'tog-open',onlineOrders:'tog-online',deliveryAvailable:'tog-delivery',takeawayAvailable:'tog-takeaway',orderAlerts:'tog-alerts',smsNotifs:'tog-sms'};
-function loadSettings(){
-    const saved=JSON.parse(localStorage.getItem('vynix_vendor_settings')||'{}');
-    Object.assign(settingsState,defaultSettings,saved);
-    Object.entries(toggleMap).forEach(([k,id])=>{const el=document.getElementById(id);if(el)el.classList.toggle('on',!!settingsState[k]);});
+const defaultSettings = { storeOpen: true, onlineOrders: true, deliveryAvailable: true, takeawayAvailable: true, orderAlerts: true, smsNotifs: false };
+const toggleMap = { storeOpen: 'tog-open', onlineOrders: 'tog-online', deliveryAvailable: 'tog-delivery', takeawayAvailable: 'tog-takeaway', orderAlerts: 'tog-alerts', smsNotifs: 'tog-sms' };
+function loadSettings() {
+    const saved = JSON.parse(localStorage.getItem('vynix_vendor_settings') || '{}');
+    Object.assign(settingsState, defaultSettings, saved);
+    Object.entries(toggleMap).forEach(([k, id]) => { const el = document.getElementById(id); if (el) el.classList.toggle('on', !!settingsState[k]); });
 }
-function toggleSetting(el,key){el.classList.toggle('on');settingsState[key]=el.classList.contains('on');}
-function saveSettings(){
-    localStorage.setItem('vynix_vendor_settings',JSON.stringify(settingsState));
-    if(VENDOR_KEY)db.ref('vendors/'+VENDOR_KEY).update({manualStoreStatus:!settingsState.storeOpen?'closed':'open',updatedAt:Date.now()});
-    showToast('Settings saved!','success');
+function toggleSetting(el, key) { el.classList.toggle('on'); settingsState[key] = el.classList.contains('on'); }
+function saveSettings() {
+    localStorage.setItem('vynix_vendor_settings', JSON.stringify(settingsState));
+    if (VENDOR_KEY) db.ref('vendors/' + VENDOR_KEY).update({ manualStoreStatus: !settingsState.storeOpen ? 'closed' : 'open', updatedAt: Date.now() });
+    showToast('Settings saved!', 'success');
 }
 
 /* ══════════════════════════════════════════════════════
    NAVIGATION
 ══════════════════════════════════════════════════════ */
-function showTab(id,el){
-    document.querySelectorAll('#vendorMainPanel .page-content').forEach(p=>p.classList.remove('active'));
-    document.querySelectorAll('#vendorSidebar .nav-item').forEach(n=>n.classList.remove('active'));
+function showTab(id, el) {
+    document.querySelectorAll('#vendorMainPanel .page-content').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('#vendorSidebar .nav-item').forEach(n => n.classList.remove('active'));
     document.getElementById(id).classList.add('active');
-    if(el)el.classList.add('active');
-    if(id==='analytics')updateAnalytics();
-    if(id==='profile'){populateProfileForm();document.getElementById('inlineLocationPicker').classList.remove('open');}
-    if(id==='settings')loadSettings();
-    if(id==='featured')renderFeaturedItems();
-    setTimeout(()=>lucide.createIcons(),50);
+    if (el) el.classList.add('active');
+    if (id === 'analytics') updateAnalytics();
+    if (id === 'profile') { populateProfileForm(); document.getElementById('inlineLocationPicker').classList.remove('open'); }
+    if (id === 'settings') loadSettings();
+    if (id === 'featured') renderFeaturedItems();
+    setTimeout(() => lucide.createIcons(), 50);
 }
 
 /* ══════════════════════════════════════════════════════
    LOGOUT
 ══════════════════════════════════════════════════════ */
-function openLogoutModal(){showModal('logoutModal');}
-function confirmLogout(){localStorage.removeItem('vynix_vendor_session');window.location.href='login.html';}
+function openLogoutModal() { showModal('logoutModal'); }
+function confirmLogout() {
+    localStorage.removeItem('vynix_vendor_session');
+    window.location.href = 'login.html';
+}
 
 /* ══════════════════════════════════════════════════════
    MODAL HELPERS
 ══════════════════════════════════════════════════════ */
-function showModal(id){const el=document.getElementById(id);el.style.display='flex';setTimeout(()=>{el.classList.add('active');lucide.createIcons();},10);}
-function hideModal(id){const el=document.getElementById(id);el.classList.remove('active');setTimeout(()=>el.style.display='none',320);}
-window.onclick=e=>{if(e.target.classList.contains('modal-overlay'))['itemModal','deleteModal','logoutModal'].forEach(id=>{const el=document.getElementById(id);if(el&&el===e.target)hideModal(id);});};
+function showModal(id) { const el = document.getElementById(id); el.style.display = 'flex'; setTimeout(() => { el.classList.add('active'); lucide.createIcons(); }, 10); }
+function hideModal(id) { const el = document.getElementById(id); el.classList.remove('active'); setTimeout(() => el.style.display = 'none', 320); }
+window.onclick = e => { if (e.target.classList.contains('modal-overlay')) ['itemModal', 'deleteModal', 'logoutModal'].forEach(id => { const el = document.getElementById(id); if (el && el === e.target) hideModal(id); }); };
 
 /* ══════════════════════════════════════════════════════
    SIDEBAR HOVER
 ══════════════════════════════════════════════════════ */
-document.getElementById('vendorSidebar').addEventListener('mouseenter',()=>{document.getElementById('vendorSidebar').classList.add('expanded');document.getElementById('vendorMainPanel').classList.add('shifted');});
-document.getElementById('vendorSidebar').addEventListener('mouseleave',()=>{document.getElementById('vendorSidebar').classList.remove('expanded');document.getElementById('vendorMainPanel').classList.remove('shifted');});
+document.getElementById('vendorSidebar').addEventListener('mouseenter', () => { document.getElementById('vendorSidebar').classList.add('expanded'); document.getElementById('vendorMainPanel').classList.add('shifted'); });
+document.getElementById('vendorSidebar').addEventListener('mouseleave', () => { document.getElementById('vendorSidebar').classList.remove('expanded'); document.getElementById('vendorMainPanel').classList.remove('shifted'); });
 
 /* ══════════════════════════════════════════════════════
    TOAST
 ══════════════════════════════════════════════════════ */
-function showToast(msg,type='success'){
-    const t=document.getElementById('toast');
-    document.getElementById('toastMsg').textContent=msg;
-    t.className='toast show '+type;
+function showToast(msg, type = 'success') {
+    const t = document.getElementById('toast');
+    document.getElementById('toastMsg').textContent = msg;
+    t.className = 'toast show ' + type;
     clearTimeout(t._timer);
-    t._timer=setTimeout(()=>t.classList.remove('show'),2800);
+    t._timer = setTimeout(() => t.classList.remove('show'), 2800);
 }
 
 /* ══════════════════════════════════════════════════════
    DATE HELPERS
 ══════════════════════════════════════════════════════ */
-function fmtDate(ts){return ts?new Date(ts).toLocaleDateString('en-ZA'):'—';}
-function fmtTime(ts){return ts?new Date(ts).toLocaleTimeString('en-ZA',{hour:'2-digit',minute:'2-digit'}):''}
+function fmtDate(ts) { return ts ? new Date(ts).toLocaleDateString('en-ZA') : '—'; }
+function fmtTime(ts) { return ts ? new Date(ts).toLocaleTimeString('en-ZA', { hour: '2-digit', minute: '2-digit' }) : ''; }
 
 lucide.createIcons();
 </script>
