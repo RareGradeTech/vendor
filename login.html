@@ -44,13 +44,11 @@
         }
         input[type="text"], input[type="email"], input[type="tel"],
         input[type="number"], input[type="password"], select { border-radius: 999px !important; }
-
         .auth-bg { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; background-image: linear-gradient(rgba(0,0,0,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.025) 1px, transparent 1px); background-size: 40px 40px; }
         .auth-circle { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.35; }
         .auth-circle:nth-child(1) { width: 500px; height: 500px; background: radial-gradient(circle, #ffe0c8 0%, #ffd4b0 60%, transparent 100%); top: -120px; right: -80px; }
         .auth-circle:nth-child(2) { width: 380px; height: 380px; background: radial-gradient(circle, #ffeedd 0%, transparent 70%); bottom: -80px; left: -60px; }
         .auth-circle:nth-child(3) { width: 200px; height: 200px; background: radial-gradient(circle, #ffe8d4 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%,-50%); }
-
         .auth-card {
             background: var(--surface);
             border: 1px solid var(--border);
@@ -61,10 +59,8 @@
             box-shadow: var(--shadow-lg);
             max-height: 92vh; overflow-y: auto;
         }
-
         .auth-title { font-size: 1.5rem; font-weight: 800; color: var(--text); margin-bottom: 4px; text-align: center; letter-spacing: -0.3px; }
         .auth-sub { color: var(--dim); font-size: 0.84rem; text-align: center; margin-bottom: 24px; line-height: 1.55; }
-
         .auth-form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 12px; }
         .auth-form-group label { font-size: 0.71rem; font-weight: 700; color: var(--dim); text-transform: uppercase; letter-spacing: 0.6px; }
         .auth-input {
@@ -81,7 +77,6 @@
         .auth-input[readonly] { cursor: default; opacity: 0.7; }
         .auth-input option { color: #000 !important; background: #fff !important; }
         .auth-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-
         .auth-btn {
             background: linear-gradient(135deg, #ff751f, #e0621a);
             color: white; border: none; padding: 13px 20px;
@@ -92,7 +87,6 @@
         }
         .auth-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 22px rgba(255,117,31,0.45); }
         .auth-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-
         .btn-outline {
             background: transparent; color: var(--text);
             border: 1.5px solid var(--border); padding: 12px 20px;
@@ -101,7 +95,6 @@
             display: flex; align-items: center; justify-content: center; gap: 8px;
         }
         .btn-outline:hover { background: var(--surface2); border-color: var(--border-strong); }
-
         .btn-google {
             background: var(--surface); color: var(--text);
             border: 1.5px solid var(--border); padding: 13px 20px;
@@ -112,22 +105,17 @@
         }
         .btn-google:hover { border-color: var(--border-strong); box-shadow: var(--shadow); transform: translateY(-1px); }
         .btn-google:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-
         .google-icon {
             width: 20px; height: 20px; flex-shrink: 0;
             background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cpath fill='%23EA4335' d='M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z'/%3E%3Cpath fill='%234285F4' d='M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z'/%3E%3Cpath fill='%23FBBC05' d='M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z'/%3E%3Cpath fill='%2334A853' d='M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.36-8.16 2.36-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z'/%3E%3C/svg%3E") no-repeat center/contain;
         }
-
         .auth-error { background: #fff1f0; border: 1px solid #fcd9d7; border-radius: 12px; padding: 11px 14px; color: var(--danger); font-size: 0.82rem; font-weight: 600; display: none; margin-bottom: 14px; }
         .auth-success { background: #edf9f2; border: 1px solid #bbf0d3; border-radius: 12px; padding: 11px 14px; color: var(--green); font-size: 0.82rem; font-weight: 600; display: none; margin-bottom: 14px; }
-
         .auth-divider { display: flex; align-items: center; gap: 12px; margin: 20px 0; color: var(--text-muted); font-size: 0.78rem; font-weight: 500; }
         .auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-
         #initialGoogleCard { text-align: center; }
         #mainAuthCard { display: none; }
         .gate-icon { width: 68px; height: 68px; background: var(--accent-light); border-radius: 22px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; border: 1px solid var(--accent-muted); }
-
         .google-verified-badge {
             display: flex; align-items: center; gap: 10px;
             background: #edf9f2; border: 1px solid #bbf0d3; border-radius: 12px;
@@ -136,7 +124,6 @@
         .google-verified-badge .google-icon { width: 18px; height: 18px; }
         .google-verified-badge span { font-size: 0.82rem; font-weight: 600; color: var(--green); }
         .google-verified-badge strong { color: #0a5c35; word-break: break-all; }
-
         .security-notice {
             display: flex; align-items: flex-start; gap: 10px;
             background: #fef9c3; border: 1px solid #fcd34d; border-radius: 12px;
@@ -144,7 +131,6 @@
             line-height: 1.45;
         }
         .security-notice svg { flex-shrink: 0; margin-top: 1px; }
-
         /* ── MOBILE ONLY NOTICE on gate card ── */
         .mobile-only-notice {
             display: none;
@@ -176,7 +162,6 @@
             font-weight: 700;
             letter-spacing: 0.2px;
         }
-
         /* ── DESKTOP ONLY MODAL (shown on mobile sign-in attempt) ── */
         .desktop-modal-overlay {
             display: none;
@@ -201,7 +186,7 @@
         }
         @keyframes modalPop {
             from { transform: scale(0.88) translateY(24px); opacity: 0; }
-            to   { transform: scale(1) translateY(0); opacity: 1; }
+            to { transform: scale(1) translateY(0); opacity: 1; }
         }
         .desktop-modal-box .dm-icon {
             width: 72px; height: 72px;
@@ -230,7 +215,6 @@
             cursor: pointer; width: 100%;
         }
         .desktop-modal-box .dm-close:hover { background: var(--surface2); }
-
         /* ── REGISTRATION MODAL ── */
         .modal-overlay {
             display: none; position: fixed; inset: 0;
@@ -262,15 +246,12 @@
         }
         .modal-close:hover { background: var(--border); color: var(--text); }
         .modal-body { padding: 20px 28px 30px; }
-
         .step-track { display: flex; gap: 6px; margin-bottom: 22px; }
         .step-pip { height: 5px; border-radius: 999px; background: var(--border); transition: var(--transition); flex: 1; }
         .step-pip.done { background: var(--accent-muted); }
         .step-pip.active { background: var(--accent); }
-
         .reg-step { display: none; }
         .reg-step.active { display: block; }
-
         .success-screen { text-align: center; padding: 8px 0; }
         .success-icon { width: 72px; height: 72px; border-radius: 50%; background: #edf9f2; border: 2px solid #bbf0d3; display: flex; align-items: center; justify-content: center; margin: 0 auto 18px; font-size: 2rem; }
         .success-screen h3 { font-size: 1.2rem; font-weight: 800; margin-bottom: 8px; }
@@ -278,23 +259,38 @@
         .steps-info { background: var(--surface2); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px; margin: 16px 0 20px; text-align: left; }
         .steps-info-title { font-size: 0.68rem; font-weight: 700; color: var(--dim); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
         .steps-info-body { font-size: 0.82rem; color: var(--dim); line-height: 1.7; }
-
         @media (max-width: 480px) {
-            .auth-card { padding: 32px 22px; border-radius: 22px; }
+            body {
+                padding: 16px;
+            }
+            .auth-card {
+                padding: 28px 20px;
+                border-radius: 24px;
+                max-height: 96vh;
+            }
             .auth-form-row { grid-template-columns: 1fr; }
             .modal-header { padding: 20px 20px 0; }
             .modal-body { padding: 16px 20px 24px; }
+            .modal-box {
+                max-width: 100%;
+            }
+            .desktop-modal-overlay {
+                padding: 16px;
+            }
+            .desktop-modal-box {
+                padding: 32px 24px;
+                max-width: 100%;
+                border-radius: 24px;
+            }
         }
     </style>
 </head>
 <body>
-
 <div class="auth-bg">
     <div class="auth-circle"></div>
     <div class="auth-circle"></div>
     <div class="auth-circle"></div>
 </div>
-
 <!-- ═══════════════════════════════════════════
      GATE CARD
      ═══════════════════════════════════════════ -->
@@ -304,7 +300,6 @@
     </div>
     <img src="https://i.postimg.cc/d30sLt05/1BUSKET-LOGO.png" alt="1BUSKET" style="height:36px;display:block;margin:0 auto 16px;">
     <h1 class="auth-title">Vendor Portal</h1>
-
     <!-- Mobile notice block — shown only on mobile, replaces sign-in button -->
     <div class="mobile-only-notice" id="mobileSigninNotice">
         <div class="mon-icon">
@@ -314,7 +309,6 @@
         <p>The 1BUSKET Vendor Portal is designed for desktop use. To sign in and manage your store, please open this page on a laptop or desktop computer.</p>
         <span class="mon-url">vendor.1busket.co.za</span>
     </div>
-
     <!-- Desktop sign-in section — hidden on mobile -->
     <div id="desktopSigninSection">
         <p class="auth-sub">Already a registered vendor? Sign in with Google.<br>New here? Apply to list your business.</p>
@@ -324,17 +318,13 @@
             Sign In with Google
         </button>
     </div>
-
     <div class="auth-divider">new vendor</div>
-
     <button class="btn-outline" onclick="openRegisterModal()">
         <svg xmlns="http://www.w3.org/2000/svg" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
         Register Your Business
     </button>
-
     <p style="margin-top:18px;font-size:0.73rem;color:var(--text-muted);text-align:center;">By continuing you agree to 1BUSKET's vendor terms &amp; conditions.</p>
 </div>
-
 <!-- ═══════════════════════════════════════════
      MAIN SIGN-IN CARD (after Google verify — desktop only)
      ═══════════════════════════════════════════ -->
@@ -363,7 +353,6 @@
         Wrong account? <a href="#" onclick="resetToGate();return false;" style="color:var(--accent);font-weight:700;text-decoration:none;">Switch Google account</a>
     </p>
 </div>
-
 <!-- ═══════════════════════════════════════════
      DESKTOP-ONLY MODAL (shown if mobile user taps sign-in)
      ═══════════════════════════════════════════ -->
@@ -385,7 +374,6 @@
         <button class="dm-close" onclick="document.getElementById('desktopOnlyModal').classList.remove('open')">Got it</button>
     </div>
 </div>
-
 <!-- ═══════════════════════════════════════════
      REGISTRATION MODAL
      ═══════════════════════════════════════════ -->
@@ -409,7 +397,6 @@
                 <div class="step-pip" id="rpip-2"></div>
             </div>
             <div class="auth-error" id="regModalError"></div>
-
             <!-- STEP 0: Google verification -->
             <div class="reg-step active" id="rStep0">
                 <p style="font-size:0.88rem;color:var(--dim);line-height:1.6;margin-bottom:20px;">
@@ -421,7 +408,6 @@
                 </button>
                 <p style="margin-top:14px;font-size:0.73rem;color:var(--text-muted);text-align:center;">We only read your name &amp; email address.</p>
             </div>
-
             <!-- STEP 1: Business details -->
             <div class="reg-step" id="rStep1">
                 <div class="auth-form-group">
@@ -460,7 +446,6 @@
                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
                 </button>
             </div>
-
             <!-- STEP 2: Additional details -->
             <div class="reg-step" id="rStep2">
                 <div class="auth-form-group">
@@ -482,7 +467,6 @@
                     </button>
                 </div>
             </div>
-
             <!-- STEP 3: Success -->
             <div class="reg-step" id="rStep3">
                 <div class="success-screen">
@@ -504,7 +488,6 @@
         </div>
     </div>
 </div>
-
 <script>
 /* ─── Firebase ─────────────────────────── */
 const firebaseConfig = {
@@ -517,15 +500,13 @@ const firebaseConfig = {
     databaseURL: "https://test-17881-default-rtdb.firebaseio.com/"
 };
 firebase.initializeApp(firebaseConfig);
-const db   = firebase.database();
+const db = firebase.database();
 const auth = firebase.auth();
-
 /* ─── State ───────────────────────────── */
 let verifiedGoogleUser = null;
 let registerGoogleUser = null;
-let currentRegStep     = 0;
-const TOTAL_REG_PIPS   = 3;
-
+let currentRegStep = 0;
+const TOTAL_REG_PIPS = 3;
 /* ─── Mobile Detection ────────────────── */
 function isMobileDevice() {
     const ua = navigator.userAgent || navigator.vendor || window.opera;
@@ -533,7 +514,6 @@ function isMobileDevice() {
     const isTouchSmall = (window.innerWidth <= 900) && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
     return mobileRE.test(ua) || isTouchSmall;
 }
-
 /* ─── Apply mobile restrictions on load ── */
 (function applyMobileRestrictions() {
     if (isMobileDevice()) {
@@ -543,7 +523,6 @@ function isMobileDevice() {
         document.getElementById('desktopSigninSection').style.display = 'none';
     }
 })();
-
 /* ─── Session guard ───────────────────── */
 (function checkSession() {
     const s = JSON.parse(localStorage.getItem('vynix_vendor_session') || 'null');
@@ -556,8 +535,6 @@ function isMobileDevice() {
         window.location.href = 'index.html';
     }
 })();
-
-
 /* ═══════════════════════════════════════════════
    GATE — Sign In with Google
    ═══════════════════════════════════════════════ */
@@ -567,28 +544,22 @@ async function initialGoogleSignIn() {
         document.getElementById('desktopOnlyModal').classList.add('open');
         return;
     }
-
     const btn = document.getElementById('googleVerifyBtn');
     const err = document.getElementById('initialGoogleError');
     err.style.display = 'none';
     btn.disabled = true;
     btn.innerHTML = '<span style="opacity:.65;">Verifying…</span>';
-
     const provider = new firebase.auth.GoogleAuthProvider();
     provider.setCustomParameters({ prompt: 'select_account' });
-
     try {
         const result = await auth.signInWithPopup(provider);
-        const user   = result.user;
-
+        const user = result.user;
         const snap = await db.ref('vendors').orderByChild('email').equalTo(user.email).once('value');
         if (!snap.val()) {
             await auth.signOut();
             throw new Error('No vendor account found for this Google account. Please register first.');
         }
-
         const vendorData = Object.values(snap.val())[0];
-
         if (vendorData.status === 'pending') {
             await auth.signOut();
             throw new Error('Your application is still pending admin approval. Please check back soon.');
@@ -597,26 +568,21 @@ async function initialGoogleSignIn() {
             await auth.signOut();
             throw new Error('Your vendor account is not active. Please contact 1BUSKET support.');
         }
-
         verifiedGoogleUser = user;
-
         document.getElementById('initialGoogleCard').style.display = 'none';
-        document.getElementById('mainAuthCard').style.display      = 'block';
-        document.getElementById('googleBadge').style.display       = 'flex';
-        document.getElementById('googleBadgeEmail').textContent    = user.email;
-
+        document.getElementById('mainAuthCard').style.display = 'block';
+        document.getElementById('googleBadge').style.display = 'flex';
+        document.getElementById('googleBadgeEmail').textContent = user.email;
     } catch (e) {
         btn.disabled = false;
         btn.innerHTML = '<div class="google-icon"></div> Sign In with Google';
         let msg = e.message || 'Google sign-in failed. Try again.';
         if (e.code === 'auth/popup-closed-by-user') msg = 'Sign-in window closed. Please try again.';
-        if (e.code === 'auth/popup-blocked')         msg = 'Pop-up blocked. Please allow pop-ups for this site.';
+        if (e.code === 'auth/popup-blocked') msg = 'Pop-up blocked. Please allow pop-ups for this site.';
         err.textContent = msg;
         err.style.display = 'block';
     }
 }
-
-
 /* ═══════════════════════════════════════════════
    MAIN SIGN-IN — Vendor ID
    ═══════════════════════════════════════════════ */
@@ -626,48 +592,37 @@ async function partnerLogin() {
         document.getElementById('desktopOnlyModal').classList.add('open');
         return;
     }
-
-    const id  = document.getElementById('vendorLoginId').value.trim().toUpperCase();
+    const id = document.getElementById('vendorLoginId').value.trim().toUpperCase();
     const err = document.getElementById('loginError');
     err.style.display = 'none';
-
     if (!id) { err.textContent = 'Please enter your Vendor ID.'; err.style.display = 'block'; return; }
-
     if (!verifiedGoogleUser) {
         err.textContent = 'Session expired — please verify with Google again.';
         err.style.display = 'block';
         return;
     }
-
     const btn = document.getElementById('loginBtn');
     btn.disabled = true;
     btn.innerHTML = '<span style="opacity:.65;">Signing in…</span>';
-
     try {
         const snap = await db.ref('vendors').orderByChild('vendorID').equalTo(id).once('value');
         if (!snap.val()) throw new Error('Vendor ID not found. Check your ID and try again.');
-
-        const key    = Object.keys(snap.val())[0];
+        const key = Object.keys(snap.val())[0];
         const vendor = snap.val()[key];
-
         if (!vendor.email || vendor.email.toLowerCase() !== verifiedGoogleUser.email.toLowerCase()) {
             throw new Error('This Vendor ID does not belong to your Google account. You can only sign in with your own Vendor ID.');
         }
-
         if (vendor.status !== 'active') {
             throw new Error('Your account is not active. Please contact 1BUSKET support.');
         }
-
         localStorage.setItem('vynix_vendor_session', JSON.stringify({
             key,
             id,
-            role:      'vendor',
-            email:     verifiedGoogleUser.email,
-            loggedAt:  Date.now()
+            role: 'vendor',
+            email: verifiedGoogleUser.email,
+            loggedAt: Date.now()
         }));
-
         window.location.href = 'index.html';
-
     } catch (e) {
         err.textContent = e.message;
         err.style.display = 'block';
@@ -675,20 +630,17 @@ async function partnerLogin() {
         btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 012 2v14a2 2 0 01-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg> Sign In to Portal`;
     }
 }
-
 function resetToGate() {
     verifiedGoogleUser = null;
     auth.signOut().catch(() => {});
-    document.getElementById('mainAuthCard').style.display       = 'none';
-    document.getElementById('initialGoogleCard').style.display  = 'block';
-    document.getElementById('googleVerifyBtn').disabled         = false;
-    document.getElementById('googleVerifyBtn').innerHTML        = '<div class="google-icon"></div> Sign In with Google';
+    document.getElementById('mainAuthCard').style.display = 'none';
+    document.getElementById('initialGoogleCard').style.display = 'block';
+    document.getElementById('googleVerifyBtn').disabled = false;
+    document.getElementById('googleVerifyBtn').innerHTML = '<div class="google-icon"></div> Sign In with Google';
     document.getElementById('initialGoogleError').style.display = 'none';
-    document.getElementById('loginError').style.display         = 'none';
-    document.getElementById('vendorLoginId').value              = '';
+    document.getElementById('loginError').style.display = 'none';
+    document.getElementById('vendorLoginId').value = '';
 }
-
-
 /* ═══════════════════════════════════════════════
    REGISTRATION MODAL (works on all devices)
    ═══════════════════════════════════════════════ */
@@ -698,53 +650,44 @@ function openRegisterModal() {
     overlay.classList.add('open');
     requestAnimationFrame(() => requestAnimationFrame(() => overlay.classList.add('visible')));
 }
-
 function closeRegisterModal() {
     const overlay = document.getElementById('registerModal');
     overlay.classList.remove('visible');
     setTimeout(() => { overlay.classList.remove('open'); resetRegModal(); }, 320);
 }
-
 document.getElementById('registerModal').addEventListener('click', function(e) {
     if (e.target === this) closeRegisterModal();
 });
-
 function resetRegModal() {
-    currentRegStep     = 0;
+    currentRegStep = 0;
     registerGoogleUser = null;
-
     goToRegStep(0, false);
-    document.getElementById('regStepTrack').style.display    = 'none';
-    document.getElementById('regGoogleBadge').style.display  = 'none';
-    document.getElementById('regModalError').style.display   = 'none';
-    document.getElementById('modalTitle').textContent         = 'Register Your Business';
-    document.getElementById('modalSubtitle').textContent      = 'Join the 1BUSKET vendor network';
-
+    document.getElementById('regStepTrack').style.display = 'none';
+    document.getElementById('regGoogleBadge').style.display = 'none';
+    document.getElementById('regModalError').style.display = 'none';
+    document.getElementById('modalTitle').textContent = 'Register Your Business';
+    document.getElementById('modalSubtitle').textContent = 'Join the 1BUSKET vendor network';
     ['r-bizname','r-city','r-owner','r-phone','r-email','r-regno','r-bank'].forEach(id => {
         const el = document.getElementById(id);
         if (el) el.value = '';
     });
     const prov = document.getElementById('r-province'); if (prov) prov.value = '';
-
     const gBtn = document.getElementById('regGoogleBtn');
     if (gBtn) { gBtn.disabled = false; gBtn.innerHTML = '<div class="google-icon"></div> Continue with Google'; }
     const sBtn = document.getElementById('rSubmitBtn');
     if (sBtn) { sBtn.disabled = false; sBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Submit Application'; }
 }
-
 function goToRegStep(step, showTrack = true) {
     ['rStep0','rStep1','rStep2','rStep3'].forEach((id, i) => {
         document.getElementById(id).classList.toggle('active', i === step);
     });
     currentRegStep = step;
     document.getElementById('regModalError').style.display = 'none';
-
     if (showTrack && step >= 1 && step <= 2) {
         document.getElementById('regStepTrack').style.display = 'flex';
         updateRegPips();
     }
 }
-
 function updateRegPips() {
     const pipIdx = currentRegStep - 1;
     for (let i = 0; i < TOTAL_REG_PIPS; i++) {
@@ -753,21 +696,17 @@ function updateRegPips() {
         pip.className = 'step-pip' + (i < pipIdx ? ' done' : i === pipIdx ? ' active' : '');
     }
 }
-
 async function googleRegisterAuth() {
     const btn = document.getElementById('regGoogleBtn');
     const err = document.getElementById('regModalError');
     err.style.display = 'none';
     btn.disabled = true;
     btn.innerHTML = '<span style="opacity:.65;">Connecting…</span>';
-
     const provider = new firebase.auth.GoogleAuthProvider();
     provider.setCustomParameters({ prompt: 'select_account' });
-
     try {
         const result = await auth.signInWithPopup(provider);
-        const user   = result.user;
-
+        const user = result.user;
         const snap = await db.ref('vendors').orderByChild('email').equalTo(user.email).once('value');
         if (snap.val()) {
             await auth.signOut();
@@ -777,107 +716,91 @@ async function googleRegisterAuth() {
             }
             throw new Error('This Google account is already registered. Please sign in instead.');
         }
-
         registerGoogleUser = user;
-
         document.getElementById('regGoogleBadge').style.display = 'flex';
-        document.getElementById('regGoogleEmail').textContent   = user.email;
-        document.getElementById('r-email').value                = user.email;
-
-        document.getElementById('modalTitle').textContent    = 'Business Details';
+        document.getElementById('regGoogleEmail').textContent = user.email;
+        document.getElementById('r-email').value = user.email;
+        document.getElementById('modalTitle').textContent = 'Business Details';
         document.getElementById('modalSubtitle').textContent = 'Tell us about your store';
         goToRegStep(1);
-
     } catch (e) {
         btn.disabled = false;
         btn.innerHTML = '<div class="google-icon"></div> Continue with Google';
         let msg = e.message || 'Google auth failed.';
         if (e.code === 'auth/popup-closed-by-user') msg = 'Window closed. Please try again.';
-        if (e.code === 'auth/popup-blocked')         msg = 'Pop-up blocked. Please allow pop-ups.';
+        if (e.code === 'auth/popup-blocked') msg = 'Pop-up blocked. Please allow pop-ups.';
         err.textContent = msg;
         err.style.display = 'block';
     }
 }
-
 function regModalNext(fromStep) {
     const err = document.getElementById('regModalError');
     err.style.display = 'none';
-
     if (fromStep === 1) {
-        const bizname  = document.getElementById('r-bizname').value.trim();
-        const city     = document.getElementById('r-city').value.trim();
+        const bizname = document.getElementById('r-bizname').value.trim();
+        const city = document.getElementById('r-city').value.trim();
         const province = document.getElementById('r-province').value;
-        const owner    = document.getElementById('r-owner').value.trim();
-        const phone    = document.getElementById('r-phone').value.trim();
+        const owner = document.getElementById('r-owner').value.trim();
+        const phone = document.getElementById('r-phone').value.trim();
         if (!bizname || !city || !province || !owner || !phone) {
             err.textContent = 'Please fill in all required fields.';
             err.style.display = 'block';
             return;
         }
-        document.getElementById('modalTitle').textContent    = 'Final Details';
+        document.getElementById('modalTitle').textContent = 'Final Details';
         document.getElementById('modalSubtitle').textContent = 'Almost done!';
         goToRegStep(2);
     }
 }
-
 function regModalBack(fromStep) {
     if (fromStep === 2) {
-        document.getElementById('modalTitle').textContent    = 'Business Details';
+        document.getElementById('modalTitle').textContent = 'Business Details';
         document.getElementById('modalSubtitle').textContent = 'Tell us about your store';
         goToRegStep(1);
     }
 }
-
 async function submitRegistration() {
     const err = document.getElementById('regModalError');
     const btn = document.getElementById('rSubmitBtn');
     err.style.display = 'none';
-
     const bank = document.getElementById('r-bank').value.trim();
-
     if (!bank) {
         err.textContent = 'Please fill in your bank account details.';
         err.style.display = 'block';
         return;
     }
-
     if (!registerGoogleUser) {
         err.textContent = 'Google verification missing. Please restart the process.';
         err.style.display = 'block';
         return;
     }
-
     btn.disabled = true;
     btn.innerHTML = '<span style="opacity:.65;">Submitting…</span>';
-
     const payload = {
-        name:          document.getElementById('r-bizname').value.trim(),
-        ownerName:     document.getElementById('r-owner').value.trim(),
-        email:         registerGoogleUser.email,
-        googleUID:     registerGoogleUser.uid,
-        phone:         document.getElementById('r-phone').value.trim(),
+        name: document.getElementById('r-bizname').value.trim(),
+        ownerName: document.getElementById('r-owner').value.trim(),
+        email: registerGoogleUser.email,
+        googleUID: registerGoogleUser.uid,
+        phone: document.getElementById('r-phone').value.trim(),
         address: {
-            city:     document.getElementById('r-city').value.trim(),
+            city: document.getElementById('r-city').value.trim(),
             province: document.getElementById('r-province').value
         },
         businessRegNo: document.getElementById('r-regno').value.trim(),
-        bankDetails:   bank,
-        status:        'pending',
-        vendorID:      null,
-        appliedAt:     Date.now(),
-        updatedAt:     Date.now()
+        bankDetails: bank,
+        status: 'pending',
+        vendorID: null,
+        appliedAt: Date.now(),
+        updatedAt: Date.now()
     };
-
     try {
         await db.ref('vendors').push(payload);
         await auth.signOut();
-
-        document.getElementById('regStepTrack').style.display   = 'none';
+        document.getElementById('regStepTrack').style.display = 'none';
         document.getElementById('regGoogleBadge').style.display = 'none';
-        document.getElementById('modalTitle').textContent        = 'Application Received!';
-        document.getElementById('modalSubtitle').textContent     = 'Pending admin approval';
+        document.getElementById('modalTitle').textContent = 'Application Received!';
+        document.getElementById('modalSubtitle').textContent = 'Pending admin approval';
         goToRegStep(3, false);
-
     } catch (e) {
         err.textContent = 'Submission failed. Please try again.';
         err.style.display = 'block';
