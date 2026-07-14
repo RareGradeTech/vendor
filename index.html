@@ -8,177 +8,388 @@
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600;700;800&family=Cormorant+Garamond:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
 
 <style>
   :root{
     --orange:#e18a3f;
     --orange-light:#f3a663;
     --orange-dark:#b96a26;
+    --orange-sat:#e87f1c;
     --charcoal:#3f4749;
+    --charcoal-sat:#2c4247;
     --charcoal-deep:#262b2c;
     --charcoal-deeper:#181b1c;
+    --gray:#9aa3a3;
     --cream:#f7f2ea;
     --white:#ffffff;
     --danger:#c0392b;
-    --border:#e4ded2;
+    --success:#27ae60;
+    --border:rgba(247,242,234,.12);
+    --shadow:0 20px 40px -12px rgba(0,0,0,.45);
+    --shadow-sm:0 8px 20px -8px rgba(0,0,0,.35);
+    --shadow-orange:0 12px 24px -10px rgba(225,138,63,.4);
+    --transition:all .35s cubic-bezier(.22,.8,.25,1);
   }
-  *,*::before,*::after{ box-sizing:border-box; }
-  html,body{ margin:0; width:100%; }
+  *,*::before,*::after{ box-sizing:border-box; margin:0; padding:0; }
+  html,body{ width:100%; height:100%; }
   body{
     font-family:'Manrope', system-ui, sans-serif;
-    background:var(--cream);
-    color:var(--charcoal-deep);
+    background:var(--charcoal-deeper);
+    color:var(--cream);
     -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
   }
-  h1,h2,h3,h4{ margin:0; }
   .font-display{ font-family:'Bebas Neue', sans-serif; letter-spacing:.02em; }
+  .font-quote{ font-family:'Cormorant Garamond', serif; font-style:italic; }
   .hidden{ display:none !important; }
-  button{ font-family:inherit; cursor:pointer; }
-  input,textarea{ font-family:inherit; }
+  button{ font-family:inherit; cursor:pointer; border:none; background:none; }
+  input,textarea,select{ font-family:inherit; outline:none; }
+  img{ max-width:100%; display:block; }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes fadeInUp{ from{ opacity:0; transform:translateY(20px); } to{ opacity:1; transform:translateY(0); } }
+  @keyframes fadeIn{ from{ opacity:0; } to{ opacity:1; } }
+  @keyframes slideInLeft{ from{ opacity:0; transform:translateX(-20px); } to{ opacity:1; transform:translateX(0); } }
+  @keyframes pulse{ 0%,100%{ transform:scale(1); } 50%{ transform:scale(1.05); } }
+  @keyframes shimmer{ 0%{ background-position:-200% 0; } 100%{ background-position:200% 0; } }
+  @keyframes spin{ to{ transform:rotate(360deg); } }
+
+  .animate-fade-in{ animation:fadeIn .5s ease both; }
+  .animate-fade-up{ animation:fadeInUp .5s ease both; }
+  .stagger-1{ animation-delay:.05s; }
+  .stagger-2{ animation-delay:.12s; }
+  .stagger-3{ animation-delay:.19s; }
+  .stagger-4{ animation-delay:.26s; }
+  .stagger-5{ animation-delay:.33s; }
 
   /* ===== LOGIN SCREEN ===== */
   #loginScreen{
     min-height:100vh; display:flex; align-items:center; justify-content:center;
-    background:var(--charcoal-deeper);
+    background:var(--charcoal-deeper); position:relative; overflow:hidden;
     padding:1.5rem;
   }
-  .login-card{
-    background:var(--cream); border-radius:20px; padding:clamp(2rem,5vw,3rem);
-    max-width:400px; width:100%; text-align:center;
-    box-shadow:0 30px 60px -20px rgba(0,0,0,.5);
+  #loginScreen::before{
+    content:''; position:absolute; inset:0;
+    background:radial-gradient(circle at 30% 20%, rgba(225,138,63,.08) 0%, transparent 50%),
+               radial-gradient(circle at 70% 80%, rgba(225,138,63,.05) 0%, transparent 50%);
   }
-  .login-card img{ height:56px; margin-bottom:1rem; }
-  .login-card h1{ font-size:2rem; color:var(--charcoal-deeper); }
-  .login-card p{ color:var(--charcoal); font-size:.9rem; margin-top:.5rem; margin-bottom:1.75rem; }
+  .login-card{
+    background:var(--charcoal-deep); border-radius:24px; padding:clamp(2.5rem,5vw,3.5rem);
+    max-width:420px; width:100%; text-align:center; position:relative; z-index:1;
+    border:1px solid var(--border);
+    box-shadow:var(--shadow);
+    animation:fadeInUp .7s cubic-bezier(.22,.8,.25,1) both;
+  }
+  .login-card .brand-chip{
+    display:inline-flex; align-items:center; background:var(--cream);
+    border-radius:16px; padding:.45rem .85rem; margin-bottom:1.5rem;
+    box-shadow:0 10px 24px -12px rgba(0,0,0,.55);
+  }
+  .login-card .brand-chip img{ height:44px; }
+  .login-card h1{ font-size:2.2rem; color:var(--cream); letter-spacing:.02em; }
+  .login-card p{ color:var(--gray); font-size:.9rem; margin-top:.5rem; margin-bottom:2rem; line-height:1.6; }
   .google-btn{
     display:inline-flex; align-items:center; justify-content:center; gap:.65rem;
-    width:100%; background:var(--white); color:var(--charcoal-deeper);
-    border:1.5px solid var(--border); border-radius:12px;
-    padding:.85rem 1.25rem; font-weight:700; font-size:.95rem;
-    transition:background .2s ease, box-shadow .2s ease;
+    width:100%; background:var(--cream); color:var(--charcoal-deeper);
+    border:none; border-radius:999px;
+    padding:1rem 1.5rem; font-weight:800; font-size:.95rem; letter-spacing:.01em;
+    transition:var(--transition);
+    box-shadow:0 8px 20px -8px rgba(247,242,234,.2);
   }
-  .google-btn:hover{ background:#faf8f4; box-shadow:0 8px 20px -10px rgba(0,0,0,.25); }
+  .google-btn:hover{ transform:translateY(-2px); box-shadow:0 12px 28px -8px rgba(247,242,234,.3); }
+  .google-btn:active{ transform:translateY(0); }
   .login-error{
-    margin-top:1.25rem; background:rgba(192,57,43,.1); color:var(--danger);
-    border:1px solid rgba(192,57,43,.3); border-radius:10px; padding:.75rem 1rem;
-    font-size:.82rem; text-align:left; line-height:1.5;
+    margin-top:1.25rem; background:rgba(192,57,43,.12); color:var(--danger);
+    border:1px solid rgba(192,57,43,.3); border-radius:12px; padding:1rem 1.2rem;
+    font-size:.85rem; text-align:left; line-height:1.5; animation:fadeIn .3s ease;
   }
 
   /* ===== DASHBOARD SHELL ===== */
-  #dashboard{ display:flex; min-height:100vh; }
+  #dashboard{ display:flex; min-height:100vh; opacity:0; animation:fadeIn .4s ease .1s both; }
 
   .sidebar{
-    width:250px; flex-shrink:0; background:var(--charcoal-deeper); color:var(--cream);
-    display:flex; flex-direction:column; position:sticky; top:0; height:100vh;
+    width:280px; flex-shrink:0; background:var(--charcoal-deeper);
+    display:flex; flex-direction:column; position:fixed; left:0; top:0; height:100vh;
+    border-right:1px solid var(--border); z-index:50;
+    transition:transform .35s ease;
   }
   .sidebar-brand{
-    display:flex; align-items:center; gap:.65rem; padding:1.25rem 1.15rem;
-    border-bottom:1px solid rgba(247,242,234,.1);
+    display:flex; align-items:center; gap:.75rem; padding:1.5rem 1.5rem 1.25rem;
+    border-bottom:1px solid var(--border);
   }
-  .sidebar-brand img{ height:32px; }
-  .sidebar-brand span{ font-family:'Bebas Neue',sans-serif; font-size:1.2rem; letter-spacing:.04em; }
-  #sidebarNav{ display:flex; flex-direction:column; padding:.75rem; gap:.15rem; overflow-y:auto; flex:1; }
-  .tab-btn{
-    text-align:left; background:none; border:none; color:rgba(247,242,234,.72);
-    padding:.7rem .9rem; border-radius:10px; font-weight:600; font-size:.88rem;
-    transition:background .2s ease, color .2s ease;
+  .sidebar-brand .brand-chip{
+    display:inline-flex; align-items:center; background:var(--cream);
+    border-radius:14px; padding:.3rem .55rem;
   }
-  .tab-btn:hover{ background:rgba(247,242,234,.06); color:var(--cream); }
-  .tab-btn.active{ background:var(--orange); color:var(--charcoal-deeper); }
-  .sidebar-footer{ padding:1rem; border-top:1px solid rgba(247,242,234,.1); }
-  .sidebar-footer .user-email{ font-size:.72rem; color:rgba(247,242,234,.55); word-break:break-all; margin-bottom:.65rem; }
-  .btn-logout{
-    width:100%; background:rgba(247,242,234,.08); color:var(--cream); border:1px solid rgba(247,242,234,.15);
-    border-radius:8px; padding:.55rem; font-weight:700; font-size:.8rem;
-    transition:background .2s ease;
+  .sidebar-brand .brand-chip img{ height:34px; }
+  .sidebar-brand span{ font-family:'Bebas Neue',sans-serif; font-size:1.3rem; letter-spacing:.04em; color:var(--cream); }
+  .sidebar-brand .badge{
+    margin-left:auto; background:var(--orange); color:var(--charcoal-deeper);
+    font-size:.65rem; font-weight:800; padding:.25rem .6rem; border-radius:999px;
+    text-transform:uppercase; letter-spacing:.08em;
   }
-  .btn-logout:hover{ background:rgba(247,242,234,.16); }
 
-  .main-area{ flex:1; min-width:0; }
+  #sidebarNav{ display:flex; flex-direction:column; padding:1rem .75rem; gap:.35rem; overflow-y:auto; flex:1; }
+  .tab-btn{
+    text-align:left; background:none; border:none; color:rgba(247,242,234,.55);
+    padding:.85rem 1.1rem; border-radius:999px; font-weight:700; font-size:.88rem;
+    transition:var(--transition); position:relative; overflow:hidden;
+    display:flex; align-items:center; gap:.65rem;
+  }
+  .tab-btn::before{
+    content:''; position:absolute; inset:0; background:var(--orange);
+    border-radius:999px; transform:scaleX(0); transform-origin:left;
+    transition:transform .35s cubic-bezier(.22,.8,.25,1); z-index:0; opacity:.15;
+  }
+  .tab-btn:hover{ color:var(--cream); background:rgba(247,242,234,.05); }
+  .tab-btn:hover::before{ transform:scaleX(1); }
+  .tab-btn.active{ background:var(--orange); color:var(--charcoal-deeper); box-shadow:var(--shadow-orange); }
+  .tab-btn.active::before{ display:none; }
+  .tab-btn span{ position:relative; z-index:1; }
+  .tab-icon{ width:18px; height:18px; position:relative; z-index:1; opacity:.7; }
+  .tab-btn.active .tab-icon{ opacity:1; }
+
+  .sidebar-footer{ padding:1.25rem; border-top:1px solid var(--border); }
+  .sidebar-footer .user-row{ display:flex; align-items:center; gap:.75rem; margin-bottom:1rem; }
+  .user-avatar{
+    width:36px; height:36px; border-radius:50%; background:var(--orange);
+    display:flex; align-items:center; justify-content:center;
+    font-weight:800; font-size:.85rem; color:var(--charcoal-deeper); flex-shrink:0;
+  }
+  .user-email{ font-size:.75rem; color:rgba(247,242,234,.5); word-break:break-all; line-height:1.4; }
+  .btn-logout{
+    width:100%; background:rgba(247,242,234,.06); color:var(--cream);
+    border:1px solid var(--border); border-radius:999px;
+    padding:.65rem; font-weight:700; font-size:.82rem;
+    transition:var(--transition); display:flex; align-items:center; justify-content:center; gap:.4rem;
+  }
+  .btn-logout:hover{ background:var(--danger); border-color:var(--danger); transform:translateY(-1px); }
+
+  .main-area{ flex:1; min-width:0; margin-left:280px; }
   .topbar{
     display:flex; align-items:center; justify-content:space-between; gap:1rem;
-    padding:1rem clamp(1rem,3vw,2.5rem); background:var(--white); border-bottom:1px solid var(--border);
-    position:sticky; top:0; z-index:5;
+    padding:1.25rem clamp(1.25rem,3vw,2.5rem);
+    background:rgba(24,27,28,.85); backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--border); position:sticky; top:0; z-index:40;
   }
-  .topbar h1{ font-size:1.05rem; font-weight:800; }
+  .topbar h1{ font-size:1.15rem; font-weight:800; color:var(--cream); display:flex; align-items:center; gap:.6rem; }
+  .topbar h1 .live-dot{
+    width:8px; height:8px; border-radius:50%; background:var(--success);
+    box-shadow:0 0 8px var(--success); animation:pulse 2s ease infinite;
+  }
+  .topbar-actions{ display:flex; align-items:center; gap:.6rem; }
   .btn-view-site{
-    display:inline-flex; align-items:center; gap:.4rem; background:var(--charcoal-deeper); color:var(--cream);
-    padding:.55rem 1rem; border-radius:999px; font-weight:700; font-size:.8rem; border:none;
+    display:inline-flex; align-items:center; gap:.4rem; background:var(--orange); color:var(--charcoal-deeper);
+    padding:.6rem 1.2rem; border-radius:999px; font-weight:800; font-size:.82rem;
+    transition:var(--transition); box-shadow:var(--shadow-orange);
   }
-  .btn-view-site:hover{ background:var(--charcoal); }
+  .btn-view-site:hover{ transform:translateY(-2px); box-shadow:0 16px 30px -10px rgba(225,138,63,.6); }
+  .btn-view-site:active{ transform:translateY(0); }
 
-  #panelsContainer{ padding:clamp(1.25rem,3vw,2.5rem); max-width:920px; }
-  .panel{ display:none; animation:fadeIn .25s ease; }
-  .panel.active{ display:block; }
-  @keyframes fadeIn{ from{ opacity:0; transform:translateY(6px); } to{ opacity:1; transform:translateY(0); } }
-  .panel-title{ font-size:1.9rem; margin-bottom:1.5rem; color:var(--charcoal-deeper); }
+  #panelsContainer{ padding:clamp(1.5rem,3vw,2.5rem); max-width:1100px; }
+  .panel{ display:none; }
+  .panel.active{ display:block; animation:fadeInUp .4s ease both; }
+  .panel-title{ font-size:2.2rem; margin-bottom:.25rem; color:var(--cream); letter-spacing:.02em; }
+  .panel-subtitle{ color:var(--gray); font-size:.9rem; margin-bottom:2rem; }
 
-  .field{ margin-bottom:1.25rem; }
-  .field-label{ display:block; font-size:.78rem; font-weight:700; letter-spacing:.03em; text-transform:uppercase; color:var(--charcoal); margin-bottom:.4rem; }
+  /* ===== SECTION CARDS ===== */
+  .section-card{
+    background:var(--charcoal-deep); border:1px solid var(--border); border-radius:20px;
+    padding:clamp(1.5rem,2.5vw,2.25rem); margin-bottom:1.5rem;
+    box-shadow:var(--shadow-sm); transition:var(--transition);
+    animation:fadeInUp .5s ease both;
+  }
+  .section-card:hover{ border-color:rgba(225,138,63,.2); }
+  .section-card-header{
+    display:flex; align-items:center; gap:.6rem; margin-bottom:1.5rem;
+    padding-bottom:1rem; border-bottom:1px solid var(--border);
+  }
+  .section-card-header h3{ font-size:1.05rem; font-weight:800; color:var(--cream); text-transform:uppercase; letter-spacing:.08em; }
+  .section-card-header .count-badge{
+    background:var(--orange); color:var(--charcoal-deeper); font-size:.7rem; font-weight:800;
+    padding:.2rem .55rem; border-radius:999px; margin-left:auto;
+  }
+
+  /* ===== TEXT FIELDS ===== */
+  .field-group{ margin-bottom:1.25rem; }
+  .field-group:last-child{ margin-bottom:0; }
+  .field-label{
+    display:flex; align-items:center; gap:.5rem;
+    font-size:.72rem; font-weight:800; letter-spacing:.12em; text-transform:uppercase;
+    color:var(--orange-light); margin-bottom:.6rem;
+  }
+  .field-label .required{ color:var(--orange); font-size:.9rem; }
   .field-input{
-    width:100%; border:1.5px solid var(--border); border-radius:10px; padding:.7rem .85rem;
-    font-size:.92rem; background:var(--white); color:var(--charcoal-deeper); resize:vertical;
-    transition:border-color .2s ease;
+    width:100%; background:rgba(247,242,234,.04); border:1.5px solid var(--border);
+    border-radius:14px; padding:.85rem 1.1rem; font-size:.92rem; color:var(--cream);
+    transition:var(--transition); resize:vertical;
   }
-  .field-input:focus{ outline:none; border-color:var(--orange); }
-  .field-input.small{ font-size:.82rem; padding:.5rem .6rem; }
+  .field-input::placeholder{ color:rgba(247,242,234,.25); }
+  .field-input:hover{ border-color:rgba(247,242,234,.2); }
+  .field-input:focus{ border-color:var(--orange); background:rgba(225,138,63,.06); box-shadow:0 0 0 3px rgba(225,138,63,.1); }
+  .field-input.small{ font-size:.85rem; padding:.65rem .85rem; border-radius:12px; }
+  textarea.field-input{ min-height:90px; line-height:1.5; }
 
-  .toggle-row{ display:flex; align-items:center; gap:.6rem; margin-bottom:1.5rem; font-weight:700; font-size:.85rem; cursor:pointer; }
-  .toggle-row input{ width:18px; height:18px; accent-color:var(--orange); cursor:pointer; }
+  .field-row{ display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+  @media (max-width:640px){ .field-row{ grid-template-columns:1fr; } }
 
-  .list-manager{ margin-top:2rem; border-top:1px solid var(--border); padding-top:1.5rem; }
-  .list-manager-header h4{ font-size:1.1rem; font-weight:800; }
-  .list-hint{ font-size:.78rem; color:var(--charcoal); opacity:.75; margin-top:.25rem; margin-bottom:1rem; line-height:1.5; }
-  .hidden-file-input{ display:none; }
-  .btn-add{
+  .field-hint{
+    font-size:.78rem; color:var(--gray); margin-top:.4rem; display:flex; align-items:center; gap:.35rem;
+  }
+  .field-hint svg{ width:14px; height:14px; flex-shrink:0; }
+
+  /* ===== TOGGLE ===== */
+  .toggle-wrap{ display:flex; align-items:center; gap:1rem; margin-bottom:1.5rem; padding:1rem 1.25rem; background:rgba(247,242,234,.03); border-radius:14px; border:1px solid var(--border); }
+  .toggle-switch{ position:relative; width:52px; height:28px; flex-shrink:0; }
+  .toggle-switch input{ opacity:0; width:0; height:0; }
+  .toggle-slider{
+    position:absolute; inset:0; background:var(--charcoal); border-radius:999px;
+    transition:var(--transition); cursor:pointer; border:1.5px solid var(--border);
+  }
+  .toggle-slider::before{
+    content:''; position:absolute; height:20px; width:20px; left:3px; top:50%; transform:translateY(-50%);
+    background:var(--cream); border-radius:50%; transition:var(--transition); box-shadow:0 2px 6px rgba(0,0,0,.3);
+  }
+  .toggle-switch input:checked + .toggle-slider{ background:var(--orange); border-color:var(--orange); }
+  .toggle-switch input:checked + .toggle-slider::before{ left:calc(100% - 23px); }
+  .toggle-label{ font-weight:700; font-size:.9rem; color:var(--cream); }
+  .toggle-status{ font-size:.78rem; color:var(--gray); margin-left:auto; }
+
+  /* ===== IMAGE GRID ===== */
+  .image-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(220px,1fr)); gap:1rem; }
+  .empty-state{
+    grid-column:1/-1; padding:2.5rem; text-align:center;
+    border:2px dashed rgba(247,242,234,.1); border-radius:16px; color:var(--gray);
+    font-size:.9rem; animation:fadeIn .4s ease;
+  }
+  .empty-state svg{ margin-bottom:.75rem; opacity:.5; }
+
+  .image-card{
+    background:var(--charcoal-deeper); border:1.5px solid var(--border); border-radius:16px;
+    overflow:hidden; display:flex; flex-direction:column;
+    transition:var(--transition); position:relative;
+    animation:fadeInUp .4s ease both;
+  }
+  .image-card:hover{ transform:translateY(-4px); border-color:rgba(225,138,63,.25); box-shadow:0 15px 30px -10px rgba(0,0,0,.4); }
+  .image-card:hover .image-thumb{ transform:scale(1.05); }
+  .image-card:hover .image-overlay{ opacity:1; }
+
+  .image-thumb-wrap{ position:relative; overflow:hidden; aspect-ratio:4/3; background:var(--charcoal-deep); }
+  .image-thumb{ width:100%; height:100%; object-fit:cover; transition:transform .6s ease; }
+  .image-overlay{
+    position:absolute; inset:0; background:linear-gradient(180deg, transparent 30%, rgba(24,27,28,.85) 100%);
+    opacity:0; transition:opacity .3s ease; display:flex; align-items:flex-end; padding:1rem;
+  }
+  .image-overlay .img-index{
+    background:var(--orange); color:var(--charcoal-deeper); font-size:.7rem; font-weight:800;
+    padding:.25rem .55rem; border-radius:999px;
+  }
+
+  .image-card-fields{ padding:.75rem; display:flex; flex-direction:column; gap:.5rem; }
+  .image-card-actions{ display:flex; gap:.4rem; padding:0 .75rem .75rem; margin-top:auto; }
+
+  .pill-btn{
+    flex:1; display:inline-flex; align-items:center; justify-content:center; gap:.35rem;
+    background:rgba(247,242,234,.06); color:var(--cream); border:1px solid var(--border);
+    border-radius:999px; padding:.5rem; font-weight:700; font-size:.8rem;
+    transition:var(--transition); min-height:36px;
+  }
+  .pill-btn:hover:not(:disabled){ background:var(--orange); color:var(--charcoal-deeper); border-color:var(--orange); transform:translateY(-1px); }
+  .pill-btn:disabled{ opacity:.3; cursor:not-allowed; }
+  .pill-btn.danger:hover{ background:var(--danger); color:var(--white); border-color:var(--danger); }
+  .pill-btn svg{ width:14px; height:14px; }
+
+  .add-image-btn{
+    display:inline-flex; align-items:center; gap:.5rem;
     background:var(--orange); color:var(--charcoal-deeper); border:none; border-radius:999px;
-    padding:.6rem 1.1rem; font-weight:800; font-size:.82rem; margin-bottom:1.25rem;
-    transition:background .2s ease, transform .2s ease;
+    padding:.75rem 1.4rem; font-weight:800; font-size:.85rem; letter-spacing:.01em;
+    transition:var(--transition); box-shadow:var(--shadow-orange); margin-bottom:1.25rem;
   }
-  .btn-add:hover{ background:var(--orange-light); transform:translateY(-2px); }
+  .add-image-btn:hover{ transform:translateY(-2px); box-shadow:0 16px 30px -10px rgba(225,138,63,.6); }
+  .add-image-btn:active{ transform:translateY(0); }
+  .add-image-btn .plus{ font-size:1.1rem; line-height:1; }
 
-  .image-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(200px,1fr)); gap:1rem; }
-  .empty-state{ font-size:.85rem; color:var(--charcoal); opacity:.6; grid-column:1/-1; padding:1.5rem; text-align:center; border:1.5px dashed var(--border); border-radius:12px; }
-  .image-card{ background:var(--white); border:1px solid var(--border); border-radius:14px; overflow:hidden; display:flex; flex-direction:column; }
-  .image-thumb{ width:100%; aspect-ratio:4/3; object-fit:cover; background:var(--border); }
-  .image-card-fields{ padding:.6rem .6rem 0; display:flex; flex-direction:column; gap:.4rem; }
-  .image-card-actions{ display:flex; gap:.4rem; padding:.6rem; margin-top:auto; }
-  .icon-btn{
-    flex:1; background:var(--cream); border:1px solid var(--border); border-radius:8px;
-    padding:.4rem; font-weight:700; font-size:.85rem; color:var(--charcoal-deeper);
-    transition:background .2s ease;
+  .hidden-file-input{ display:none; }
+
+  /* ===== STATUS INDICATORS ===== */
+  .save-status{
+    display:inline-flex; align-items:center; gap:.4rem;
+    font-size:.78rem; font-weight:700; padding:.4rem .85rem; border-radius:999px;
+    transition:var(--transition); opacity:0; transform:translateY(4px);
   }
-  .icon-btn:hover:not(:disabled){ background:var(--orange); color:var(--charcoal-deeper); border-color:var(--orange); }
-  .icon-btn:disabled{ opacity:.3; cursor:not-allowed; }
-  .icon-btn.danger:hover{ background:var(--danger); color:var(--white); border-color:var(--danger); }
+  .save-status.show{ opacity:1; transform:translateY(0); }
+  .save-status.saved{ background:rgba(39,174,96,.15); color:var(--success); border:1px solid rgba(39,174,96,.25); }
+  .save-status.saving{ background:rgba(225,138,63,.15); color:var(--orange-light); border:1px solid rgba(225,138,63,.25); }
+  .save-status.error{ background:rgba(192,57,43,.15); color:var(--danger); border:1px solid rgba(192,57,43,.25); }
+
+  /* ===== SKELETON ===== */
+  .skeleton{
+    background:linear-gradient(90deg, rgba(247,242,234,.05) 25%, rgba(247,242,234,.1) 50%, rgba(247,242,234,.05) 75%);
+    background-size:200% 100%; animation:shimmer 1.5s ease infinite;
+    border-radius:12px;
+  }
 
   /* ===== TOAST ===== */
   #toast{
-    position:fixed; bottom:1.5rem; left:50%; transform:translateX(-50%) translateY(20px);
-    background:var(--charcoal-deeper); color:var(--cream); padding:.75rem 1.4rem; border-radius:999px;
-    font-size:.85rem; font-weight:700; opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease;
-    z-index:100; box-shadow:0 15px 30px -10px rgba(0,0,0,.4);
+    position:fixed; bottom:1.5rem; right:1.5rem; transform:translateY(20px);
+    background:var(--charcoal-deep); color:var(--cream); padding:1rem 1.5rem; border-radius:16px;
+    font-size:.88rem; font-weight:700; opacity:0; pointer-events:none; transition:var(--transition);
+    z-index:100; box-shadow:var(--shadow); border:1px solid var(--border); display:flex; align-items:center; gap:.6rem;
+    max-width:380px;
   }
-  #toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
-  #toast.toast-error{ background:var(--danger); }
+  #toast.show{ opacity:1; transform:translateY(0); pointer-events:auto; }
+  #toast.toast-error{ border-color:rgba(192,57,43,.4); background:rgba(192,57,43,.12); color:#ff9f9f; }
+  #toast.toast-success{ border-color:rgba(39,174,96,.4); background:rgba(39,174,96,.12); color:#7ee3a0; }
+  #toast svg{ width:18px; height:18px; flex-shrink:0; }
 
-  @media (max-width:860px){
-    #dashboard{ flex-direction:column; }
-    .sidebar{ width:100%; height:auto; position:relative; flex-direction:row; overflow-x:auto; }
-    .sidebar-brand{ display:none; }
-    #sidebarNav{ flex-direction:row; overflow-x:auto; }
-    .tab-btn{ white-space:nowrap; }
-    .sidebar-footer{ display:none; }
-    .topbar{ flex-wrap:wrap; }
+  /* ===== MOBILE SIDEBAR ===== */
+  .mobile-overlay{
+    position:fixed; inset:0; background:rgba(0,0,0,.6); z-index:45; opacity:0; visibility:hidden;
+    transition:opacity .3s ease, visibility 0s .3s;
   }
+  .mobile-overlay.open{ opacity:1; visibility:visible; transition:opacity .3s ease; }
+  .mobile-menu-btn{
+    display:none; width:40px; height:40px; border-radius:10px;
+    background:rgba(247,242,234,.06); border:1px solid var(--border);
+    align-items:center; justify-content:center; color:var(--cream);
+  }
+  .mobile-menu-btn:hover{ background:rgba(247,242,234,.1); }
+
+  @media (max-width:900px){
+    .sidebar{ transform:translateX(-100%); }
+    .sidebar.open{ transform:translateX(0); }
+    .main-area{ margin-left:0; }
+    .mobile-menu-btn{ display:flex; }
+    .image-grid{ grid-template-columns:repeat(auto-fill, minmax(160px,1fr)); }
+  }
+  @media (max-width:640px){
+    .field-row{ grid-template-columns:1fr; }
+    .image-grid{ grid-template-columns:repeat(2,1fr); }
+    .topbar{ padding:1rem; }
+    .topbar h1{ font-size:1rem; }
+    .panel-title{ font-size:1.6rem; }
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar{ width:6px; }
+  ::-webkit-scrollbar-track{ background:transparent; }
+  ::-webkit-scrollbar-thumb{ background:rgba(247,242,234,.15); border-radius:999px; }
+  ::-webkit-scrollbar-thumb:hover{ background:rgba(247,242,234,.25); }
+
+  /* Focus */
+  :focus-visible{ outline:2px solid var(--orange); outline-offset:2px; border-radius:8px; }
 </style>
+<base target="_blank">
 </head>
 <body>
 
+<!-- ================= LOGIN SCREEN ================= -->
 <div id="loginScreen">
   <div class="login-card">
-    <img src="https://i.postimg.cc/DZh18dK7/pvlogo-removebg-preview.png" alt="PV Lifestyle logo">
+    <div class="brand-chip">
+      <img src="https://i.postimg.cc/DZh18dK7/pvlogo-removebg-preview.png" alt="PV Lifestyle logo">
+    </div>
     <h1 class="font-display">Admin Dashboard</h1>
     <p>Sign in with the Google account authorized to manage the PV Lifestyle home page.</p>
     <button class="google-btn" id="googleSignInBtn" type="button">
@@ -189,23 +400,43 @@
   </div>
 </div>
 
+<!-- ================= DASHBOARD ================= -->
 <div id="dashboard" class="hidden">
-  <aside class="sidebar">
+  <aside class="sidebar" id="sidebar">
     <div class="sidebar-brand">
-      <img src="https://i.postimg.cc/DZh18dK7/pvlogo-removebg-preview.png" alt="PV Lifestyle">
+      <div class="brand-chip">
+        <img src="https://i.postimg.cc/DZh18dK7/pvlogo-removebg-preview.png" alt="PV Lifestyle">
+      </div>
       <span>PV ADMIN</span>
+      <span class="badge">Live</span>
     </div>
     <nav id="sidebarNav"></nav>
     <div class="sidebar-footer">
-      <div class="user-email" id="userEmail"></div>
-      <button class="btn-logout" id="logoutBtn" type="button">Log Out</button>
+      <div class="user-row">
+        <div class="user-avatar" id="userAvatar">A</div>
+        <div class="user-email" id="userEmail"></div>
+      </div>
+      <button class="btn-logout" id="logoutBtn" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Log Out
+      </button>
     </div>
   </aside>
 
+  <div class="mobile-overlay" id="mobileOverlay"></div>
+
   <div class="main-area">
     <div class="topbar">
-      <h1>Home Page Content</h1>
-      <a class="btn-view-site" href="index.html" target="_blank" rel="noopener">View Site ↗</a>
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open menu">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <h1><span class="live-dot"></span> Home Page Content</h1>
+      <div class="topbar-actions">
+        <a class="btn-view-site" href="index.html" target="_blank" rel="noopener">
+          View Site
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg>
+        </a>
+      </div>
     </div>
     <div id="panelsContainer"></div>
   </div>
@@ -214,6 +445,7 @@
 <div id="toast"></div>
 
 <script type="module">
+
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
   import {
     getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut
@@ -222,56 +454,138 @@
     getDatabase, ref, onValue, set, update, push, remove
   } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-  // ============================================================
-  // 1) PASTE YOUR FIREBASE PROJECT CONFIG HERE
-  // ============================================================
   const firebaseConfig = {
-      apiKey: "AIzaSyCh7Ute6LeSAxcNDEQwZg5m0cA4ujnLCfg",
-      authDomain: "test-17881.firebaseapp.com",
-      projectId: "test-17881",
-      storageBucket: "test-17881.firebasestorage.app",
-      messagingSenderId: "1057428047643",
-      appId: "1:1057428047643:web:f3801c0d933225a5cd35be",
-      databaseURL: "https://test-17881-default-rtdb.firebaseio.com"
+    apiKey: "AIzaSyCh7Ute6LeSAxcNDEQwZg5m0cA4ujnLCfg",
+    authDomain: "test-17881.firebaseapp.com",
+    projectId: "test-17881",
+    storageBucket: "test-17881.firebasestorage.app",
+    messagingSenderId: "1057428047643",
+    appId: "1:1057428047643:web:f3801c0d933225a5cd35be",
+    databaseURL: "https://test-17881-default-rtdb.firebaseio.com"
   };
 
-  // ============================================================
-  // 2) LIST THE GOOGLE ACCOUNT EMAIL(S) ALLOWED TO ADMIN THE SITE
-  // ============================================================
-  const ADMIN_EMAILS = [
-    "legatodee@gmail.com"
-  ];
-
-  // ============================================================
-  // Cloudinary (unsigned upload preset)
-  // ============================================================
+  const ADMIN_EMAILS = ["legatodee@gmail.com"];
   const CLOUDINARY_CLOUD = 'dqkujefxj';
   const CLOUDINARY_PRESET = 'banter_box';
 
-  async function uploadToCloudinary(file) {
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', CLOUDINARY_PRESET);
-    const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, {
-      method: 'POST',
-      body: formData
-    });
-    if (!res.ok) throw new Error('Cloudinary upload failed');
-    const data = await res.json();
-    return data.secure_url;
-  }
-
-  // ============================================================
-  // Firebase init
-  // ============================================================
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db = getDatabase(app);
   const provider = new GoogleAuthProvider();
 
-  // ============================================================
-  // Small helpers
-  // ============================================================
+  // ===== DEFAULTS FROM MAIN SITE =====
+  const DEFAULTS = {
+    popup: {
+      eyebrow: "Coming Up",
+      heading: "Upcoming Events",
+      subheading: "Here's what's on the calendar at PV Lifestyle — don't miss it.",
+      ctaText: "Reserve a Table",
+      enabled: true,
+      slides: [
+        { url: "https://i.postimg.cc/Y0xCMbf1/leko.jpg", order: 0 },
+        { url: "https://i.postimg.cc/Ghr4VsJv/fabr.jpg", order: 1 },
+        { url: "https://i.postimg.cc/dVRhmbHN/kabza.png", order: 2 }
+      ]
+    },
+    hero: {
+      eyebrow: "Mokopane · Restaurant & Bar",
+      title: "PV LIFESTYLE",
+      subhead: "Fine dining, craft cocktails and signature nights — this is the ideal atmosphere.",
+      cta1Text: "Reserve a Table",
+      cta2Text: "Explore the Menu",
+      slides: [
+        { url: "https://i.postimg.cc/VkjyjmCM/hero.png", order: 0 },
+        { url: "https://i.postimg.cc/t4qR3YLM/h.png", order: 1 },
+        { url: "https://i.postimg.cc/dVRhmbHN/kabza.png", order: 2 },
+        { url: "https://i.postimg.cc/JhRdkgKV/confere.png", order: 3 },
+        { url: "https://i.postimg.cc/7ZxfYB9X/messiah.png", order: 4 },
+        { url: "https://i.postimg.cc/SRn5DvnW/4fe46d41-87ba-4eba-815b-8bcd7d91ab68.png", order: 5 },
+        { url: "https://i.postimg.cc/nhgTKG7S/j.png", order: 6 }
+      ]
+    },
+    thisWeek: {
+      eyebrow: "What's On",
+      heading: "This Week At PV",
+      subheading: "A square-up of the nights on deck — new sounds, same ideal atmosphere.",
+      slides: [
+        { url: "https://i.postimg.cc/SNyFWJhT/Save-Clip-App-730332036-18016859684908826-276558060762799520-n.jpg", day: "Friday", name: "Lekompo Fridays", order: 0 },
+        { url: "https://i.postimg.cc/8z5209sL/Save-Clip-App-731158340-18016681901908826-3553037399421413566-n.jpg", day: "Saturday", name: "Exquisite Saturdays", order: 1 },
+        { url: "https://i.postimg.cc/BnVr9pKS/Save-Clip-App-730332015-18016384001908826-7760478953285662725-n.jpg", day: "Sunday", name: "Sunday Soul Session", order: 2 },
+        { url: "https://i.postimg.cc/dVRhmbHN/kabza.png", day: "Special", name: "Kabza De Small", order: 3 }
+      ]
+    },
+    experience: {
+      eyebrow: "Signature Nights",
+      heading: "The Experience",
+      subheading: "Three nights, three moods — all under the one roof.",
+      cards: [
+        { url: "https://i.postimg.cc/SNyFWJhT/Save-Clip-App-730332036-18016859684908826-276558060762799520-n.jpg", day: "Fri", title: "Lekompo Fridays", desc: "Kick the weekend off with the rhythms of Limpopo — good music, good company.", order: 0 },
+        { url: "https://i.postimg.cc/8z5209sL/Save-Clip-App-731158340-18016681901908826-3553037399421413566-n.jpg", day: "Sat", title: "Exquisite Saturdays", desc: "An elevated night out — fine drinks, curated sounds, unforgettable energy.", order: 1 },
+        { url: "https://i.postimg.cc/BnVr9pKS/Save-Clip-App-730332015-18016384001908826-7760478953285662725-n.jpg", day: "Sun", title: "Sunday Soul Session", desc: "Wind the week down with soulful sounds and a laid-back atmosphere.", order: 2 }
+      ]
+    },
+    ourMenu: {
+      eyebrow: "Explore",
+      heading: "Our Menu",
+      subheading: "Five categories, one philosophy — fresh, bold, and made to share. Tap a card to view the full menu.",
+      slides: [
+        { url: "https://i.postimg.cc/bv1yLr6v/PV-Wraps-and-Sea-Food-copy-1024x1024.jpg", label: "Category", name: "Wraps & Sea Food", order: 0 },
+        { url: "https://i.postimg.cc/fyqDk9bG/PV-main-Burgersl-copy-1024x1024.jpg", label: "Category", name: "Burgers", order: 1 },
+        { url: "https://i.postimg.cc/0239sDFw/PV-main-Tradition-Cuisines-copy-1024x1024.jpg", label: "Category", name: "Traditional\nCuisines", order: 2 },
+        { url: "https://i.postimg.cc/fyyh4RvX/PV-Pizza-copy-1024x1024.jpg", label: "Category", name: "Pizza", order: 3 },
+        { url: "https://i.postimg.cc/8cjxKn1x/PV-PLATTERS-copy-1024x1024.jpg", label: "Category", name: "Platters", order: 4 }
+      ]
+    },
+    kitchen: {
+      eyebrow: "The Kitchen",
+      heading: "A Taste of PV Lifestyle",
+      subheading: "Fresh ingredients, bold flavours, made to share.",
+      quote: "An intimate space built for exceptional food — the freshest ingredients, thoughtfully prepared, alongside a drinks list worth lingering over.",
+      images: [
+        { url: "https://i.postimg.cc/mDk66stX/meal-6.jpg", title: "Signature Dish", order: 0 },
+        { url: "https://i.postimg.cc/m27RSYxh/meal-5.jpg", title: "Plated Meal", order: 1 },
+        { url: "https://i.postimg.cc/DZW34sdf/meal-4.jpg", title: "Dish Detail", order: 2 },
+        { url: "https://i.postimg.cc/qMcVKpn2/meal-3.jpg", title: "Fresh Preparation", order: 3 },
+        { url: "https://i.postimg.cc/vmBpC9KY/meal-2.jpg", title: "Chef's Plate", order: 4 },
+        { url: "https://i.postimg.cc/0jp37Czh/meal-1.jpg", title: "Table Setting", order: 5 }
+      ]
+    },
+    atmosphere: {
+      eyebrow: "The Atmosphere",
+      heading: "The Ideal Atmosphere",
+      subheading: "Warm light, good music, better company — a glimpse into the nights that make PV Lifestyle what it is.",
+      images: [
+        { url: "https://i.postimg.cc/7h1nD8WC/734023093-1014850407598967-7218412886536990010-n.jpg", title: "Evening at PV Lifestyle", order: 0 },
+        { url: "https://i.postimg.cc/XN989dYy/739537611-967493962957799-3106621155869462682-n.jpg", title: "Good Company", order: 1 },
+        { url: "https://i.postimg.cc/xTR34QH1/736226178-1050013250785493-4101715743019361684-n.jpg", title: "The Bar", order: 2 },
+        { url: "https://i.postimg.cc/fRqjMv8s/738335443-1067868246185162-612183325125705793-n.jpg", title: "After Dark", order: 3 },
+        { url: "https://i.postimg.cc/Hnmb6vkn/737383926-1067868902851763-8005089473605652688-n.jpg", title: "Weekend Vibes", order: 4 },
+        { url: "https://i.postimg.cc/bwrkVtpW/737569052-1067871179518202-3574143405590175365-n.jpg", title: "Golden Hour", order: 5 },
+        { url: "https://i.postimg.cc/NFb2pgnd/738243994-1646878526870371-1071314228137507111-n.jpg", title: "The Crowd", order: 6 },
+        { url: "https://i.postimg.cc/DyjbGwLG/739313272-1026381183218236-2339507366274515744-n.jpg", title: "Signature Nights", order: 7 },
+        { url: "https://i.postimg.cc/DfqN7mHN/723586718-1055555690465047-4010591563264060180-n.jpg", title: "Signature Nights", order: 8 },
+        { url: "https://i.postimg.cc/SxK1LdRQ/726270316-1338489517654689-8597184251803275148-n.jpg", title: "Signature Nights", order: 9 },
+        { url: "https://i.postimg.cc/XvG2mvwb/725120874-1027148789780614-3093861198032006710-n.jpg", title: "Signature Nights", order: 10 },
+        { url: "https://i.postimg.cc/9FLJf9br/739309467-1060245650011206-4753238270773291610-n.jpg", title: "Signature Nights", order: 11 }
+      ]
+    },
+    visit: {
+      eyebrow: "Find & Reserve",
+      heading: "Come Sit With Us",
+      subheading: "Book ahead or walk in — everyone's welcome.",
+      quote: "67 Van Heerden Street, Mokopane — walk in any night, or book ahead and we'll have your table waiting.",
+      images: []
+    },
+    footer: {
+      heading: "PV Lifestyle",
+      subheading: "Restaurant & Bar — Mokopane",
+      brandText: "PV Lifestyle brings fine dining to Mokopane in an intimate, elevated setting — fresh, thoughtfully prepared food, an exceptional drinks list, and an atmosphere built for good nights.",
+      tagline: "THE IDEAL ATMOSPHERE",
+      images: [{ url: "https://i.postimg.cc/DZh18dK7/pvlogo-removebg-preview.png", title: "PV Logo", order: 0 }]
+    }
+  };
+
+  // ===== HELPERS =====
   function el(tag, props = {}, children = []) {
     const node = document.createElement(tag);
     Object.entries(props).forEach(([k, v]) => {
@@ -282,7 +596,7 @@
       else node.setAttribute(k, v);
     });
     (Array.isArray(children) ? children : [children]).forEach(c => {
-      if (c === null || c === undefined) return;
+      if (c == null) return;
       node.appendChild(typeof c === 'string' ? document.createTextNode(c) : c);
     });
     return node;
@@ -295,20 +609,70 @@
 
   function showToast(message, isError = false) {
     const toast = document.getElementById('toast');
-    toast.textContent = message;
-    toast.classList.toggle('toast-error', isError);
+    toast.innerHTML = isError
+      ? `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> ${message}`
+      : `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> ${message}`;
+    toast.className = isError ? 'toast-error' : 'toast-success';
     toast.classList.add('show');
     clearTimeout(toast.__timer);
-    toast.__timer = setTimeout(() => toast.classList.remove('show'), 2200);
+    toast.__timer = setTimeout(() => toast.classList.remove('show'), 2800);
   }
 
-  // ============================================================
-  // Section configuration — drives every tab & field automatically.
-  // Add/remove entries here to change what the dashboard controls.
-  // ============================================================
+  function showSaveStatus(el, status) {
+    el.className = `save-status ${status}`;
+    el.classList.add('show');
+    clearTimeout(el.__timer);
+    el.__timer = setTimeout(() => el.classList.remove('show'), 2000);
+  }
+
+  async function uploadToCloudinary(file) {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', CLOUDINARY_PRESET);
+    const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, {
+      method: 'POST', body: formData
+    });
+    if (!res.ok) throw new Error('Upload failed');
+    const data = await res.json();
+    return data.secure_url;
+  }
+
+  // ===== INITIALIZE DEFAULTS =====
+  async function initializeDefaults() {
+    const promises = [];
+    Object.entries(DEFAULTS).forEach(([sectionKey, sectionData]) => {
+      promises.push(
+        onValue(ref(db, `content/${sectionKey}`), (snap) => {
+          if (!snap.exists()) {
+            const { slides, cards, images, ...textData } = sectionData;
+            set(ref(db, `content/${sectionKey}`), textData).catch(() => {});
+            if (slides) {
+              slides.forEach((slide, i) => {
+                push(ref(db, `content/${sectionKey}/slides`), slide).catch(() => {});
+              });
+            }
+            if (cards) {
+              cards.forEach((card, i) => {
+                push(ref(db, `content/${sectionKey}/cards`), card).catch(() => {});
+              });
+            }
+            if (images) {
+              images.forEach((img, i) => {
+                push(ref(db, `content/${sectionKey}/images`), img).catch(() => {});
+              });
+            }
+          }
+        }, { onlyOnce: true })
+      );
+    });
+    await Promise.all(promises);
+  }
+
+  // ===== SECTION CONFIG =====
   const SECTIONS = {
     popup: {
       label: 'Popup',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="13" x2="15" y2="13"/></svg>',
       toggle: { key: 'enabled', label: 'Show popup automatically when the site loads' },
       texts: [
         { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
@@ -320,6 +684,7 @@
     },
     hero: {
       label: 'Hero',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>',
       texts: [
         { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
         { key: 'title', label: 'Main Heading', type: 'text' },
@@ -331,169 +696,176 @@
     },
     thisWeek: {
       label: "This Week At PV",
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
       texts: [
         { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
         { key: 'heading', label: 'Heading', type: 'text' },
         { key: 'subheading', label: 'Subheading', type: 'textarea' }
       ],
-      list: {
-        key: 'slides', label: 'Event Cards',
-        fields: [
-          { key: 'day', label: 'Day (e.g. Friday)', type: 'text' },
-          { key: 'name', label: 'Event Name', type: 'text' }
-        ]
-      }
+      list: { key: 'slides', label: 'Event Cards', fields: [
+        { key: 'day', label: 'Day (e.g. Friday)', type: 'text' },
+        { key: 'name', label: 'Event Name', type: 'text' }
+      ]}
     },
     experience: {
       label: 'Experience',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>',
       texts: [
         { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
         { key: 'heading', label: 'Heading', type: 'text' },
         { key: 'subheading', label: 'Subheading', type: 'textarea' }
       ],
-      list: {
-        key: 'cards', label: 'Experience Cards',
-        fields: [
-          { key: 'day', label: 'Day Tag (e.g. Fri)', type: 'text' },
-          { key: 'title', label: 'Title', type: 'text' },
-          { key: 'desc', label: 'Description', type: 'textarea' }
-        ]
-      }
+      list: { key: 'cards', label: 'Experience Cards', fields: [
+        { key: 'day', label: 'Day Tag (e.g. Fri)', type: 'text' },
+        { key: 'title', label: 'Title', type: 'text' },
+        { key: 'desc', label: 'Description', type: 'textarea' }
+      ]}
     },
     ourMenu: {
       label: 'Our Menu',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>',
       texts: [
         { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
         { key: 'heading', label: 'Heading', type: 'text' },
         { key: 'subheading', label: 'Subheading', type: 'textarea' }
       ],
-      list: {
-        key: 'slides', label: 'Menu Categories',
-        fields: [
-          { key: 'label', label: 'Category Label (e.g. Category)', type: 'text' },
-          { key: 'name', label: 'Category Name', type: 'text' }
-        ]
-      }
+      list: { key: 'slides', label: 'Menu Categories', fields: [
+        { key: 'label', label: 'Category Label', type: 'text' },
+        { key: 'name', label: 'Category Name', type: 'text' }
+      ]}
     },
     kitchen: {
       label: 'Kitchen Gallery',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>',
       texts: [
         { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
         { key: 'heading', label: 'Heading', type: 'text' },
         { key: 'subheading', label: 'Subheading', type: 'textarea' },
         { key: 'quote', label: 'Quote', type: 'textarea' }
       ],
-      list: {
-        key: 'images', label: 'Gallery Images',
-        fields: [ { key: 'title', label: 'Image Title', type: 'text' } ]
-      }
+      list: { key: 'images', label: 'Gallery Images', fields: [
+        { key: 'title', label: 'Image Title', type: 'text' }
+      ]}
     },
     atmosphere: {
       label: 'Atmosphere Gallery',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>',
       texts: [
         { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
         { key: 'heading', label: 'Heading', type: 'text' },
         { key: 'subheading', label: 'Subheading', type: 'textarea' }
       ],
-      list: {
-        key: 'images', label: 'Gallery Images',
-        fields: [ { key: 'title', label: 'Image Title', type: 'text' } ]
-      }
+      list: { key: 'images', label: 'Gallery Images', fields: [
+        { key: 'title', label: 'Image Title', type: 'text' }
+      ]}
     },
     visit: {
       label: 'Visit & Reserve',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>',
       texts: [
         { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
         { key: 'heading', label: 'Heading', type: 'text' },
         { key: 'subheading', label: 'Subheading', type: 'textarea' },
         { key: 'quote', label: 'Quote', type: 'textarea' }
-      ],
-      list: {
-        key: 'images', label: 'Visit Gallery / Backgrounds',
-        fields: [ { key: 'title', label: 'Image Title', type: 'text' } ]
-      }
+      ]
     },
     footer: {
       label: 'Footer',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>',
       texts: [
         { key: 'heading', label: 'Heading / Title', type: 'text' },
         { key: 'subheading', label: 'Subheading', type: 'textarea' },
         { key: 'brandText', label: 'About Text', type: 'textarea' },
         { key: 'tagline', label: 'Tagline', type: 'text' }
       ],
-      list: {
-        key: 'images', label: 'Footer Logos / Images',
-        fields: [ { key: 'title', label: 'Title', type: 'text' } ]
-      }
+      list: { key: 'images', label: 'Footer Logos / Images', fields: [
+        { key: 'title', label: 'Title', type: 'text' }
+      ]}
     }
   };
 
-  // ============================================================
-  // Generic field binder — text input/textarea <-> Firebase path
-  // ============================================================
-  function bindText(dbPath, field) {
-    const wrapper = el('div', { class: 'field' });
+  // ===== BUILDERS =====
+  function bindText(dbPath, field, defaultValue) {
+    const wrapper = el('div', { class: 'field-group' });
     const label = el('label', { class: 'field-label', text: field.label });
     const input = field.type === 'textarea'
-      ? el('textarea', { rows: '3', class: 'field-input' })
-      : el('input', { type: 'text', class: 'field-input' });
+      ? el('textarea', { rows: '3', class: 'field-input', placeholder: defaultValue || '' })
+      : el('input', { type: 'text', class: 'field-input', placeholder: defaultValue || '' });
+    const status = el('span', { class: 'save-status', text: 'Saved' });
 
     onValue(ref(db, dbPath), (snap) => {
       if (document.activeElement === input) return;
-      input.value = snap.val() ?? '';
+      const val = snap.val();
+      input.value = val !== null && val !== undefined ? val : (defaultValue || '');
     });
 
     const save = debounce(() => {
+      showSaveStatus(status, 'saving');
+      status.textContent = 'Saving...';
       set(ref(db, dbPath), input.value)
-        .then(() => showToast('Saved'))
-        .catch(() => showToast('Save failed — check your connection', true));
+        .then(() => { status.textContent = 'Saved'; showSaveStatus(status, 'saved'); showToast('Saved'); })
+        .catch(() => { status.textContent = 'Error'; showSaveStatus(status, 'error'); showToast('Save failed', true); });
     }, 600);
     input.addEventListener('input', save);
 
     wrapper.appendChild(label);
     wrapper.appendChild(input);
+    wrapper.appendChild(status);
     return wrapper;
   }
 
-  // ============================================================
-  // Generic toggle binder — checkbox <-> Firebase boolean
-  // ============================================================
-  function bindToggle(dbPath, cfg) {
-    const wrapper = el('label', { class: 'toggle-row' });
+  function bindToggle(dbPath, cfg, defaultValue) {
+    const wrapper = el('div', { class: 'toggle-wrap' });
+    const switchWrap = el('label', { class: 'toggle-switch' });
     const input = el('input', { type: 'checkbox' });
+    const slider = el('span', { class: 'toggle-slider' });
+    const label = el('span', { class: 'toggle-label', text: cfg.label });
+    const statusText = el('span', { class: 'toggle-status', text: 'Loading...' });
 
     onValue(ref(db, dbPath), (snap) => {
-      input.checked = snap.val() !== false; // defaults to ON until admin turns it off
-    });
-    input.addEventListener('change', () => {
-      set(ref(db, dbPath), input.checked).then(() => showToast('Saved'));
+      const val = snap.val();
+      const isEnabled = val !== undefined ? val : (defaultValue !== false);
+      input.checked = isEnabled;
+      statusText.textContent = isEnabled ? 'Active' : 'Hidden';
+      statusText.style.color = isEnabled ? 'var(--success)' : 'var(--gray)';
     });
 
-    wrapper.appendChild(input);
-    wrapper.appendChild(el('span', { text: cfg.label }));
+    input.addEventListener('change', () => {
+      set(ref(db, dbPath), input.checked).then(() => {
+        statusText.textContent = input.checked ? 'Active' : 'Hidden';
+        statusText.style.color = input.checked ? 'var(--success)' : 'var(--gray)';
+        showToast(input.checked ? 'Popup enabled' : 'Popup disabled');
+      });
+    });
+
+    switchWrap.appendChild(input);
+    switchWrap.appendChild(slider);
+    wrapper.appendChild(switchWrap);
+    wrapper.appendChild(label);
+    wrapper.appendChild(statusText);
     return wrapper;
   }
 
-  // ============================================================
-  // Generic image-list manager — grid of images with optional
-  // per-item text fields, add/delete/reorder, Cloudinary upload.
-  // ============================================================
-  function bindList(sectionKey, listCfg) {
+  function bindList(sectionKey, listCfg, defaultItems) {
     const dbPath = `content/${sectionKey}/${listCfg.key}`;
-    const wrapper = el('div', { class: 'list-manager' });
-    const header = el('div', { class: 'list-manager-header' }, [
-      el('h4', { text: listCfg.label }),
-      el('p', { class: 'list-hint', text: 'If this list is empty, the site keeps showing its original default images for this section. Add an image here to take over.' })
+    const wrapper = el('div', { class: 'section-card' });
+    const header = el('div', { class: 'section-card-header' }, [
+      el('h3', { text: listCfg.label }),
+      el('span', { class: 'count-badge', text: '0', id: `count-${sectionKey}-${listCfg.key}` })
     ]);
     const grid = el('div', { class: 'image-grid' });
     const fileInput = el('input', { type: 'file', accept: 'image/*', multiple: 'multiple', class: 'hidden-file-input' });
-    const addBtn = el('button', { type: 'button', class: 'btn-add', text: '+ Add Image', onclick: () => fileInput.click() });
+    const addBtn = el('button', {
+      type: 'button', class: 'add-image-btn',
+      html: '<span class="plus">+</span> Add Image'
+    });
+    addBtn.addEventListener('click', () => fileInput.click());
 
     fileInput.addEventListener('change', async () => {
       const files = Array.from(fileInput.files || []);
       fileInput.value = '';
       for (const file of files) {
-        showToast('Uploading image…');
+        showToast('Uploading...');
         try {
           const url = await uploadToCloudinary(file);
           const existing = grid.__items || [];
@@ -514,13 +886,30 @@
 
     function renderGrid(items) {
       grid.innerHTML = '';
+      const countBadge = document.getElementById(`count-${sectionKey}-${listCfg.key}`);
+      if (countBadge) countBadge.textContent = items.length;
+
       if (!items.length) {
-        grid.appendChild(el('p', { class: 'empty-state', text: 'No images added yet — click "+ Add Image" to start.' }));
+        grid.appendChild(el('div', { class: 'empty-state' }, [
+          el('svg', { width: '48', height: '48', viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: '1.5' }, [
+            el('rect', { x: '3', y: '3', width: '18', height: '18', rx: '2' }),
+            el('circle', { cx: '8.5', cy: '8.5', r: '1.5' }),
+            el('path', { d: 'M21 15l-5-5L5 21' })
+          ]),
+          'No images yet. Click "+ Add Image" to upload.'
+        ]));
         return;
       }
+
       items.forEach((item, idx) => {
-        const card = el('div', { class: 'image-card' });
-        card.appendChild(el('img', { src: item.url, class: 'image-thumb', alt: 'uploaded image' }));
+        const card = el('div', { class: 'image-card', style: `animation-delay:${idx * 0.05}s` });
+
+        const thumbWrap = el('div', { class: 'image-thumb-wrap' });
+        thumbWrap.appendChild(el('img', { src: item.url, class: 'image-thumb', alt: 'uploaded' }));
+        const overlay = el('div', { class: 'image-overlay' });
+        overlay.appendChild(el('span', { class: 'img-index', text: `#${idx + 1}` }));
+        thumbWrap.appendChild(overlay);
+        card.appendChild(thumbWrap);
 
         const fieldsWrap = el('div', { class: 'image-card-fields' });
         (listCfg.fields || []).forEach(f => {
@@ -529,7 +918,7 @@
             : el('input', { type: 'text', class: 'field-input small', placeholder: f.label });
           input.value = item[f.key] ?? '';
           const saveField = debounce(() => {
-            update(ref(db, `${dbPath}/${item.key}`), { [f.key]: input.value }).then(() => showToast('Saved'));
+            update(ref(db, `${dbPath}/${item.key}`), { [f.key]: input.value }).catch(() => {});
           }, 600);
           input.addEventListener('input', saveField);
           fieldsWrap.appendChild(input);
@@ -537,12 +926,21 @@
         card.appendChild(fieldsWrap);
 
         const actions = el('div', { class: 'image-card-actions' });
-        const upBtn = el('button', { type: 'button', class: 'icon-btn', title: 'Move earlier', text: '↑', onclick: () => moveItem(items, idx, -1) });
-        const downBtn = el('button', { type: 'button', class: 'icon-btn', title: 'Move later', text: '↓', onclick: () => moveItem(items, idx, 1) });
+        const upBtn = el('button', {
+          type: 'button', class: 'pill-btn', title: 'Move earlier',
+          html: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>',
+          onclick: () => moveItem(items, idx, -1)
+        });
+        const downBtn = el('button', {
+          type: 'button', class: 'pill-btn', title: 'Move later',
+          html: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>',
+          onclick: () => moveItem(items, idx, 1)
+        });
         const delBtn = el('button', {
-          type: 'button', class: 'icon-btn danger', title: 'Delete', text: '✕',
+          type: 'button', class: 'pill-btn danger', title: 'Delete',
+          html: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>',
           onclick: () => {
-            if (confirm('Delete this image? This cannot be undone.')) {
+            if (confirm('Delete this image?')) {
               remove(ref(db, `${dbPath}/${item.key}`)).then(() => showToast('Deleted'));
             }
           }
@@ -585,21 +983,38 @@
     return wrapper;
   }
 
-  // ============================================================
-  // Panel + sidebar builders
-  // ============================================================
   function buildSectionPanel(key, cfg) {
     const panel = el('section', { class: 'panel', id: `panel-${key}` });
+    const defaults = DEFAULTS[key] || {};
+
     panel.appendChild(el('h2', { class: 'panel-title font-display', text: cfg.label }));
-    if (cfg.toggle) panel.appendChild(bindToggle(`content/${key}/${cfg.toggle.key}`, cfg.toggle));
-    (cfg.texts || []).forEach(field => panel.appendChild(bindText(`content/${key}/${field.key}`, field)));
-    if (cfg.list) panel.appendChild(bindList(key, cfg.list));
+    panel.appendChild(el('p', { class: 'panel-subtitle', text: `Manage the ${cfg.label} section content. Changes appear instantly on the live site.` }));
+
+    const textCard = el('div', { class: 'section-card' });
+    const textHeader = el('div', { class: 'section-card-header' }, [
+      el('h3', { text: 'Text Content' }),
+      el('span', { class: 'count-badge', text: (cfg.texts || []).length })
+    ]);
+    textCard.appendChild(textHeader);
+
+    if (cfg.toggle) textCard.appendChild(bindToggle(`content/${key}/${cfg.toggle.key}`, cfg.toggle, defaults[cfg.toggle.key]));
+    (cfg.texts || []).forEach(field => {
+      textCard.appendChild(bindText(`content/${key}/${field.key}`, field, defaults[field.key]));
+    });
+    panel.appendChild(textCard);
+
+    if (cfg.list) panel.appendChild(bindList(key, cfg.list, defaults[cfg.list.key] || defaults.images || defaults.slides || defaults.cards));
+
     return panel;
   }
 
   function switchTab(key) {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.key === key));
     document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === `panel-${key}`));
+    if (window.innerWidth <= 900) {
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('mobileOverlay').classList.remove('open');
+    }
   }
 
   let dashboardBuilt = false;
@@ -609,8 +1024,12 @@
     const nav = document.getElementById('sidebarNav');
     const main = document.getElementById('panelsContainer');
     Object.entries(SECTIONS).forEach(([key, cfg], i) => {
-      const btn = el('button', { type: 'button', class: 'tab-btn' + (i === 0 ? ' active' : ''), text: cfg.label, onclick: () => switchTab(key) });
+      const btn = el('button', {
+        type: 'button', class: 'tab-btn' + (i === 0 ? ' active' : ''),
+        onclick: () => switchTab(key)
+      });
       btn.dataset.key = key;
+      btn.innerHTML = `<span class="tab-icon">${cfg.icon}</span><span>${cfg.label}</span>`;
       nav.appendChild(btn);
 
       const panel = buildSectionPanel(key, cfg);
@@ -619,9 +1038,7 @@
     });
   }
 
-  // ============================================================
-  // Auth
-  // ============================================================
+  // ===== AUTH =====
   document.getElementById('googleSignInBtn').addEventListener('click', () => {
     signInWithPopup(auth, provider).catch(err => showToast('Sign-in failed: ' + err.message, true));
   });
@@ -634,9 +1051,8 @@
 
     if (user) {
       const email = (user.email || '').toLowerCase();
-      const allowed = ADMIN_EMAILS.map(e => e.toLowerCase()).includes(email);
-      if (!allowed) {
-        loginError.textContent = `${user.email} is not authorized for admin access. Ask the site owner to add this email to ADMIN_EMAILS.`;
+      if (!ADMIN_EMAILS.map(e => e.toLowerCase()).includes(email)) {
+        loginError.textContent = `${user.email} is not authorized.`;
         loginError.classList.remove('hidden');
         signOut(auth);
         return;
@@ -645,11 +1061,23 @@
       loginScreen.classList.add('hidden');
       dashboard.classList.remove('hidden');
       document.getElementById('userEmail').textContent = user.email;
+      document.getElementById('userAvatar').textContent = (user.displayName || user.email || 'A')[0].toUpperCase();
       buildDashboard();
+      initializeDefaults();
     } else {
       dashboard.classList.add('hidden');
       loginScreen.classList.remove('hidden');
     }
+  });
+
+  // ===== MOBILE MENU =====
+  document.getElementById('mobileMenuBtn').addEventListener('click', () => {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('mobileOverlay').classList.toggle('open');
+  });
+  document.getElementById('mobileOverlay').addEventListener('click', () => {
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('mobileOverlay').classList.remove('open');
   });
 </script>
 </body>
