@@ -1,591 +1,650 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PV Lifestyle | Admin Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Bebas+Neue&display=swap" rel="stylesheet">
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
-    <!-- Cloudinary Widget -->
-    <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
-    <style>
-        body { font-family: 'Manrope', sans-serif; background: #f8fafc; color: #1e293b; }
-        .font-display { font-family: 'Bebas Neue', sans-serif; }
-        .sidebar-link.active { background: #e2e8f0; border-left: 4px solid #e18a3f; color: #e18a3f; }
-        .loader { border-top-color: #e18a3f; animation: spinner 1.5s linear infinite; }
-        @keyframes spinner { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        [v-cloak] { display: none; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PV Lifestyle — Admin Dashboard</title>
+<link rel="icon" type="image/png" href="https://i.postimg.cc/DZh18dK7/pvlogo-removebg-preview.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --orange:#e18a3f;
+    --orange-light:#f3a663;
+    --orange-dark:#b96a26;
+    --charcoal:#3f4749;
+    --charcoal-deep:#262b2c;
+    --charcoal-deeper:#181b1c;
+    --cream:#f7f2ea;
+    --white:#ffffff;
+    --danger:#c0392b;
+    --border:#e4ded2;
+  }
+  *,*::before,*::after{ box-sizing:border-box; }
+  html,body{ margin:0; width:100%; }
+  body{
+    font-family:'Manrope', system-ui, sans-serif;
+    background:var(--cream);
+    color:var(--charcoal-deep);
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{ margin:0; }
+  .font-display{ font-family:'Bebas Neue', sans-serif; letter-spacing:.02em; }
+  .hidden{ display:none !important; }
+  button{ font-family:inherit; cursor:pointer; }
+  input,textarea{ font-family:inherit; }
+
+  /* ===== LOGIN SCREEN ===== */
+  #loginScreen{
+    min-height:100vh; display:flex; align-items:center; justify-content:center;
+    background:var(--charcoal-deeper);
+    padding:1.5rem;
+  }
+  .login-card{
+    background:var(--cream); border-radius:20px; padding:clamp(2rem,5vw,3rem);
+    max-width:400px; width:100%; text-align:center;
+    box-shadow:0 30px 60px -20px rgba(0,0,0,.5);
+  }
+  .login-card img{ height:56px; margin-bottom:1rem; }
+  .login-card h1{ font-size:2rem; color:var(--charcoal-deeper); }
+  .login-card p{ color:var(--charcoal); font-size:.9rem; margin-top:.5rem; margin-bottom:1.75rem; }
+  .google-btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:.65rem;
+    width:100%; background:var(--white); color:var(--charcoal-deeper);
+    border:1.5px solid var(--border); border-radius:12px;
+    padding:.85rem 1.25rem; font-weight:700; font-size:.95rem;
+    transition:background .2s ease, box-shadow .2s ease;
+  }
+  .google-btn:hover{ background:#faf8f4; box-shadow:0 8px 20px -10px rgba(0,0,0,.25); }
+  .login-error{
+    margin-top:1.25rem; background:rgba(192,57,43,.1); color:var(--danger);
+    border:1px solid rgba(192,57,43,.3); border-radius:10px; padding:.75rem 1rem;
+    font-size:.82rem; text-align:left; line-height:1.5;
+  }
+
+  /* ===== DASHBOARD SHELL ===== */
+  #dashboard{ display:flex; min-height:100vh; }
+
+  .sidebar{
+    width:250px; flex-shrink:0; background:var(--charcoal-deeper); color:var(--cream);
+    display:flex; flex-direction:column; position:sticky; top:0; height:100vh;
+  }
+  .sidebar-brand{
+    display:flex; align-items:center; gap:.65rem; padding:1.25rem 1.15rem;
+    border-bottom:1px solid rgba(247,242,234,.1);
+  }
+  .sidebar-brand img{ height:32px; }
+  .sidebar-brand span{ font-family:'Bebas Neue',sans-serif; font-size:1.2rem; letter-spacing:.04em; }
+  #sidebarNav{ display:flex; flex-direction:column; padding:.75rem; gap:.15rem; overflow-y:auto; flex:1; }
+  .tab-btn{
+    text-align:left; background:none; border:none; color:rgba(247,242,234,.72);
+    padding:.7rem .9rem; border-radius:10px; font-weight:600; font-size:.88rem;
+    transition:background .2s ease, color .2s ease;
+  }
+  .tab-btn:hover{ background:rgba(247,242,234,.06); color:var(--cream); }
+  .tab-btn.active{ background:var(--orange); color:var(--charcoal-deeper); }
+  .sidebar-footer{ padding:1rem; border-top:1px solid rgba(247,242,234,.1); }
+  .sidebar-footer .user-email{ font-size:.72rem; color:rgba(247,242,234,.55); word-break:break-all; margin-bottom:.65rem; }
+  .btn-logout{
+    width:100%; background:rgba(247,242,234,.08); color:var(--cream); border:1px solid rgba(247,242,234,.15);
+    border-radius:8px; padding:.55rem; font-weight:700; font-size:.8rem;
+    transition:background .2s ease;
+  }
+  .btn-logout:hover{ background:rgba(247,242,234,.16); }
+
+  .main-area{ flex:1; min-width:0; }
+  .topbar{
+    display:flex; align-items:center; justify-content:space-between; gap:1rem;
+    padding:1rem clamp(1rem,3vw,2.5rem); background:var(--white); border-bottom:1px solid var(--border);
+    position:sticky; top:0; z-index:5;
+  }
+  .topbar h1{ font-size:1.05rem; font-weight:800; }
+  .btn-view-site{
+    display:inline-flex; align-items:center; gap:.4rem; background:var(--charcoal-deeper); color:var(--cream);
+    padding:.55rem 1rem; border-radius:999px; font-weight:700; font-size:.8rem; border:none;
+  }
+  .btn-view-site:hover{ background:var(--charcoal); }
+
+  #panelsContainer{ padding:clamp(1.25rem,3vw,2.5rem); max-width:920px; }
+  .panel{ display:none; animation:fadeIn .25s ease; }
+  .panel.active{ display:block; }
+  @keyframes fadeIn{ from{ opacity:0; transform:translateY(6px); } to{ opacity:1; transform:translateY(0); } }
+  .panel-title{ font-size:1.9rem; margin-bottom:1.5rem; color:var(--charcoal-deeper); }
+
+  .field{ margin-bottom:1.25rem; }
+  .field-label{ display:block; font-size:.78rem; font-weight:700; letter-spacing:.03em; text-transform:uppercase; color:var(--charcoal); margin-bottom:.4rem; }
+  .field-input{
+    width:100%; border:1.5px solid var(--border); border-radius:10px; padding:.7rem .85rem;
+    font-size:.92rem; background:var(--white); color:var(--charcoal-deeper); resize:vertical;
+    transition:border-color .2s ease;
+  }
+  .field-input:focus{ outline:none; border-color:var(--orange); }
+  .field-input.small{ font-size:.82rem; padding:.5rem .6rem; }
+
+  .toggle-row{ display:flex; align-items:center; gap:.6rem; margin-bottom:1.5rem; font-weight:700; font-size:.85rem; cursor:pointer; }
+  .toggle-row input{ width:18px; height:18px; accent-color:var(--orange); cursor:pointer; }
+
+  .list-manager{ margin-top:2rem; border-top:1px solid var(--border); padding-top:1.5rem; }
+  .list-manager-header h4{ font-size:1.1rem; font-weight:800; }
+  .list-hint{ font-size:.78rem; color:var(--charcoal); opacity:.75; margin-top:.25rem; margin-bottom:1rem; line-height:1.5; }
+  .hidden-file-input{ display:none; }
+  .btn-add{
+    background:var(--orange); color:var(--charcoal-deeper); border:none; border-radius:999px;
+    padding:.6rem 1.1rem; font-weight:800; font-size:.82rem; margin-bottom:1.25rem;
+    transition:background .2s ease, transform .2s ease;
+  }
+  .btn-add:hover{ background:var(--orange-light); transform:translateY(-2px); }
+
+  .image-grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(200px,1fr)); gap:1rem; }
+  .empty-state{ font-size:.85rem; color:var(--charcoal); opacity:.6; grid-column:1/-1; padding:1.5rem; text-align:center; border:1.5px dashed var(--border); border-radius:12px; }
+  .image-card{ background:var(--white); border:1px solid var(--border); border-radius:14px; overflow:hidden; display:flex; flex-direction:column; }
+  .image-thumb{ width:100%; aspect-ratio:4/3; object-fit:cover; background:var(--border); }
+  .image-card-fields{ padding:.6rem .6rem 0; display:flex; flex-direction:column; gap:.4rem; }
+  .image-card-actions{ display:flex; gap:.4rem; padding:.6rem; margin-top:auto; }
+  .icon-btn{
+    flex:1; background:var(--cream); border:1px solid var(--border); border-radius:8px;
+    padding:.4rem; font-weight:700; font-size:.85rem; color:var(--charcoal-deeper);
+    transition:background .2s ease;
+  }
+  .icon-btn:hover:not(:disabled){ background:var(--orange); color:var(--charcoal-deeper); border-color:var(--orange); }
+  .icon-btn:disabled{ opacity:.3; cursor:not-allowed; }
+  .icon-btn.danger:hover{ background:var(--danger); color:var(--white); border-color:var(--danger); }
+
+  /* ===== TOAST ===== */
+  #toast{
+    position:fixed; bottom:1.5rem; left:50%; transform:translateX(-50%) translateY(20px);
+    background:var(--charcoal-deeper); color:var(--cream); padding:.75rem 1.4rem; border-radius:999px;
+    font-size:.85rem; font-weight:700; opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease;
+    z-index:100; box-shadow:0 15px 30px -10px rgba(0,0,0,.4);
+  }
+  #toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+  #toast.toast-error{ background:var(--danger); }
+
+  @media (max-width:860px){
+    #dashboard{ flex-direction:column; }
+    .sidebar{ width:100%; height:auto; position:relative; flex-direction:row; overflow-x:auto; }
+    .sidebar-brand{ display:none; }
+    #sidebarNav{ flex-direction:row; overflow-x:auto; }
+    .tab-btn{ white-space:nowrap; }
+    .sidebar-footer{ display:none; }
+    .topbar{ flex-wrap:wrap; }
+  }
+</style>
 </head>
-<body class="bg-slate-50 min-h-screen">
+<body>
 
-    <!-- Login Overlay -->
-    <div id="login-overlay" class="fixed inset-0 z-[100] bg-slate-900 flex items-center justify-center p-6">
-        <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full text-center">
-            <img src="https://i.postimg.cc/DZh18dK7/pvlogo-removebg-preview.png" class="h-20 mx-auto mb-6 brightness-0" alt="Logo">
-            <h1 class="text-2xl font-bold mb-2">Admin Dashboard</h1>
-            <p class="text-slate-500 mb-8">Please sign in with your authorized Google account to manage PV Lifestyle.</p>
-            <button onclick="login()" class="w-full flex items-center justify-center gap-3 bg-white border border-slate-300 py-3 px-4 rounded-xl font-semibold hover:bg-slate-50 transition-all shadow-sm">
-                <svg class="w-5 h-5" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
-                Continue with Google
-            </button>
-        </div>
+<!-- ================= LOGIN SCREEN ================= -->
+<div id="loginScreen">
+  <div class="login-card">
+    <img src="https://i.postimg.cc/DZh18dK7/pvlogo-removebg-preview.png" alt="PV Lifestyle logo">
+    <h1 class="font-display">Admin Dashboard</h1>
+    <p>Sign in with the Google account authorized to manage the PV Lifestyle home page.</p>
+    <button class="google-btn" id="googleSignInBtn" type="button">
+      <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.9 32.6 29.4 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.5 6.1 29.5 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.7-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 15.6 18.9 12 24 12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.5 6.1 29.5 4 24 4c-7.7 0-14.3 4.4-17.7 10.7z"/><path fill="#4CAF50" d="M24 44c5.3 0 10.2-2 13.9-5.4l-6.4-5.4C29.4 34.9 26.8 36 24 36c-5.4 0-9.9-3.4-11.6-8.2l-6.6 5.1C9.6 39.5 16.3 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.2 5.7l6.4 5.4C39.9 37.1 44 31.4 44 24c0-1.3-.1-2.7-.4-3.5z"/></svg>
+      Sign in with Google
+    </button>
+    <div class="login-error hidden" id="loginError"></div>
+  </div>
+</div>
+
+<!-- ================= DASHBOARD ================= -->
+<div id="dashboard" class="hidden">
+  <aside class="sidebar">
+    <div class="sidebar-brand">
+      <img src="https://i.postimg.cc/DZh18dK7/pvlogo-removebg-preview.png" alt="PV Lifestyle">
+      <span>PV ADMIN</span>
     </div>
-
-    <!-- Main App Layout -->
-    <div id="app" class="hidden flex min-h-screen">
-        <!-- Sidebar -->
-        <aside class="w-64 bg-white border-r border-slate-200 flex flex-col sticky top-0 h-screen">
-            <div class="p-6 border-b border-slate-100">
-                <img src="https://i.postimg.cc/DZh18dK7/pvlogo-removebg-preview.png" class="h-12 brightness-0" alt="Logo">
-                <p class="text-[10px] uppercase tracking-widest font-bold text-slate-400 mt-2">Control Panel</p>
-            </div>
-            
-            <nav class="flex-1 overflow-y-auto p-4 space-y-1">
-                <button onclick="showSection('popup')" class="sidebar-link w-full text-left px-4 py-3 rounded-xl flex items-center gap-3 font-medium text-slate-600 hover:bg-slate-50 transition-all active" id="nav-popup">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
-                    Events Popup
-                </button>
-                <button onclick="showSection('hero')" class="sidebar-link w-full text-left px-4 py-3 rounded-xl flex items-center gap-3 font-medium text-slate-600 hover:bg-slate-50 transition-all" id="nav-hero">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                    Hero Slideshow
-                </button>
-                <button onclick="showSection('whats-on')" class="sidebar-link w-full text-left px-4 py-3 rounded-xl flex items-center gap-3 font-medium text-slate-600 hover:bg-slate-50 transition-all" id="nav-whats-on">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                    What's On
-                </button>
-                <button onclick="showSection('experience')" class="sidebar-link w-full text-left px-4 py-3 rounded-xl flex items-center gap-3 font-medium text-slate-600 hover:bg-slate-50 transition-all" id="nav-experience">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-7.714 2.143L11 21l-2.286-6.857L1 12l7.714-2.143L11 3z"/></svg>
-                    The Experience
-                </button>
-                <button onclick="showSection('menu')" class="sidebar-link w-full text-left px-4 py-3 rounded-xl flex items-center gap-3 font-medium text-slate-600 hover:bg-slate-50 transition-all" id="nav-menu">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-                    Menu Categories
-                </button>
-                <button onclick="showSection('kitchen')" class="sidebar-link w-full text-left px-4 py-3 rounded-xl flex items-center gap-3 font-medium text-slate-600 hover:bg-slate-50 transition-all" id="nav-kitchen">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
-                    The Kitchen
-                </button>
-                <button onclick="showSection('atmosphere')" class="sidebar-link w-full text-left px-4 py-3 rounded-xl flex items-center gap-3 font-medium text-slate-600 hover:bg-slate-50 transition-all" id="nav-atmosphere">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    Atmosphere
-                </button>
-                <button onclick="showSection('visit')" class="sidebar-link w-full text-left px-4 py-3 rounded-xl flex items-center gap-3 font-medium text-slate-600 hover:bg-slate-50 transition-all" id="nav-visit">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                    Visit & Reserve
-                </button>
-            </nav>
-
-            <div class="p-4 border-t border-slate-100">
-                <div class="flex items-center gap-3 mb-4">
-                    <img id="user-avatar" class="w-10 h-10 rounded-full border border-slate-200" src="" alt="">
-                    <div class="overflow-hidden">
-                        <p id="user-name" class="font-bold text-sm truncate">Admin User</p>
-                        <p id="user-email" class="text-xs text-slate-500 truncate">admin@pvlifestyle.com</p>
-                    </div>
-                </div>
-                <button onclick="logout()" class="w-full py-2 px-4 rounded-lg text-sm font-semibold text-red-600 bg-red-50 hover:bg-red-100 transition-all">Sign Out</button>
-            </div>
-        </aside>
-
-        <!-- Main Content -->
-        <main class="flex-1 overflow-y-auto">
-            <header class="bg-white border-b border-slate-200 px-8 py-4 sticky top-0 z-50 flex justify-between items-center">
-                <h2 id="section-title" class="text-xl font-bold text-slate-800">Events Popup</h2>
-                <div class="flex gap-3">
-                    <span id="save-status" class="text-xs text-slate-400 self-center hidden italic">All changes saved</span>
-                    <button onclick="saveAll()" class="bg-[#e18a3f] text-white px-6 py-2 rounded-xl font-bold shadow-lg shadow-orange-200 hover:bg-[#b96a26] transition-all">Save Changes</button>
-                </div>
-            </header>
-
-            <div class="p-8 max-w-5xl mx-auto">
-                <!-- Section: Popup -->
-                <div id="section-popup" class="content-section space-y-8">
-                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-                        <h3 class="text-lg font-bold mb-4">Popup Content</h3>
-                        <div class="grid gap-6">
-                            <div>
-                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Main Heading</label>
-                                <input type="text" id="popup-title" class="w-full p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-400 outline-none" placeholder="Upcoming Events">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Subheading</label>
-                                <textarea id="popup-subtitle" class="w-full p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-400 outline-none h-24" placeholder="Description text..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-lg font-bold">Flyers / Images</h3>
-                            <button onclick="uploadMedia('popup')" class="text-sm font-bold text-[#e18a3f] hover:underline">+ Add Flyer</button>
-                        </div>
-                        <div id="popup-images" class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                            <!-- Image cards here -->
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Section: Hero -->
-                <div id="section-hero" class="content-section space-y-8 hidden">
-                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-                        <h3 class="text-lg font-bold mb-4">Hero Text</h3>
-                        <div class="grid gap-6">
-                            <div>
-                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Main Heading</label>
-                                <input type="text" id="hero-title" class="w-full p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-400 outline-none" placeholder="PV LIFESTYLE">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Subheading</label>
-                                <textarea id="hero-subtitle" class="w-full p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-400 outline-none h-24" placeholder="Description text..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-lg font-bold">Background Images</h3>
-                            <button onclick="uploadMedia('hero')" class="text-sm font-bold text-[#e18a3f] hover:underline">+ Add Image</button>
-                        </div>
-                        <div id="hero-images" class="grid grid-cols-2 md:grid-cols-3 gap-4"></div>
-                    </div>
-                </div>
-
-                <!-- Section: What's On -->
-                <div id="section-whats-on" class="content-section space-y-8 hidden">
-                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-                        <h3 class="text-lg font-bold mb-4">Section Header</h3>
-                        <div class="grid gap-6">
-                            <div>
-                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Heading</label>
-                                <input type="text" id="whats-on-title" class="w-full p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-400 outline-none">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Subheading</label>
-                                <input type="text" id="whats-on-subtitle" class="w-full p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-400 outline-none">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-lg font-bold">Event Cards</h3>
-                            <button onclick="addEventItem('whats-on')" class="text-sm font-bold text-[#e18a3f] hover:underline">+ Add Event</button>
-                        </div>
-                        <div id="whats-on-items" class="space-y-4"></div>
-                    </div>
-                </div>
-
-                <!-- Section: Experience -->
-                <div id="section-experience" class="content-section space-y-8 hidden">
-                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-                        <h3 class="text-lg font-bold mb-4">Section Header</h3>
-                        <div class="grid gap-6">
-                            <div>
-                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Heading</label>
-                                <input type="text" id="experience-title" class="w-full p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-400 outline-none">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Subheading</label>
-                                <input type="text" id="experience-subtitle" class="w-full p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-400 outline-none">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-lg font-bold">Experience Cards</h3>
-                        </div>
-                        <div id="experience-items" class="space-y-4"></div>
-                    </div>
-                </div>
-
-                <!-- Section: Menu -->
-                <div id="section-menu" class="content-section space-y-8 hidden">
-                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-                        <h3 class="text-lg font-bold mb-4">Section Header</h3>
-                        <div class="grid gap-6">
-                            <div>
-                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Heading</label>
-                                <input type="text" id="menu-title" class="w-full p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-400 outline-none">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Subheading</label>
-                                <input type="text" id="menu-subtitle" class="w-full p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-400 outline-none">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-lg font-bold">Menu Categories</h3>
-                            <button onclick="addEventItem('menu')" class="text-sm font-bold text-[#e18a3f] hover:underline">+ Add Category</button>
-                        </div>
-                        <div id="menu-items" class="space-y-4"></div>
-                    </div>
-                </div>
-
-                <!-- Section: Kitchen -->
-                <div id="section-kitchen" class="content-section space-y-8 hidden">
-                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-                        <h3 class="text-lg font-bold mb-4">Kitchen Content</h3>
-                        <div class="grid gap-6">
-                            <div>
-                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Heading</label>
-                                <input type="text" id="kitchen-title" class="w-full p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-400 outline-none">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Quote</label>
-                                <textarea id="kitchen-quote" class="w-full p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-400 outline-none h-24"></textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-lg font-bold">Marquee Images</h3>
-                            <button onclick="uploadMedia('kitchen')" class="text-sm font-bold text-[#e18a3f] hover:underline">+ Add Image</button>
-                        </div>
-                        <div id="kitchen-images" class="grid grid-cols-2 md:grid-cols-3 gap-4"></div>
-                    </div>
-                </div>
-
-                <!-- Section: Atmosphere -->
-                <div id="section-atmosphere" class="content-section space-y-8 hidden">
-                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-                        <h3 class="text-lg font-bold mb-4">Atmosphere Content</h3>
-                        <div class="grid gap-6">
-                            <div>
-                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Heading</label>
-                                <input type="text" id="atmosphere-title" class="w-full p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-400 outline-none">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Subheading</label>
-                                <input type="text" id="atmosphere-subtitle" class="w-full p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-400 outline-none">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-                        <div class="flex justify-between items-center mb-4">
-                            <h3 class="text-lg font-bold">Gallery Images</h3>
-                            <button onclick="uploadMedia('atmosphere')" class="text-sm font-bold text-[#e18a3f] hover:underline">+ Add Image</button>
-                        </div>
-                        <div id="atmosphere-images" class="grid grid-cols-2 md:grid-cols-4 gap-4"></div>
-                    </div>
-                </div>
-
-                <!-- Section: Visit -->
-                <div id="section-visit" class="content-section space-y-8 hidden">
-                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-                        <h3 class="text-lg font-bold mb-4">Visit Section</h3>
-                        <div class="grid gap-6">
-                            <div>
-                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Heading</label>
-                                <input type="text" id="visit-title" class="w-full p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-400 outline-none">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Quote / Location</label>
-                                <input type="text" id="visit-quote" class="w-full p-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-400 outline-none">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
+    <nav id="sidebarNav"></nav>
+    <div class="sidebar-footer">
+      <div class="user-email" id="userEmail"></div>
+      <button class="btn-logout" id="logoutBtn" type="button">Log Out</button>
     </div>
+  </aside>
 
-    <!-- Templates -->
-    <template id="image-card-template">
-        <div class="relative group aspect-[4/5] bg-slate-100 rounded-xl overflow-hidden border border-slate-200">
-            <img class="w-full h-full object-cover" src="" alt="">
-            <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center gap-2">
-                <button class="delete-btn p-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                </button>
-            </div>
-        </div>
-    </template>
+  <div class="main-area">
+    <div class="topbar">
+      <h1>Home Page Content</h1>
+      <a class="btn-view-site" href="index.html" target="_blank" rel="noopener">View Site ↗</a>
+    </div>
+    <div id="panelsContainer"></div>
+  </div>
+</div>
 
-    <template id="item-row-template">
-        <div class="item-row bg-slate-50 border border-slate-200 rounded-xl p-4 flex gap-4 items-start">
-            <div class="w-24 h-24 bg-slate-200 rounded-lg overflow-hidden flex-shrink-0 cursor-pointer hover:opacity-80 transition-all img-placeholder">
-                <img class="w-full h-full object-cover hidden" src="" alt="">
-                <div class="w-full h-full flex items-center justify-center text-slate-400">
-                    <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                </div>
-            </div>
-            <div class="flex-1 grid grid-cols-2 gap-4">
-                <input type="text" class="field-1 w-full p-2 rounded-lg border border-slate-200 text-sm" placeholder="Day / Label">
-                <input type="text" class="field-2 w-full p-2 rounded-lg border border-slate-200 text-sm" placeholder="Title / Name">
-                <textarea class="field-3 w-full p-2 rounded-lg border border-slate-200 text-sm col-span-2 hidden" placeholder="Description"></textarea>
-            </div>
-            <button class="delete-btn p-2 text-slate-400 hover:text-red-500 transition-all">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-            </button>
-        </div>
-    </template>
+<div id="toast"></div>
 
-    <script>
-        // CONFIGURATION
-        const CLOUDINARY_CLOUD = 'dqkujefxj';
-        const CLOUDINARY_PRESET = 'banter_box';
-        
-        // YOUR FIREBASE CONFIG - PASTE HERE
-const firebaseConfig = {
-    apiKey: "AIzaSyCh7Ute6LeSAxcNDEQwZg5m0cA4ujnLCfg",
-    authDomain: "test-17881.firebaseapp.com",
-    projectId: "test-17881",
-    storageBucket: "test-17881.firebasestorage.app",
-    messagingSenderId: "1057428047643",
-    appId: "1:1057428047643:web:f3801c0d933225a5cd35be",
-    databaseURL: "https://test-17881-default-rtdb.firebaseio.com"
-};
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import {
+    getDatabase, ref, onValue, set, update, push, remove
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.database();
-        const provider = new firebase.auth.GoogleAuthProvider();
+  // ============================================================
+  // 1) PASTE YOUR FIREBASE PROJECT CONFIG HERE
+  //    (Firebase console → Project settings → General → Your apps)
+  //    Use the EXACT same project as index.html's sync script.
+  // ============================================================
+  const firebaseConfig = {
+    apiKey: "PASTE_YOUR_API_KEY",
+    authDomain: "PASTE_YOUR_PROJECT.firebaseapp.com",
+    databaseURL: "https://PASTE_YOUR_PROJECT-default-rtdb.firebaseio.com",
+    projectId: "PASTE_YOUR_PROJECT",
+    storageBucket: "PASTE_YOUR_PROJECT.appspot.com",
+    messagingSenderId: "PASTE_SENDER_ID",
+    appId: "PASTE_APP_ID"
+  };
 
-        let currentData = {};
+  // ============================================================
+  // 2) LIST THE GOOGLE ACCOUNT EMAIL(S) ALLOWED TO ADMIN THE SITE
+  //    This is a convenience gate only — the real security has to
+  //    come from your Firebase Realtime Database rules (see the
+  //    rules snippet in the setup notes below).
+  // ============================================================
+  const ADMIN_EMAILS = [
+    "owner@example.com"
+  ];
 
-        // AUTHENTICATION
-        function login() {
-            auth.signInWithPopup(provider).catch(err => alert(err.message));
+  // ============================================================
+  // Cloudinary (unsigned upload preset)
+  // ============================================================
+  const CLOUDINARY_CLOUD = 'dqkujefxj';
+  const CLOUDINARY_PRESET = 'banter_box';
+
+  async function uploadToCloudinary(file) {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', CLOUDINARY_PRESET);
+    const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, {
+      method: 'POST',
+      body: formData
+    });
+    if (!res.ok) throw new Error('Cloudinary upload failed');
+    const data = await res.json();
+    return data.secure_url;
+  }
+
+  // ============================================================
+  // Firebase init
+  // ============================================================
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getDatabase(app);
+  const provider = new GoogleAuthProvider();
+
+  // ============================================================
+  // Small helpers
+  // ============================================================
+  function el(tag, props = {}, children = []) {
+    const node = document.createElement(tag);
+    Object.entries(props).forEach(([k, v]) => {
+      if (k === 'class') node.className = v;
+      else if (k === 'text') node.textContent = v;
+      else if (k === 'html') node.innerHTML = v;
+      else if (k.startsWith('on') && typeof v === 'function') node.addEventListener(k.slice(2).toLowerCase(), v);
+      else node.setAttribute(k, v);
+    });
+    (Array.isArray(children) ? children : [children]).forEach(c => {
+      if (c === null || c === undefined) return;
+      node.appendChild(typeof c === 'string' ? document.createTextNode(c) : c);
+    });
+    return node;
+  }
+
+  function debounce(fn, delay) {
+    let t;
+    return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), delay); };
+  }
+
+  function showToast(message, isError = false) {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.classList.toggle('toast-error', isError);
+    toast.classList.add('show');
+    clearTimeout(toast.__timer);
+    toast.__timer = setTimeout(() => toast.classList.remove('show'), 2200);
+  }
+
+  // ============================================================
+  // Section configuration — drives every tab & field automatically.
+  // Add/remove entries here to change what the dashboard controls.
+  // ============================================================
+  const SECTIONS = {
+    popup: {
+      label: 'Popup',
+      toggle: { key: 'enabled', label: 'Show popup automatically when the site loads' },
+      texts: [
+        { key: 'heading', label: 'Heading', type: 'text' },
+        { key: 'subheading', label: 'Subheading', type: 'textarea' },
+        { key: 'ctaText', label: 'Button Text', type: 'text' }
+      ],
+      list: { key: 'slides', label: 'Popup Images', fields: [] }
+    },
+    hero: {
+      label: 'Hero',
+      texts: [
+        { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
+        { key: 'title', label: 'Main Heading', type: 'text' },
+        { key: 'subhead', label: 'Subheading', type: 'textarea' },
+        { key: 'cta1Text', label: 'Primary Button Text', type: 'text' },
+        { key: 'cta2Text', label: 'Secondary Button Text', type: 'text' }
+      ],
+      list: { key: 'slides', label: 'Hero Background Images', fields: [] }
+    },
+    thisWeek: {
+      label: "This Week At PV",
+      texts: [
+        { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
+        { key: 'heading', label: 'Heading', type: 'text' },
+        { key: 'subheading', label: 'Subheading', type: 'textarea' }
+      ],
+      list: {
+        key: 'slides', label: 'Event Cards',
+        fields: [
+          { key: 'day', label: 'Day (e.g. Friday)', type: 'text' },
+          { key: 'name', label: 'Event Name', type: 'text' }
+        ]
+      }
+    },
+    experience: {
+      label: 'Experience',
+      texts: [
+        { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
+        { key: 'heading', label: 'Heading', type: 'text' },
+        { key: 'subheading', label: 'Subheading', type: 'textarea' }
+      ],
+      list: {
+        key: 'cards', label: 'Experience Cards',
+        fields: [
+          { key: 'day', label: 'Day Tag (e.g. Fri)', type: 'text' },
+          { key: 'title', label: 'Title', type: 'text' },
+          { key: 'desc', label: 'Description', type: 'textarea' }
+        ]
+      }
+    },
+    ourMenu: {
+      label: 'Our Menu',
+      texts: [
+        { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
+        { key: 'heading', label: 'Heading', type: 'text' },
+        { key: 'subheading', label: 'Subheading', type: 'textarea' }
+      ],
+      list: {
+        key: 'slides', label: 'Menu Categories',
+        fields: [
+          { key: 'label', label: 'Category Label (e.g. Category)', type: 'text' },
+          { key: 'name', label: 'Category Name', type: 'text' }
+        ]
+      }
+    },
+    kitchen: {
+      label: 'Kitchen Gallery',
+      texts: [
+        { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
+        { key: 'heading', label: 'Heading', type: 'text' },
+        { key: 'quote', label: 'Quote', type: 'textarea' }
+      ],
+      list: {
+        key: 'images', label: 'Gallery Images',
+        fields: [ { key: 'title', label: 'Image Title', type: 'text' } ]
+      }
+    },
+    atmosphere: {
+      label: 'Atmosphere Gallery',
+      texts: [
+        { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
+        { key: 'heading', label: 'Heading', type: 'text' },
+        { key: 'subheading', label: 'Subheading', type: 'textarea' }
+      ],
+      list: {
+        key: 'images', label: 'Gallery Images',
+        fields: [ { key: 'title', label: 'Image Title', type: 'text' } ]
+      }
+    },
+    visit: {
+      label: 'Visit & Reserve',
+      texts: [
+        { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
+        { key: 'heading', label: 'Heading', type: 'text' },
+        { key: 'quote', label: 'Quote', type: 'textarea' }
+      ]
+    },
+    footer: {
+      label: 'Footer',
+      texts: [
+        { key: 'brandText', label: 'About Text', type: 'textarea' },
+        { key: 'tagline', label: 'Tagline', type: 'text' }
+      ]
+    }
+  };
+
+  // ============================================================
+  // Generic field binder — text input/textarea <-> Firebase path
+  // ============================================================
+  function bindText(dbPath, field) {
+    const wrapper = el('div', { class: 'field' });
+    const label = el('label', { class: 'field-label', text: field.label });
+    const input = field.type === 'textarea'
+      ? el('textarea', { rows: '3', class: 'field-input' })
+      : el('input', { type: 'text', class: 'field-input' });
+
+    onValue(ref(db, dbPath), (snap) => {
+      if (document.activeElement === input) return;
+      input.value = snap.val() ?? '';
+    });
+
+    const save = debounce(() => {
+      set(ref(db, dbPath), input.value)
+        .then(() => showToast('Saved'))
+        .catch(() => showToast('Save failed — check your connection', true));
+    }, 600);
+    input.addEventListener('input', save);
+
+    wrapper.appendChild(label);
+    wrapper.appendChild(input);
+    return wrapper;
+  }
+
+  // ============================================================
+  // Generic toggle binder — checkbox <-> Firebase boolean
+  // ============================================================
+  function bindToggle(dbPath, cfg) {
+    const wrapper = el('label', { class: 'toggle-row' });
+    const input = el('input', { type: 'checkbox' });
+
+    onValue(ref(db, dbPath), (snap) => {
+      input.checked = snap.val() !== false; // defaults to ON until admin turns it off
+    });
+    input.addEventListener('change', () => {
+      set(ref(db, dbPath), input.checked).then(() => showToast('Saved'));
+    });
+
+    wrapper.appendChild(input);
+    wrapper.appendChild(el('span', { text: cfg.label }));
+    return wrapper;
+  }
+
+  // ============================================================
+  // Generic image-list manager — grid of images with optional
+  // per-item text fields, add/delete/reorder, Cloudinary upload.
+  // ============================================================
+  function bindList(sectionKey, listCfg) {
+    const dbPath = `content/${sectionKey}/${listCfg.key}`;
+    const wrapper = el('div', { class: 'list-manager' });
+    const header = el('div', { class: 'list-manager-header' }, [
+      el('h4', { text: listCfg.label }),
+      el('p', { class: 'list-hint', text: 'If this list is empty, the site keeps showing its original default images for this section. Add an image here to take over.' })
+    ]);
+    const grid = el('div', { class: 'image-grid' });
+    const fileInput = el('input', { type: 'file', accept: 'image/*', multiple: 'multiple', class: 'hidden-file-input' });
+    const addBtn = el('button', { type: 'button', class: 'btn-add', text: '+ Add Image', onclick: () => fileInput.click() });
+
+    fileInput.addEventListener('change', async () => {
+      const files = Array.from(fileInput.files || []);
+      fileInput.value = '';
+      for (const file of files) {
+        showToast('Uploading image…');
+        try {
+          const url = await uploadToCloudinary(file);
+          const existing = grid.__items || [];
+          const nextOrder = existing.length ? Math.max(...existing.map(i => i.order ?? 0)) + 1 : 0;
+          const defaults = {};
+          (listCfg.fields || []).forEach(f => { defaults[f.key] = ''; });
+          await push(ref(db, dbPath), { url, order: nextOrder, ...defaults });
+          showToast('Image added');
+        } catch (e) {
+          showToast('Upload failed', true);
         }
+      }
+    });
 
-        function logout() {
-            auth.signOut();
-        }
+    let isEditing = false;
+    grid.addEventListener('focusin', () => { isEditing = true; });
+    grid.addEventListener('focusout', () => { isEditing = false; });
 
-        auth.onAuthStateChanged(user => {
-            if (user) {
-                document.getElementById('login-overlay').classList.add('hidden');
-                document.getElementById('app').classList.remove('hidden');
-                document.getElementById('user-avatar').src = user.photoURL;
-                document.getElementById('user-name').innerText = user.displayName;
-                document.getElementById('user-email').innerText = user.email;
-                loadData();
-            } else {
-                document.getElementById('login-overlay').classList.remove('hidden');
-                document.getElementById('app').classList.add('hidden');
-            }
+    function renderGrid(items) {
+      grid.innerHTML = '';
+      if (!items.length) {
+        grid.appendChild(el('p', { class: 'empty-state', text: 'No images added yet — click "+ Add Image" to start.' }));
+        return;
+      }
+      items.forEach((item, idx) => {
+        const card = el('div', { class: 'image-card' });
+        card.appendChild(el('img', { src: item.url, class: 'image-thumb', alt: 'uploaded image' }));
+
+        const fieldsWrap = el('div', { class: 'image-card-fields' });
+        (listCfg.fields || []).forEach(f => {
+          const input = f.type === 'textarea'
+            ? el('textarea', { rows: '2', class: 'field-input small', placeholder: f.label })
+            : el('input', { type: 'text', class: 'field-input small', placeholder: f.label });
+          input.value = item[f.key] ?? '';
+          const saveField = debounce(() => {
+            update(ref(db, `${dbPath}/${item.key}`), { [f.key]: input.value }).then(() => showToast('Saved'));
+          }, 600);
+          input.addEventListener('input', saveField);
+          fieldsWrap.appendChild(input);
         });
+        card.appendChild(fieldsWrap);
 
-        // DATA LOADING
-        function loadData() {
-            db.ref('homepage').on('value', snapshot => {
-                currentData = snapshot.val() || {};
-                renderDashboard();
-                showStatus('All changes synced');
-            });
-        }
+        const actions = el('div', { class: 'image-card-actions' });
+        const upBtn = el('button', { type: 'button', class: 'icon-btn', title: 'Move earlier', text: '↑', onclick: () => moveItem(items, idx, -1) });
+        const downBtn = el('button', { type: 'button', class: 'icon-btn', title: 'Move later', text: '↓', onclick: () => moveItem(items, idx, 1) });
+        const delBtn = el('button', {
+          type: 'button', class: 'icon-btn danger', title: 'Delete', text: '✕',
+          onclick: () => {
+            if (confirm('Delete this image? This cannot be undone.')) {
+              remove(ref(db, `${dbPath}/${item.key}`)).then(() => showToast('Deleted'));
+            }
+          }
+        });
+        if (idx === 0) upBtn.disabled = true;
+        if (idx === items.length - 1) downBtn.disabled = true;
+        actions.appendChild(upBtn);
+        actions.appendChild(downBtn);
+        actions.appendChild(delBtn);
+        card.appendChild(actions);
 
-        function renderDashboard() {
-            // Popup
-            document.getElementById('popup-title').value = currentData.popup?.title || '';
-            document.getElementById('popup-subtitle').value = currentData.popup?.subtitle || '';
-            renderImages('popup-images', currentData.popup?.images || [], 'popup');
+        grid.appendChild(card);
+      });
+    }
 
-            // Hero
-            document.getElementById('hero-title').value = currentData.hero?.title || '';
-            document.getElementById('hero-subtitle').value = currentData.hero?.subtitle || '';
-            renderImages('hero-images', currentData.hero?.images || [], 'hero');
+    function moveItem(items, idx, dir) {
+      const current = items[idx];
+      const other = items[idx + dir];
+      if (!other) return;
+      const updates = {};
+      updates[`${dbPath}/${current.key}/order`] = other.order ?? 0;
+      updates[`${dbPath}/${other.key}/order`] = current.order ?? 0;
+      update(ref(db), updates).then(() => showToast('Reordered'));
+    }
 
-            // Whats On
-            document.getElementById('whats-on-title').value = currentData.whatsOn?.title || '';
-            document.getElementById('whats-on-subtitle').value = currentData.whatsOn?.subtitle || '';
-            renderItems('whats-on-items', currentData.whatsOn?.items || [], 'whatsOn');
+    onValue(ref(db, dbPath), (snap) => {
+      if (isEditing) return;
+      const data = snap.val();
+      const items = data
+        ? Object.keys(data).map(key => ({ key, ...data[key] })).sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+        : [];
+      grid.__items = items;
+      renderGrid(items);
+    });
 
-            // Experience
-            document.getElementById('experience-title').value = currentData.experience?.title || '';
-            document.getElementById('experience-subtitle').value = currentData.experience?.subtitle || '';
-            renderItems('experience-items', currentData.experience?.items || [], 'experience', true);
+    wrapper.appendChild(header);
+    wrapper.appendChild(addBtn);
+    wrapper.appendChild(fileInput);
+    wrapper.appendChild(grid);
+    return wrapper;
+  }
 
-            // Menu
-            document.getElementById('menu-title').value = currentData.menu?.title || '';
-            document.getElementById('menu-subtitle').value = currentData.menu?.subtitle || '';
-            renderItems('menu-items', currentData.menu?.items || [], 'menu');
+  // ============================================================
+  // Panel + sidebar builders
+  // ============================================================
+  function buildSectionPanel(key, cfg) {
+    const panel = el('section', { class: 'panel', id: `panel-${key}` });
+    panel.appendChild(el('h2', { class: 'panel-title font-display', text: cfg.label }));
+    if (cfg.toggle) panel.appendChild(bindToggle(`content/${key}/${cfg.toggle.key}`, cfg.toggle));
+    (cfg.texts || []).forEach(field => panel.appendChild(bindText(`content/${key}/${field.key}`, field)));
+    if (cfg.list) panel.appendChild(bindList(key, cfg.list));
+    return panel;
+  }
 
-            // Kitchen
-            document.getElementById('kitchen-title').value = currentData.kitchen?.title || '';
-            document.getElementById('kitchen-quote').value = currentData.kitchen?.quote || '';
-            renderImages('kitchen-images', currentData.kitchen?.images || [], 'kitchen');
+  function switchTab(key) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.key === key));
+    document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === `panel-${key}`));
+  }
 
-            // Atmosphere
-            document.getElementById('atmosphere-title').value = currentData.atmosphere?.title || '';
-            document.getElementById('atmosphere-subtitle').value = currentData.atmosphere?.subtitle || '';
-            renderImages('atmosphere-images', currentData.atmosphere?.images || [], 'atmosphere');
+  let dashboardBuilt = false;
+  function buildDashboard() {
+    if (dashboardBuilt) return;
+    dashboardBuilt = true;
+    const nav = document.getElementById('sidebarNav');
+    const main = document.getElementById('panelsContainer');
+    Object.entries(SECTIONS).forEach(([key, cfg], i) => {
+      const btn = el('button', { type: 'button', class: 'tab-btn' + (i === 0 ? ' active' : ''), text: cfg.label, onclick: () => switchTab(key) });
+      btn.dataset.key = key;
+      nav.appendChild(btn);
 
-            // Visit
-            document.getElementById('visit-title').value = currentData.visit?.title || '';
-            document.getElementById('visit-quote').value = currentData.visit?.quote || '';
-        }
+      const panel = buildSectionPanel(key, cfg);
+      if (i === 0) panel.classList.add('active');
+      main.appendChild(panel);
+    });
+  }
 
-        // UI HELPERS
-        function showSection(id) {
-            document.querySelectorAll('.content-section').forEach(s => s.classList.add('hidden'));
-            document.getElementById('section-' + id).classList.remove('hidden');
-            
-            document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
-            document.getElementById('nav-' + id).classList.add('active');
+  // ============================================================
+  // Auth
+  // ============================================================
+  document.getElementById('googleSignInBtn').addEventListener('click', () => {
+    signInWithPopup(auth, provider).catch(err => showToast('Sign-in failed: ' + err.message, true));
+  });
+  document.getElementById('logoutBtn').addEventListener('click', () => signOut(auth));
 
-            const titles = {
-                'popup': 'Events Popup',
-                'hero': 'Hero Slideshow',
-                'whats-on': "What's On This Week",
-                'experience': 'The Experience',
-                'menu': 'Menu Categories',
-                'kitchen': 'The Kitchen',
-                'atmosphere': 'The Atmosphere',
-                'visit': 'Visit & Reserve'
-            };
-            document.getElementById('section-title').innerText = titles[id];
-        }
+  onAuthStateChanged(auth, (user) => {
+    const loginScreen = document.getElementById('loginScreen');
+    const dashboard = document.getElementById('dashboard');
+    const loginError = document.getElementById('loginError');
 
-        function renderImages(containerId, images, path) {
-            const container = document.getElementById(containerId);
-            container.innerHTML = '';
-            images.forEach((url, index) => {
-                const temp = document.getElementById('image-card-template').content.cloneNode(true);
-                temp.querySelector('img').src = url;
-                temp.querySelector('.delete-btn').onclick = () => {
-                    const newImages = images.filter((_, i) => i !== index);
-                    db.ref(`homepage/${path}/images`).set(newImages);
-                };
-                container.appendChild(temp);
-            });
-        }
-
-        function renderItems(containerId, items, path, showDesc = false) {
-            const container = document.getElementById(containerId);
-            container.innerHTML = '';
-            items.forEach((item, index) => {
-                const temp = document.getElementById('item-row-template').content.cloneNode(true);
-                const row = temp.querySelector('.item-row');
-                
-                if (item.image) {
-                    row.querySelector('img').src = item.image;
-                    row.querySelector('img').classList.remove('hidden');
-                    row.querySelector('.img-placeholder div').classList.add('hidden');
-                }
-
-                row.querySelector('.img-placeholder').onclick = () => {
-                    uploadMediaItem(path, index);
-                };
-
-                const f1 = row.querySelector('.field-1');
-                const f2 = row.querySelector('.field-2');
-                const f3 = row.querySelector('.field-3');
-
-                f1.value = item.field1 || '';
-                f2.value = item.field2 || '';
-                
-                f1.onchange = (e) => db.ref(`homepage/${path}/items/${index}/field1`).set(e.target.value);
-                f2.onchange = (e) => db.ref(`homepage/${path}/items/${index}/field2`).set(e.target.value);
-
-                if (showDesc) {
-                    f3.classList.remove('hidden');
-                    f3.value = item.field3 || '';
-                    f3.onchange = (e) => db.ref(`homepage/${path}/items/${index}/field3`).set(e.target.value);
-                }
-
-                row.querySelector('.delete-btn').onclick = () => {
-                    const newItems = items.filter((_, i) => i !== index);
-                    db.ref(`homepage/${path}/items`).set(newItems);
-                };
-
-                container.appendChild(temp);
-            });
-        }
-
-        function addEventItem(path) {
-            const items = currentData[path === 'whatsOn' ? 'whatsOn' : path]?.items || [];
-            items.push({ field1: '', field2: '', image: '' });
-            db.ref(`homepage/${path}/items`).set(items);
-        }
-
-        // MEDIA UPLOAD
-        function uploadMedia(path) {
-            cloudinary.openUploadWidget({
-                cloudName: CLOUDINARY_CLOUD,
-                uploadPreset: CLOUDINARY_PRESET,
-                sources: ['local', 'url', 'camera']
-            }, (error, result) => {
-                if (!error && result && result.event === "success") {
-                    const url = result.info.secure_url;
-                    const images = currentData[path]?.images || [];
-                    images.push(url);
-                    db.ref(`homepage/${path}/images`).set(images);
-                }
-            });
-        }
-
-        function uploadMediaItem(path, index) {
-            cloudinary.openUploadWidget({
-                cloudName: CLOUDINARY_CLOUD,
-                uploadPreset: CLOUDINARY_PRESET,
-                sources: ['local', 'url']
-            }, (error, result) => {
-                if (!error && result && result.event === "success") {
-                    db.ref(`homepage/${path}/items/${index}/image`).set(result.info.secure_url);
-                }
-            });
-        }
-
-        // SAVE DATA
-        function saveAll() {
-            const data = {
-                popup: {
-                    title: document.getElementById('popup-title').value,
-                    subtitle: document.getElementById('popup-subtitle').value,
-                    images: currentData.popup?.images || []
-                },
-                hero: {
-                    title: document.getElementById('hero-title').value,
-                    subtitle: document.getElementById('hero-subtitle').value,
-                    images: currentData.hero?.images || []
-                },
-                whatsOn: {
-                    title: document.getElementById('whats-on-title').value,
-                    subtitle: document.getElementById('whats-on-subtitle').value,
-                    items: currentData.whatsOn?.items || []
-                },
-                experience: {
-                    title: document.getElementById('experience-title').value,
-                    subtitle: document.getElementById('experience-subtitle').value,
-                    items: currentData.experience?.items || []
-                },
-                menu: {
-                    title: document.getElementById('menu-title').value,
-                    subtitle: document.getElementById('menu-subtitle').value,
-                    items: currentData.menu?.items || []
-                },
-                kitchen: {
-                    title: document.getElementById('kitchen-title').value,
-                    quote: document.getElementById('kitchen-quote').value,
-                    images: currentData.kitchen?.images || []
-                },
-                atmosphere: {
-                    title: document.getElementById('atmosphere-title').value,
-                    subtitle: document.getElementById('atmosphere-subtitle').value,
-                    images: currentData.atmosphere?.images || []
-                },
-                visit: {
-                    title: document.getElementById('visit-title').value,
-                    quote: document.getElementById('visit-quote').value
-                }
-            };
-
-            db.ref('homepage').update(data)
-                .then(() => showStatus('Changes saved successfully!'))
-                .catch(err => alert('Error saving: ' + err.message));
-        }
-
-        function showStatus(msg) {
-            const el = document.getElementById('save-status');
-            el.innerText = msg;
-            el.classList.remove('hidden');
-            setTimeout(() => el.classList.add('hidden'), 3000);
-        }
-    </script>
+    if (user) {
+      const email = (user.email || '').toLowerCase();
+      const allowed = ADMIN_EMAILS.map(e => e.toLowerCase()).includes(email);
+      if (!allowed) {
+        loginError.textContent = `${user.email} is not authorized for admin access. Ask the site owner to add this email to ADMIN_EMAILS.`;
+        loginError.classList.remove('hidden');
+        signOut(auth);
+        return;
+      }
+      loginError.classList.add('hidden');
+      loginScreen.classList.add('hidden');
+      dashboard.classList.remove('hidden');
+      document.getElementById('userEmail').textContent = user.email;
+      buildDashboard();
+    } else {
+      dashboard.classList.add('hidden');
+      loginScreen.classList.remove('hidden');
+    }
+  });
+</script>
 </body>
 </html>
