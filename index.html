@@ -176,7 +176,6 @@
 </head>
 <body>
 
-<!-- ================= LOGIN SCREEN ================= -->
 <div id="loginScreen">
   <div class="login-card">
     <img src="https://i.postimg.cc/DZh18dK7/pvlogo-removebg-preview.png" alt="PV Lifestyle logo">
@@ -190,7 +189,6 @@
   </div>
 </div>
 
-<!-- ================= DASHBOARD ================= -->
 <div id="dashboard" class="hidden">
   <aside class="sidebar">
     <div class="sidebar-brand">
@@ -226,24 +224,19 @@
 
   // ============================================================
   // 1) PASTE YOUR FIREBASE PROJECT CONFIG HERE
-  //    (Firebase console → Project settings → General → Your apps)
-  //    Use the EXACT same project as index.html's sync script.
   // ============================================================
-const firebaseConfig = {
-    apiKey: "AIzaSyCh7Ute6LeSAxcNDEQwZg5m0cA4ujnLCfg",
-    authDomain: "test-17881.firebaseapp.com",
-    projectId: "test-17881",
-    storageBucket: "test-17881.firebasestorage.app",
-    messagingSenderId: "1057428047643",
-    appId: "1:1057428047643:web:f3801c0d933225a5cd35be",
-    databaseURL: "https://test-17881-default-rtdb.firebaseio.com"
-};
+  const firebaseConfig = {
+      apiKey: "AIzaSyCh7Ute6LeSAxcNDEQwZg5m0cA4ujnLCfg",
+      authDomain: "test-17881.firebaseapp.com",
+      projectId: "test-17881",
+      storageBucket: "test-17881.firebasestorage.app",
+      messagingSenderId: "1057428047643",
+      appId: "1:1057428047643:web:f3801c0d933225a5cd35be",
+      databaseURL: "https://test-17881-default-rtdb.firebaseio.com"
+  };
 
   // ============================================================
   // 2) LIST THE GOOGLE ACCOUNT EMAIL(S) ALLOWED TO ADMIN THE SITE
-  //    This is a convenience gate only — the real security has to
-  //    come from your Firebase Realtime Database rules (see the
-  //    rules snippet in the setup notes below).
   // ============================================================
   const ADMIN_EMAILS = [
     "legatodee@gmail.com"
@@ -318,6 +311,7 @@ const firebaseConfig = {
       label: 'Popup',
       toggle: { key: 'enabled', label: 'Show popup automatically when the site loads' },
       texts: [
+        { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
         { key: 'heading', label: 'Heading', type: 'text' },
         { key: 'subheading', label: 'Subheading', type: 'textarea' },
         { key: 'ctaText', label: 'Button Text', type: 'text' }
@@ -386,6 +380,7 @@ const firebaseConfig = {
       texts: [
         { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
         { key: 'heading', label: 'Heading', type: 'text' },
+        { key: 'subheading', label: 'Subheading', type: 'textarea' },
         { key: 'quote', label: 'Quote', type: 'textarea' }
       ],
       list: {
@@ -410,15 +405,26 @@ const firebaseConfig = {
       texts: [
         { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
         { key: 'heading', label: 'Heading', type: 'text' },
+        { key: 'subheading', label: 'Subheading', type: 'textarea' },
         { key: 'quote', label: 'Quote', type: 'textarea' }
-      ]
+      ],
+      list: {
+        key: 'images', label: 'Visit Gallery / Backgrounds',
+        fields: [ { key: 'title', label: 'Image Title', type: 'text' } ]
+      }
     },
     footer: {
       label: 'Footer',
       texts: [
+        { key: 'heading', label: 'Heading / Title', type: 'text' },
+        { key: 'subheading', label: 'Subheading', type: 'textarea' },
         { key: 'brandText', label: 'About Text', type: 'textarea' },
         { key: 'tagline', label: 'Tagline', type: 'text' }
-      ]
+      ],
+      list: {
+        key: 'images', label: 'Footer Logos / Images',
+        fields: [ { key: 'title', label: 'Title', type: 'text' } ]
+      }
     }
   };
 
