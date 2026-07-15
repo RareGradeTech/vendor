@@ -210,6 +210,9 @@
     background:var(--orange); color:var(--charcoal-deeper); font-size:.7rem; font-weight:800;
     padding:.2rem .55rem; border-radius:999px; margin-left:auto;
   }
+  .event-card-controls{ display:flex; gap:.4rem; margin-left:auto; }
+  .event-card-controls .pill-btn{ flex:0 0 auto; width:36px; padding:0; }
+  .event-card + .event-card{ margin-top:1.5rem; }
 
   /* ===== TEXT FIELDS ===== */
   .field-group{ margin-bottom:1.25rem; }
@@ -585,6 +588,43 @@
     }
   };
 
+  // ===== EVENTS DEFAULTS (seeds content/events on first run only) =====
+  const DEFAULT_EVENTS = [
+    { title:'Lekompo Fridays', tagLabel:'Weekly Series', day:'Friday', mode:'recurring', recurring:5, startHour:20, startMin:0, fixedDate:'', order:0,
+      desc:"Kick the weekend off with the rhythms of Limpopo — good music, good company, good vibes all night.",
+      images:[
+        { url:'https://i.postimg.cc/Y0xCMbf1/leko.jpg', order:0 },
+        { url:'https://i.postimg.cc/Ghr4VsJv/fabr.jpg', order:1 },
+        { url:'https://i.postimg.cc/SNyFWJhT/Save-Clip-App-730332036-18016859684908826-276558060762799520-n.jpg', order:2 }
+      ]
+    },
+    { title:'Exquisite Saturdays', tagLabel:'Weekly Series', day:'Saturday', mode:'recurring', recurring:6, startHour:20, startMin:0, fixedDate:'', order:1,
+      desc:"An elevated night out — fine drinks, curated sounds, unforgettable energy.",
+      images:[{ url:'https://i.postimg.cc/8z5209sL/Save-Clip-App-731158340-18016681901908826-3553037399421413566-n.jpg', order:0 }]
+    },
+    { title:'Sunday Soul Session', tagLabel:'Weekly Series', day:'Sunday', mode:'recurring', recurring:0, startHour:14, startMin:0, fixedDate:'', order:2,
+      desc:"Wind the week down with soulful sounds and a laid-back atmosphere.",
+      images:[{ url:'https://i.postimg.cc/BnVr9pKS/Save-Clip-App-730332015-18016384001908826-7760478953285662725-n.jpg', order:0 }]
+    },
+    { title:'Kabza De Small — Live', tagLabel:'Special Guest', day:'Special', mode:'fixed', recurring:null, startHour:null, startMin:null, fixedDate:'2026-08-01T21:00', order:3,
+      desc:"The King of Amapiano takes over the PV Lifestyle decks for one night only. Early arrival strongly recommended.",
+      images:[{ url:'https://i.postimg.cc/dVRhmbHN/kabza.png', order:0 }]
+    }
+  ];
+
+  async function initializeEventsDefaults() {
+    const snap = await new Promise(res => onValue(ref(db, 'content/events'), res, { onlyOnce: true }));
+    if (snap.exists()) return;
+    for (const ev of DEFAULT_EVENTS) {
+      const { images, ...rest } = ev;
+      const newRef = push(ref(db, 'content/events'));
+      await set(newRef, rest);
+      for (const img of images) {
+        await push(ref(db, `content/events/${newRef.key}/images`), img);
+      }
+    }
+  }
+
   // ===== HELPERS =====
   function el(tag, props = {}, children = []) {
     const node = document.createElement(tag);
@@ -706,6 +746,11 @@
         { key: 'day', label: 'Day (e.g. Friday)', type: 'text' },
         { key: 'name', label: 'Event Name', type: 'text' }
       ]}
+    },
+    events: {
+      label: 'Events Page',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10a2 2 0 002-2V6a2 2 0 012-2h10a2 2 0 012 2v2a2 2 0 000 4v2a2 2 0 01-2 2H7a2 2 0 01-2-2v-2a2 2 0 000-4z"/><line x1="13" y1="5" x2="13" y2="19" stroke-dasharray="2 2"/></svg>',
+      custom: 'events'
     },
     experience: {
       label: 'Experience',
@@ -983,7 +1028,308 @@
     return wrapper;
   }
 
+  // ===== EVENTS PANEL (full admin control: add/edit/reorder/delete events + poster galleries) =====
+  function bindEventText(eventKey, fieldKey, label, value, type = 'text') {
+    const wrapper = el('div', { class: 'field-group' });
+    wrapper.appendChild(el('label', { class: 'field-label', text: label }));
+    const input = type === 'textarea'
+      ? el('textarea', { rows: '3', class: 'field-input' })
+      : el('input', { type: 'text', class: 'field-input' });
+    input.value = value || '';
+    const save = debounce(() => {
+      update(ref(db, `content/events/${eventKey}`), { [fieldKey]: input.value })
+        .then(() => showToast('Saved'))
+        .catch(() => showToast('Save failed', true));
+    }, 600);
+    input.addEventListener('input', save);
+    wrapper.appendChild(input);
+    return wrapper;
+  }
+
+  function bindEventSelect(eventKey, fieldKey, label, value, options, onChangeExtra, numeric = false) {
+    const wrapper = el('div', { class: 'field-group' });
+    wrapper.appendChild(el('label', { class: 'field-label', text: label }));
+    const select = el('select', { class: 'field-input' });
+    options.forEach(opt => {
+      const o = el('option', { value: String(opt.value), text: opt.label });
+      if (String(opt.value) === String(value)) o.setAttribute('selected', 'selected');
+      select.appendChild(o);
+    });
+    select.addEventListener('change', () => {
+      const val = numeric ? Number(select.value) : select.value;
+      update(ref(db, `content/events/${eventKey}`), { [fieldKey]: val })
+        .then(() => { showToast('Saved'); if (onChangeExtra) onChangeExtra(); })
+        .catch(() => showToast('Save failed', true));
+    });
+    wrapper.appendChild(select);
+    return wrapper;
+  }
+
+  function bindEventTime(eventKey, startHour, startMin) {
+    const wrapper = el('div', { class: 'field-group' });
+    wrapper.appendChild(el('label', { class: 'field-label', text: 'Start Time' }));
+    const input = el('input', { type: 'time', class: 'field-input' });
+    const h = String(startHour ?? 20).padStart(2, '0');
+    const m = String(startMin ?? 0).padStart(2, '0');
+    input.value = `${h}:${m}`;
+    input.addEventListener('change', () => {
+      const [hh, mm] = input.value.split(':').map(Number);
+      update(ref(db, `content/events/${eventKey}`), { startHour: hh, startMin: mm })
+        .then(() => showToast('Saved'))
+        .catch(() => showToast('Save failed', true));
+    });
+    wrapper.appendChild(input);
+    return wrapper;
+  }
+
+  function bindEventDateTime(eventKey, fixedDate) {
+    const wrapper = el('div', { class: 'field-group' });
+    wrapper.appendChild(el('label', { class: 'field-label', text: 'Show Date & Time' }));
+    const input = el('input', { type: 'datetime-local', class: 'field-input' });
+    input.value = fixedDate || '';
+    input.addEventListener('change', () => {
+      update(ref(db, `content/events/${eventKey}`), { fixedDate: input.value })
+        .then(() => showToast('Saved'))
+        .catch(() => showToast('Save failed', true));
+    });
+    wrapper.appendChild(input);
+    return wrapper;
+  }
+
+  function buildEventGallery(eventKey) {
+    const dbPath = `content/events/${eventKey}/images`;
+    const wrapper = el('div', { class: 'section-card', style: 'margin-top:1.25rem;background:rgba(247,242,234,.02);' });
+    const header = el('div', { class: 'section-card-header' }, [
+      el('h3', { text: 'Poster Images' }),
+      el('span', { class: 'count-badge', text: '0', id: `count-events-${eventKey}` })
+    ]);
+    const grid = el('div', { class: 'image-grid' });
+    const fileInput = el('input', { type: 'file', accept: 'image/*', multiple: 'multiple', class: 'hidden-file-input' });
+    const addBtn = el('button', { type: 'button', class: 'add-image-btn', html: '<span class="plus">+</span> Add Poster Image' });
+    addBtn.addEventListener('click', () => fileInput.click());
+
+    fileInput.addEventListener('change', async () => {
+      const files = Array.from(fileInput.files || []);
+      fileInput.value = '';
+      for (const file of files) {
+        showToast('Uploading...');
+        try {
+          const url = await uploadToCloudinary(file);
+          const existing = grid.__items || [];
+          const nextOrder = existing.length ? Math.max(...existing.map(i => i.order ?? 0)) + 1 : 0;
+          await push(ref(db, dbPath), { url, order: nextOrder });
+          showToast('Poster added');
+        } catch (e) {
+          showToast('Upload failed', true);
+        }
+      }
+    });
+
+    let galleryEditing = false;
+    grid.addEventListener('focusin', () => { galleryEditing = true; });
+    grid.addEventListener('focusout', () => { galleryEditing = false; });
+
+    function moveImg(items, idx, dir) {
+      const current = items[idx];
+      const other = items[idx + dir];
+      if (!other) return;
+      const updates = {};
+      updates[`${dbPath}/${current.key}/order`] = other.order ?? 0;
+      updates[`${dbPath}/${other.key}/order`] = current.order ?? 0;
+      update(ref(db), updates).then(() => showToast('Reordered'));
+    }
+
+    function renderGrid(items) {
+      grid.innerHTML = '';
+      const badge = document.getElementById(`count-events-${eventKey}`);
+      if (badge) badge.textContent = items.length;
+      if (!items.length) {
+        grid.appendChild(el('div', { class: 'empty-state' }, ['No posters yet. Click "+ Add Poster Image" to upload.']));
+        return;
+      }
+      items.forEach((item, idx) => {
+        const card = el('div', { class: 'image-card' });
+        const thumbWrap = el('div', { class: 'image-thumb-wrap' });
+        thumbWrap.appendChild(el('img', { src: item.url, class: 'image-thumb', alt: 'poster' }));
+        const overlay = el('div', { class: 'image-overlay' });
+        overlay.appendChild(el('span', { class: 'img-index', text: `#${idx + 1}` }));
+        thumbWrap.appendChild(overlay);
+        card.appendChild(thumbWrap);
+
+        const actions = el('div', { class: 'image-card-actions', style: 'padding:.75rem;' });
+        const upBtn = el('button', {
+          type: 'button', class: 'pill-btn', title: 'Move earlier',
+          html: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>',
+          onclick: () => moveImg(items, idx, -1)
+        });
+        const downBtn = el('button', {
+          type: 'button', class: 'pill-btn', title: 'Move later',
+          html: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>',
+          onclick: () => moveImg(items, idx, 1)
+        });
+        const delBtn = el('button', {
+          type: 'button', class: 'pill-btn danger', title: 'Delete',
+          html: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>',
+          onclick: () => {
+            if (confirm('Delete this poster image?')) {
+              remove(ref(db, `${dbPath}/${item.key}`)).then(() => showToast('Deleted'));
+            }
+          }
+        });
+        if (idx === 0) upBtn.disabled = true;
+        if (idx === items.length - 1) downBtn.disabled = true;
+        actions.appendChild(upBtn);
+        actions.appendChild(downBtn);
+        actions.appendChild(delBtn);
+        card.appendChild(actions);
+        grid.appendChild(card);
+      });
+    }
+
+    onValue(ref(db, dbPath), (snap) => {
+      if (galleryEditing) return;
+      const data = snap.val();
+      const items = data
+        ? Object.keys(data).map(k => ({ key: k, ...data[k] })).sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+        : [];
+      grid.__items = items;
+      renderGrid(items);
+    });
+
+    wrapper.appendChild(header);
+    wrapper.appendChild(addBtn);
+    wrapper.appendChild(fileInput);
+    wrapper.appendChild(grid);
+    return wrapper;
+  }
+
+  function buildEventsPanel(key, cfg) {
+    const panel = el('section', { class: 'panel', id: `panel-${key}` });
+    panel.appendChild(el('h2', { class: 'panel-title font-display', text: cfg.label }));
+    panel.appendChild(el('p', { class: 'panel-subtitle', text: 'Add, edit, reorder and remove events — weekly residencies or one-off special guests. Changes appear instantly on the live Events page.' }));
+
+    const addBtn = el('button', { type: 'button', class: 'add-image-btn', html: '<span class="plus">+</span> Add Event' });
+    const list = el('div', { id: 'eventsList' });
+
+    let panelEditing = false;
+    panel.addEventListener('focusin', () => { panelEditing = true; });
+    panel.addEventListener('focusout', () => { panelEditing = false; });
+
+    addBtn.addEventListener('click', () => {
+      const existing = list.__events || [];
+      const nextOrder = existing.length ? Math.max(...existing.map(e => e.order ?? 0)) + 1 : 0;
+      push(ref(db, 'content/events'), {
+        title: 'New Event', tagLabel: 'Weekly Series', day: 'Friday',
+        mode: 'recurring', recurring: 5, startHour: 20, startMin: 0, fixedDate: '',
+        desc: '', order: nextOrder
+      }).then(() => showToast('Event added'));
+    });
+
+    function moveEvent(idx, dir) {
+      const events = list.__events || [];
+      const current = events[idx];
+      const other = events[idx + dir];
+      if (!current || !other) return;
+      const updates = {};
+      updates[`content/events/${current.key}/order`] = other.order ?? 0;
+      updates[`content/events/${other.key}/order`] = current.order ?? 0;
+      update(ref(db), updates).then(() => showToast('Reordered'));
+    }
+
+    function buildEventCard(ev, idx, total) {
+      const card = el('div', { class: 'section-card event-card' });
+
+      const header = el('div', { class: 'section-card-header' }, [
+        el('h3', { text: ev.title || 'Untitled Event' })
+      ]);
+      const controls = el('div', { class: 'event-card-controls' });
+      const upBtn = el('button', {
+        type: 'button', class: 'pill-btn', title: 'Move earlier',
+        html: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>',
+        onclick: () => moveEvent(idx, -1)
+      });
+      const downBtn = el('button', {
+        type: 'button', class: 'pill-btn', title: 'Move later',
+        html: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>',
+        onclick: () => moveEvent(idx, 1)
+      });
+      const delBtn = el('button', {
+        type: 'button', class: 'pill-btn danger', title: 'Delete event',
+        html: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>',
+        onclick: () => {
+          if (confirm(`Delete "${ev.title}"? This removes it from the live site immediately.`)) {
+            remove(ref(db, `content/events/${ev.key}`)).then(() => showToast('Event deleted'));
+          }
+        }
+      });
+      if (idx === 0) upBtn.disabled = true;
+      if (idx === total - 1) downBtn.disabled = true;
+      controls.appendChild(upBtn);
+      controls.appendChild(downBtn);
+      controls.appendChild(delBtn);
+      header.appendChild(controls);
+      card.appendChild(header);
+
+      const row1 = el('div', { class: 'field-row' });
+      row1.appendChild(bindEventText(ev.key, 'title', 'Event Title', ev.title));
+      row1.appendChild(bindEventSelect(ev.key, 'tagLabel', 'Category', ev.tagLabel, [
+        { value: 'Weekly Series', label: 'Weekly Series' },
+        { value: 'Special Guest', label: 'Special Guest' }
+      ]));
+      card.appendChild(row1);
+
+      const row2 = el('div', { class: 'field-row' });
+      row2.appendChild(bindEventText(ev.key, 'day', 'Day Label (e.g. Friday)', ev.day));
+      row2.appendChild(bindEventSelect(ev.key, 'mode', 'Schedule Type', ev.mode || 'recurring', [
+        { value: 'recurring', label: 'Weekly (recurring night)' },
+        { value: 'fixed', label: 'One-off (fixed date & time)' }
+      ], () => renderEventsList(list.__events)));
+      card.appendChild(row2);
+
+      const row3 = el('div', { class: 'field-row' });
+      if ((ev.mode || 'recurring') === 'recurring') {
+        row3.appendChild(bindEventSelect(ev.key, 'recurring', 'Night of the Week', ev.recurring, [
+          { value: 0, label: 'Sunday' }, { value: 1, label: 'Monday' }, { value: 2, label: 'Tuesday' },
+          { value: 3, label: 'Wednesday' }, { value: 4, label: 'Thursday' }, { value: 5, label: 'Friday' }, { value: 6, label: 'Saturday' }
+        ], null, true));
+        row3.appendChild(bindEventTime(ev.key, ev.startHour, ev.startMin));
+      } else {
+        row3.appendChild(bindEventDateTime(ev.key, ev.fixedDate));
+      }
+      card.appendChild(row3);
+
+      card.appendChild(bindEventText(ev.key, 'desc', 'Description', ev.desc, 'textarea'));
+      card.appendChild(buildEventGallery(ev.key));
+
+      return card;
+    }
+
+    function renderEventsList(events) {
+      list.innerHTML = '';
+      if (!events.length) {
+        list.appendChild(el('div', { class: 'empty-state' }, ['No events yet. Click "+ Add Event" to create one.']));
+        return;
+      }
+      events.forEach((ev, idx) => list.appendChild(buildEventCard(ev, idx, events.length)));
+    }
+
+    onValue(ref(db, 'content/events'), (snap) => {
+      if (panelEditing) return;
+      const data = snap.val();
+      const events = data
+        ? Object.keys(data).map(k => ({ key: k, ...data[k] })).sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+        : [];
+      list.__events = events;
+      renderEventsList(events);
+    });
+
+    panel.appendChild(addBtn);
+    panel.appendChild(list);
+    return panel;
+  }
+
   function buildSectionPanel(key, cfg) {
+    if (cfg.custom === 'events') return buildEventsPanel(key, cfg);
     const panel = el('section', { class: 'panel', id: `panel-${key}` });
     const defaults = DEFAULTS[key] || {};
 
@@ -1064,6 +1410,7 @@
       document.getElementById('userAvatar').textContent = (user.displayName || user.email || 'A')[0].toUpperCase();
       buildDashboard();
       initializeDefaults();
+      initializeEventsDefaults();
     } else {
       dashboard.classList.add('hidden');
       loginScreen.classList.remove('hidden');
