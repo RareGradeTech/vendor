@@ -538,64 +538,15 @@
         { url: "https://i.postimg.cc/dVRhmbHN/kabza.png", day: "Special", name: "Kabza De Small", order: 3 }
       ]
     },
-    expHero: {
-      eyebrow: "Mokopane · The Vibe",
-      title: "THE EXPERIENCE",
-      subhead: "Golden-hour dinners that slide into late-night sets — this is what a night at PV Lifestyle actually feels like, hour by hour.",
-      stat1Number: "3",
-      stat1Label: "Signature Nights",
-      stat2Number: "2AM",
-      stat2Label: "Last Call Fri–Sun",
-      stat3Number: "1",
-      stat3Label: "Ideal Atmosphere",
-      images: [
-        { url: "https://i.postimg.cc/Hnmb6vkn/737383926-1067868902851763-8005089473605652688-n.jpg", order: 0 }
-      ]
-    },
-    expTimeline: {
-      eyebrow: "How The Night Unfolds",
-      heading: "From Golden Hour To Last Call",
-      subheading: "Four moods, one evening — this is how a night at PV Lifestyle actually moves.",
-      items: [
-        { url: "https://i.postimg.cc/bwrkVtpW/737569052-1067871179518202-3574143405590175365-n.jpg", time: "18:00", title: "Golden Hour", desc: "Doors open, the light turns amber, and the first round hits the table.", order: 0 },
-        { url: "https://i.postimg.cc/XN989dYy/739537611-967493962957799-3106621155869462682-n.jpg", time: "20:00", title: "Good Company", desc: "Plates arrive, tables fill in, and the conversation finds its rhythm.", order: 1 },
-        { url: "https://i.postimg.cc/xTR34QH1/736226178-1050013250785493-4101715743019361684-n.jpg", time: "22:00", title: "The Bar Comes Alive", desc: "Cocktails start moving faster, the DJ booth lights up, the room gets loud.", order: 2 },
-        { url: "https://i.postimg.cc/fRqjMv8s/738335443-1067868246185162-612183325125705793-n.jpg", time: "00:00", title: "After Dark", desc: "The dancefloor takes over — and it stays that way until the doors close.", order: 3 }
-      ]
-    },
     experience: {
-      eyebrow: "Three Nights, Three Moods",
-      heading: "Pick Your Night",
-      subheading: "Every night at PV Lifestyle has its own personality. Here's what to expect.",
+      eyebrow: "Signature Nights",
+      heading: "The Experience",
+      subheading: "Three nights, three moods — all under the one roof.",
       cards: [
         { url: "https://i.postimg.cc/SNyFWJhT/Save-Clip-App-730332036-18016859684908826-276558060762799520-n.jpg", day: "Fri", title: "Lekompo Fridays", desc: "Kick the weekend off with the rhythms of Limpopo — good music, good company.", order: 0 },
         { url: "https://i.postimg.cc/8z5209sL/Save-Clip-App-731158340-18016681901908826-3553037399421413566-n.jpg", day: "Sat", title: "Exquisite Saturdays", desc: "An elevated night out — fine drinks, curated sounds, unforgettable energy.", order: 1 },
         { url: "https://i.postimg.cc/BnVr9pKS/Save-Clip-App-730332015-18016384001908826-7760478953285662725-n.jpg", day: "Sun", title: "Sunday Soul Session", desc: "Wind the week down with soulful sounds and a laid-back atmosphere.", order: 2 }
       ]
-    },
-    expGallery: {
-      eyebrow: "The Full Gallery",
-      heading: "The Ideal Atmosphere, In Frame",
-      subheading: "Every one of these nights looked like this. Tap any photo for the full-screen view.",
-      images: [
-        { url: "https://i.postimg.cc/7h1nD8WC/734023093-1014850407598967-7218412886536990010-n.jpg", title: "Evening at PV Lifestyle", order: 0 },
-        { url: "https://i.postimg.cc/XN989dYy/739537611-967493962957799-3106621155869462682-n.jpg", title: "Good Company", order: 1 },
-        { url: "https://i.postimg.cc/xTR34QH1/736226178-1050013250785493-4101715743019361684-n.jpg", title: "The Bar", order: 2 },
-        { url: "https://i.postimg.cc/fRqjMv8s/738335443-1067868246185162-612183325125705793-n.jpg", title: "After Dark", order: 3 },
-        { url: "https://i.postimg.cc/Hnmb6vkn/737383926-1067868902851763-8005089473605652688-n.jpg", title: "Weekend Vibes", order: 4 },
-        { url: "https://i.postimg.cc/bwrkVtpW/737569052-1067871179518202-3574143405590175365-n.jpg", title: "Golden Hour", order: 5 },
-        { url: "https://i.postimg.cc/NFb2pgnd/738243994-1646878526870371-1071314228137507111-n.jpg", title: "The Crowd", order: 6 },
-        { url: "https://i.postimg.cc/DyjbGwLG/739313272-1026381183218236-2339507366274515744-n.jpg", title: "Signature Nights", order: 7 },
-        { url: "https://i.postimg.cc/DfqN7mHN/723586718-1055555690465047-4010591563264060180-n.jpg", title: "Signature Nights", order: 8 },
-        { url: "https://i.postimg.cc/SxK1LdRQ/726270316-1338489517654689-8597184251803275148-n.jpg", title: "Signature Nights", order: 9 },
-        { url: "https://i.postimg.cc/XvG2mvwb/725120874-1027148789780614-3093861198032006710-n.jpg", title: "Signature Nights", order: 10 },
-        { url: "https://i.postimg.cc/9FLJf9br/739309467-1060245650011206-4753238270773291610-n.jpg", title: "Signature Nights", order: 11 }
-      ]
-    },
-    expCta: {
-      eyebrow: "Ready When You Are",
-      heading: "Your Night Starts Here",
-      subheading: "Reserve ahead, especially on signature nights — the good tables (and the good seats at the bar) go first."
     },
     ourMenu: {
       eyebrow: "Explore",
@@ -761,7 +712,7 @@
       promises.push(
         onValue(ref(db, `content/${sectionKey}`), (snap) => {
           if (!snap.exists()) {
-            const { slides, cards, images, items, ...textData } = sectionData;
+            const { slides, cards, images, ...textData } = sectionData;
             set(ref(db, `content/${sectionKey}`), textData).catch(() => {});
             if (slides) {
               slides.forEach((slide, i) => {
@@ -776,11 +727,6 @@
             if (images) {
               images.forEach((img, i) => {
                 push(ref(db, `content/${sectionKey}/images`), img).catch(() => {});
-              });
-            }
-            if (items) {
-              items.forEach((item, i) => {
-                push(ref(db, `content/${sectionKey}/items`), item).catch(() => {});
               });
             }
           }
@@ -837,41 +783,8 @@
       icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10a2 2 0 002-2V6a2 2 0 012-2h10a2 2 0 012 2v2a2 2 0 000 4v2a2 2 0 01-2 2H7a2 2 0 01-2-2v-2a2 2 0 000-4z"/><line x1="13" y1="5" x2="13" y2="19" stroke-dasharray="2 2"/></svg>',
       custom: 'events'
     },
-    expHero: {
-      label: 'Page Hero',
-      group: 'experience',
-      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>',
-      texts: [
-        { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
-        { key: 'title', label: 'Main Title', type: 'text' },
-        { key: 'subhead', label: 'Subheading', type: 'textarea' },
-        { key: 'stat1Number', label: 'Stat 1 Number (e.g. 3)', type: 'text' },
-        { key: 'stat1Label', label: 'Stat 1 Label (e.g. Signature Nights)', type: 'text' },
-        { key: 'stat2Number', label: 'Stat 2 Number (e.g. 2AM)', type: 'text' },
-        { key: 'stat2Label', label: 'Stat 2 Label (e.g. Last Call Fri–Sun)', type: 'text' },
-        { key: 'stat3Number', label: 'Stat 3 Number (e.g. 1)', type: 'text' },
-        { key: 'stat3Label', label: 'Stat 3 Label (e.g. Ideal Atmosphere)', type: 'text' }
-      ],
-      list: { key: 'images', label: 'Hero Background Image', fields: [] }
-    },
-    expTimeline: {
-      label: 'Night Timeline',
-      group: 'experience',
-      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
-      texts: [
-        { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
-        { key: 'heading', label: 'Heading', type: 'text' },
-        { key: 'subheading', label: 'Subheading', type: 'textarea' }
-      ],
-      list: { key: 'items', label: 'Timeline Moments', fields: [
-        { key: 'time', label: 'Time (e.g. 18:00)', type: 'text' },
-        { key: 'title', label: 'Title', type: 'text' },
-        { key: 'desc', label: 'Description', type: 'textarea' }
-      ]}
-    },
     experience: {
-      label: 'Signature Nights',
-      group: 'experience',
+      label: 'Experiences Page',
       icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>',
       texts: [
         { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
@@ -883,29 +796,6 @@
         { key: 'title', label: 'Title', type: 'text' },
         { key: 'desc', label: 'Description', type: 'textarea' }
       ]}
-    },
-    expGallery: {
-      label: 'Full Gallery',
-      group: 'experience',
-      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>',
-      texts: [
-        { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
-        { key: 'heading', label: 'Heading', type: 'text' },
-        { key: 'subheading', label: 'Subheading', type: 'textarea' }
-      ],
-      list: { key: 'images', label: 'Gallery Images', fields: [
-        { key: 'title', label: 'Image Title', type: 'text' }
-      ]}
-    },
-    expCta: {
-      label: 'CTA Band',
-      group: 'experience',
-      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>',
-      texts: [
-        { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
-        { key: 'heading', label: 'Heading', type: 'text' },
-        { key: 'subheading', label: 'Subheading', type: 'textarea' }
-      ]
     },
     ourMenu: {
       label: 'Menu Page',
@@ -1512,27 +1402,17 @@
   }
 
   const HOME_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 001 1h4v-6h4v6h4a1 1 0 001-1V9.5"/></svg>';
-  const EXPERIENCE_GROUP_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>';
   const CHEVRON_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>';
-
-  // ----- Collapsible nav-group definitions -----
-  // Add an entry here for any SECTIONS `group` value to render it as a
-  // collapsible group in the sidebar instead of a flat top-level tab.
-  const NAV_GROUPS = {
-    home: { label: 'Home Page', icon: HOME_ICON },
-    experience: { label: 'Experience Page', icon: EXPERIENCE_GROUP_ICON }
-  };
 
   function switchTab(key) {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.key === key));
     document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === `panel-${key}`));
 
-    Object.keys(NAV_GROUPS).forEach(groupKey => {
-      const toggle = document.getElementById(`group-${groupKey}-toggle`);
-      if (!toggle) return;
-      const isInGroup = SECTIONS[key] && SECTIONS[key].group === groupKey;
-      toggle.classList.toggle('has-active-child', isInGroup);
-    });
+    const homeToggle = document.getElementById('homeGroupToggle');
+    if (homeToggle) {
+      const isHomeSection = SECTIONS[key] && SECTIONS[key].group === 'home';
+      homeToggle.classList.toggle('has-active-child', isHomeSection);
+    }
 
     if (window.innerWidth <= 900) {
       document.getElementById('sidebar').classList.remove('open');
@@ -1540,10 +1420,9 @@
     }
   }
 
-  function toggleNavGroup(groupKey, forceExpanded) {
-    const toggle = document.getElementById(`group-${groupKey}-toggle`);
-    const subgroup = document.getElementById(`group-${groupKey}-sub`);
-    if (!toggle || !subgroup) return;
+  function toggleHomeGroup(forceExpanded) {
+    const toggle = document.getElementById('homeGroupToggle');
+    const subgroup = document.getElementById('homeSubNav');
     const expand = typeof forceExpanded === 'boolean' ? forceExpanded : !toggle.classList.contains('expanded');
     toggle.classList.toggle('expanded', expand);
     subgroup.classList.toggle('expanded', expand);
@@ -1559,36 +1438,32 @@
     const entries = Object.entries(SECTIONS);
     const firstKey = entries[0][0];
 
-    // ----- Collapsible groups (Home Page, Experience Page, etc.) -----
-    Object.entries(NAV_GROUPS).forEach(([groupKey, groupMeta]) => {
-      const groupEntries = entries.filter(([, cfg]) => cfg.group === groupKey);
-      if (!groupEntries.length) return;
+    // ----- Home Page collapsible group -----
+    const homeEntries = entries.filter(([, cfg]) => cfg.group === 'home');
+    const homeGroup = el('div', { class: 'nav-group' });
 
-      const navGroup = el('div', { class: 'nav-group' });
-
-      const groupToggle = el('button', {
-        type: 'button', id: `group-${groupKey}-toggle`, class: 'tab-btn nav-group-toggle',
-        onclick: () => toggleNavGroup(groupKey)
-      });
-      groupToggle.innerHTML = `<span class="tab-icon">${groupMeta.icon}</span><span>${groupMeta.label}</span><span class="nav-chevron">${CHEVRON_ICON}</span>`;
-      navGroup.appendChild(groupToggle);
-
-      const subNav = el('div', { class: 'nav-subgroup', id: `group-${groupKey}-sub` });
-      groupEntries.forEach(([key, cfg]) => {
-        const btn = el('button', {
-          type: 'button', class: 'tab-btn sub-tab-btn',
-          onclick: () => switchTab(key)
-        });
-        btn.dataset.key = key;
-        btn.innerHTML = `<span class="tab-icon">${cfg.icon}</span><span>${cfg.label}</span>`;
-        subNav.appendChild(btn);
-      });
-      navGroup.appendChild(subNav);
-      nav.appendChild(navGroup);
+    const homeToggle = el('button', {
+      type: 'button', id: 'homeGroupToggle', class: 'tab-btn nav-group-toggle',
+      onclick: () => toggleHomeGroup()
     });
+    homeToggle.innerHTML = `<span class="tab-icon">${HOME_ICON}</span><span>Home Page</span><span class="nav-chevron">${CHEVRON_ICON}</span>`;
+    homeGroup.appendChild(homeToggle);
 
-    // ----- Standalone top-level pages (no group) -----
-    entries.filter(([, cfg]) => !cfg.group).forEach(([key, cfg]) => {
+    const homeSubNav = el('div', { class: 'nav-subgroup', id: 'homeSubNav' });
+    homeEntries.forEach(([key, cfg]) => {
+      const btn = el('button', {
+        type: 'button', class: 'tab-btn sub-tab-btn',
+        onclick: () => switchTab(key)
+      });
+      btn.dataset.key = key;
+      btn.innerHTML = `<span class="tab-icon">${cfg.icon}</span><span>${cfg.label}</span>`;
+      homeSubNav.appendChild(btn);
+    });
+    homeGroup.appendChild(homeSubNav);
+    nav.appendChild(homeGroup);
+
+    // ----- Standalone top-level pages -----
+    entries.filter(([, cfg]) => cfg.group !== 'home').forEach(([key, cfg]) => {
       const btn = el('button', {
         type: 'button', class: 'tab-btn',
         onclick: () => switchTab(key)
@@ -1604,10 +1479,8 @@
       main.appendChild(panel);
     });
 
-    // Expand whichever group holds the default active tab
-    Object.keys(NAV_GROUPS).forEach(groupKey => {
-      toggleNavGroup(groupKey, SECTIONS[firstKey].group === groupKey);
-    });
+    // Expand Home Page group by default since it holds the default active tab
+    toggleHomeGroup(SECTIONS[firstKey].group === 'home');
     switchTab(firstKey);
   }
 
