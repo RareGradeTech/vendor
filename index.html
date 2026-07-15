@@ -150,27 +150,6 @@
   .tab-icon{ width:18px; height:18px; position:relative; z-index:1; opacity:.7; }
   .tab-btn.active .tab-icon{ opacity:1; }
 
-  /* ===== NAV GROUP (Home Page collapsible) ===== */
-  .nav-group{ display:flex; flex-direction:column; }
-  .nav-group-toggle{ width:100%; }
-  .nav-chevron{
-    margin-left:auto; width:16px; height:16px; position:relative; z-index:1;
-    opacity:.55; transition:transform .3s cubic-bezier(.22,.8,.25,1);
-  }
-  .nav-group-toggle.expanded .nav-chevron{ transform:rotate(180deg); }
-  .nav-group-toggle.has-active-child{ color:var(--orange-light); background:rgba(225,138,63,.1); }
-  .nav-group-toggle.has-active-child .tab-icon{ opacity:1; }
-  .nav-subgroup{
-    display:flex; flex-direction:column; gap:.2rem; overflow:hidden;
-    max-height:0; opacity:0; margin:0 0 0 0;
-    transition:max-height .35s cubic-bezier(.22,.8,.25,1), opacity .3s ease, margin .3s ease;
-  }
-  .nav-subgroup.expanded{ max-height:600px; opacity:1; margin:.3rem 0 .2rem; }
-  .sub-tab-btn{
-    padding:.65rem 1.1rem .65rem 2.6rem; font-size:.82rem; font-weight:600;
-  }
-  .sub-tab-btn .tab-icon{ width:15px; height:15px; }
-
   .sidebar-footer{ padding:1.25rem; border-top:1px solid var(--border); }
   .sidebar-footer .user-row{ display:flex; align-items:center; gap:.75rem; margin-bottom:1rem; }
   .user-avatar{
@@ -408,14 +387,13 @@
 </head>
 <body>
 
-<!-- ================= LOGIN SCREEN ================= -->
 <div id="loginScreen">
   <div class="login-card">
     <div class="brand-chip">
       <img src="https://i.postimg.cc/DZh18dK7/pvlogo-removebg-preview.png" alt="PV Lifestyle logo">
     </div>
     <h1 class="font-display">Admin Dashboard</h1>
-    <p>Sign in with the Google account authorized to manage the PV Lifestyle home page.</p>
+    <p>Sign in with the Google account authorized to manage the PV Lifestyle content.</p>
     <button class="google-btn" id="googleSignInBtn" type="button">
       <svg width="18" height="18" viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.9 32.6 29.4 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.5 6.1 29.5 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.7-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 15.6 18.9 12 24 12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.5 6.1 29.5 4 24 4c-7.7 0-14.3 4.4-17.7 10.7z"/><path fill="#4CAF50" d="M24 44c5.3 0 10.2-2 13.9-5.4l-6.4-5.4C29.4 34.9 26.8 36 24 36c-5.4 0-9.9-3.4-11.6-8.2l-6.6 5.1C9.6 39.5 16.3 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.3 4.3-4.2 5.7l6.4 5.4C39.9 37.1 44 31.4 44 24c0-1.3-.1-2.7-.4-3.5z"/></svg>
       Sign in with Google
@@ -424,7 +402,6 @@
   </div>
 </div>
 
-<!-- ================= DASHBOARD ================= -->
 <div id="dashboard" class="hidden">
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-brand">
@@ -454,7 +431,7 @@
       <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open menu">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
-      <h1><span class="live-dot"></span> Home Page Content</h1>
+      <h1><span class="live-dot"></span> <span id="topbarTitle">Home Page Content</span></h1>
       <div class="topbar-actions">
         <a class="btn-view-site" href="index.html" target="_blank" rel="noopener">
           View Site
@@ -548,6 +525,63 @@
         { url: "https://i.postimg.cc/BnVr9pKS/Save-Clip-App-730332015-18016384001908826-7760478953285662725-n.jpg", day: "Sun", title: "Sunday Soul Session", desc: "Wind the week down with soulful sounds and a laid-back atmosphere.", order: 2 }
       ]
     },
+    experiencePage: {
+      hero: {
+        eyebrow: "Mokopane · The Vibe",
+        title: "THE EXPERIENCE",
+        subtitle: "Golden-hour dinners that slide into late-night sets — this is what a night at PV Lifestyle actually feels like, hour by hour.",
+        stat1_val: "3", stat1_lbl: "Signature Nights",
+        stat2_val: "2AM", stat2_lbl: "Last Call Fri–Sun",
+        stat3_val: "1", stat3_lbl: "Ideal Atmosphere",
+        heroImage: [ { url: "https://i.postimg.cc/Hnmb6vkn/737383926-1067868902851763-8005089473605652688-n.jpg", order: 0 } ]
+      },
+      timeline: {
+        eyebrow: "How The Night Unfolds",
+        heading: "From Golden Hour To Last Call",
+        subheading: "Four moods, one evening — this is how a night at PV Lifestyle actually moves.",
+        items: [
+          { url: "https://i.postimg.cc/bwrkVtpW/737569052-1067871179518202-3574143405590175365-n.jpg", time: "18:00", title: "Golden Hour", desc: "Doors open, the light turns amber, and the first round hits the table.", order: 0 },
+          { url: "https://i.postimg.cc/XN989dYy/739537611-967493962957799-3106621155869462682-n.jpg", time: "20:00", title: "Good Company", desc: "Plates arrive, tables fill in, and the conversation finds its rhythm.", order: 1 },
+          { url: "https://i.postimg.cc/xTR34QH1/736226178-1050013250785493-4101715743019361684-n.jpg", time: "22:00", title: "The Bar Comes Alive", desc: "Cocktails start moving faster, the DJ booth lights up, the room gets loud.", order: 2 },
+          { url: "https://i.postimg.cc/fRqjMv8s/738335443-1067868246185162-612183325125705793-n.jpg", time: "00:00", title: "After Dark", desc: "The dancefloor takes over — and it stays that way until the doors close.", order: 3 }
+        ]
+      },
+      nights: {
+        eyebrow: "Three Nights, Three Moods",
+        heading: "Pick Your Night",
+        subheading: "Every night at PV Lifestyle has its own personality. Here's what to expect.",
+        cards: [
+          { url: "https://i.postimg.cc/SNyFWJhT/Save-Clip-App-730332036-18016859684908826-276558060762799520-n.jpg", day: "Fri", title: "Lekompo Fridays", desc: "Kick the weekend off with the rhythms of Limpopo — good music, good company.", order: 0 },
+          { url: "https://i.postimg.cc/8z5209sL/Save-Clip-App-731158340-18016681901908826-3553037399421413566-n.jpg", day: "Sat", title: "Exquisite Saturdays", desc: "An elevated night out — fine drinks, curated sounds, unforgettable energy.", order: 1 },
+          { url: "https://i.postimg.cc/BnVr9pKS/Save-Clip-App-730332015-18016384001908826-7760478953285662725-n.jpg", day: "Sun", title: "Sunday Soul Session", desc: "Wind the week down with soulful sounds and a laid-back atmosphere.", order: 2 }
+        ]
+      },
+      gallery: {
+        eyebrow: "The Full Gallery",
+        heading: "The Ideal Atmosphere, In Frame",
+        subheading: "Every one of these nights looked like this. Tap any photo for the full-screen view.",
+        ticker: "Good Music, Good Company, Good Vibes, Every Night",
+        images: [
+          { url: "https://i.postimg.cc/7h1nD8WC/734023093-1014850407598967-7218412886536990010-n.jpg", title: "Evening at PV Lifestyle", size: "big", order: 0 },
+          { url: "https://i.postimg.cc/XN989dYy/739537611-967493962957799-3106621155869462682-n.jpg", title: "Good Company", size: "normal", order: 1 },
+          { url: "https://i.postimg.cc/xTR34QH1/736226178-1050013250785493-4101715743019361684-n.jpg", title: "The Bar", size: "normal", order: 2 },
+          { url: "https://i.postimg.cc/fRqjMv8s/738335443-1067868246185162-612183325125705793-n.jpg", title: "After Dark", size: "tall", order: 3 },
+          { url: "https://i.postimg.cc/Hnmb6vkn/737383926-1067868902851763-8005089473605652688-n.jpg", title: "Weekend Vibes", size: "normal", order: 4 },
+          { url: "https://i.postimg.cc/bwrkVtpW/737569052-1067871179518202-3574143405590175365-n.jpg", title: "Golden Hour", size: "wide", order: 5 },
+          { url: "https://i.postimg.cc/NFb2pgnd/738243994-1646878526870371-1071314228137507111-n.jpg", title: "The Crowd", size: "normal", order: 6 },
+          { url: "https://i.postimg.cc/DyjbGwLG/739313272-1026381183218236-2339507366274515744-n.jpg", title: "Signature Nights", size: "normal", order: 7 },
+          { url: "https://i.postimg.cc/DfqN7mHN/723586718-1055555690465047-4010591563264060180-n.jpg", title: "Signature Nights", size: "tall", order: 8 },
+          { url: "https://i.postimg.cc/SxK1LdRQ/726270316-1338489517654689-8597184251803275148-n.jpg", title: "Signature Nights", size: "normal", order: 9 },
+          { url: "https://i.postimg.cc/XvG2mvwb/725120874-1027148789780614-3093861198032006710-n.jpg", title: "Signature Nights", size: "big", order: 10 },
+          { url: "https://i.postimg.cc/9FLJf9br/739309467-1060245650011206-4753238270773291610-n.jpg", title: "Signature Nights", size: "normal", order: 11 }
+        ]
+      },
+      cta: {
+        eyebrow: "Ready When You Are",
+        title: "Your Night Starts Here",
+        subtitle: "Reserve ahead, especially on signature nights — the good tables (and the good seats at the bar) go first."
+      }
+    },
     ourMenu: {
       eyebrow: "Explore",
       heading: "Our Menu",
@@ -559,13 +593,6 @@
         { url: "https://i.postimg.cc/fyyh4RvX/PV-Pizza-copy-1024x1024.jpg", label: "Category", name: "Pizza", order: 3 },
         { url: "https://i.postimg.cc/8cjxKn1x/PV-PLATTERS-copy-1024x1024.jpg", label: "Category", name: "Platters", order: 4 }
       ]
-    },
-    conferences: {
-      eyebrow: "Business & Events",
-      heading: "Conferences at PV Lifestyle",
-      subheading: "A dedicated space for meetings, workshops and corporate functions — professional by day, PV Lifestyle by night.",
-      quote: "Full AV setup, catering on request, and a team on hand to make sure your event runs without a hitch.",
-      images: []
     },
     kitchen: {
       eyebrow: "The Kitchen",
@@ -710,24 +737,33 @@
     const promises = [];
     Object.entries(DEFAULTS).forEach(([sectionKey, sectionData]) => {
       promises.push(
-        onValue(ref(db, `content/${sectionKey}`), (snap) => {
+        onValue(ref(db, `content/${sectionKey}`), async (snap) => {
           if (!snap.exists()) {
-            const { slides, cards, images, ...textData } = sectionData;
-            set(ref(db, `content/${sectionKey}`), textData).catch(() => {});
-            if (slides) {
-              slides.forEach((slide, i) => {
-                push(ref(db, `content/${sectionKey}/slides`), slide).catch(() => {});
-              });
-            }
-            if (cards) {
-              cards.forEach((card, i) => {
-                push(ref(db, `content/${sectionKey}/cards`), card).catch(() => {});
-              });
-            }
-            if (images) {
-              images.forEach((img, i) => {
-                push(ref(db, `content/${sectionKey}/images`), img).catch(() => {});
-              });
+            if (sectionKey === 'experiencePage') {
+               // custom initialization for deeply nested subsections in Experience page
+               for (const [subKey, subData] of Object.entries(sectionData)) {
+                  const { items, cards, images, heroImage, ...textData } = subData;
+                  await set(ref(db, `content/${sectionKey}/${subKey}`), textData);
+                  const listToPush = items || cards || images || heroImage;
+                  const listName = items ? 'items' : cards ? 'cards' : images ? 'images' : heroImage ? 'heroImage' : null;
+                  if (listToPush && listName) {
+                     for (const item of listToPush) {
+                        await push(ref(db, `content/${sectionKey}/${subKey}/${listName}`), item);
+                     }
+                  }
+               }
+            } else {
+              const { slides, cards, images, ...textData } = sectionData;
+              await set(ref(db, `content/${sectionKey}`), textData).catch(() => {});
+              if (slides) {
+                for (const slide of slides) await push(ref(db, `content/${sectionKey}/slides`), slide).catch(() => {});
+              }
+              if (cards) {
+                for (const card of cards) await push(ref(db, `content/${sectionKey}/cards`), card).catch(() => {});
+              }
+              if (images) {
+                for (const img of images) await push(ref(db, `content/${sectionKey}/images`), img).catch(() => {});
+              }
             }
           }
         }, { onlyOnce: true })
@@ -740,7 +776,6 @@
   const SECTIONS = {
     popup: {
       label: 'Popup',
-      group: 'home',
       icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="13" x2="15" y2="13"/></svg>',
       toggle: { key: 'enabled', label: 'Show popup automatically when the site loads' },
       texts: [
@@ -753,7 +788,6 @@
     },
     hero: {
       label: 'Hero',
-      group: 'home',
       icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>',
       texts: [
         { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
@@ -766,7 +800,6 @@
     },
     thisWeek: {
       label: "This Week At PV",
-      group: 'home',
       icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
       texts: [
         { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
@@ -784,7 +817,7 @@
       custom: 'events'
     },
     experience: {
-      label: 'Experiences Page',
+      label: 'Home - Experience',
       icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>',
       texts: [
         { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
@@ -797,8 +830,81 @@
         { key: 'desc', label: 'Description', type: 'textarea' }
       ]}
     },
+    experiencePage: {
+      label: 'Experience Page',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>',
+      subsections: [
+        {
+          id: 'hero',
+          label: 'Hero Section',
+          texts: [
+             { key: 'eyebrow', label: 'Eyebrow', type: 'text' },
+             { key: 'title', label: 'Title', type: 'text' },
+             { key: 'subtitle', label: 'Subtitle', type: 'textarea' },
+             { key: 'stat1_val', label: 'Stat 1 Value', type: 'text' },
+             { key: 'stat1_lbl', label: 'Stat 1 Label', type: 'text' },
+             { key: 'stat2_val', label: 'Stat 2 Value', type: 'text' },
+             { key: 'stat2_lbl', label: 'Stat 2 Label', type: 'text' },
+             { key: 'stat3_val', label: 'Stat 3 Value', type: 'text' },
+             { key: 'stat3_lbl', label: 'Stat 3 Label', type: 'text' },
+          ],
+          list: { key: 'heroImage', label: 'Hero Background (Max 1)', fields: [] }
+        },
+        {
+          id: 'timeline',
+          label: 'Timeline Section',
+          texts: [
+             { key: 'eyebrow', label: 'Eyebrow', type: 'text' },
+             { key: 'heading', label: 'Heading', type: 'text' },
+             { key: 'subheading', label: 'Subheading', type: 'textarea' },
+          ],
+          list: { key: 'items', label: 'Timeline Cards', fields: [
+             { key: 'time', label: 'Time (e.g. 18:00)', type: 'text' },
+             { key: 'title', label: 'Title', type: 'text' },
+             { key: 'desc', label: 'Description', type: 'textarea' }
+          ]}
+        },
+        {
+          id: 'nights',
+          label: 'Signature Nights',
+          texts: [
+             { key: 'eyebrow', label: 'Eyebrow', type: 'text' },
+             { key: 'heading', label: 'Heading', type: 'text' },
+             { key: 'subheading', label: 'Subheading', type: 'textarea' },
+          ],
+          list: { key: 'cards', label: 'Experience Cards', fields: [
+             { key: 'day', label: 'Day Tag (e.g. Fri)', type: 'text' },
+             { key: 'title', label: 'Title', type: 'text' },
+             { key: 'desc', label: 'Description', type: 'textarea' }
+          ]}
+        },
+        {
+          id: 'gallery',
+          label: 'Full Gallery',
+          texts: [
+             { key: 'eyebrow', label: 'Eyebrow', type: 'text' },
+             { key: 'heading', label: 'Heading', type: 'text' },
+             { key: 'subheading', label: 'Subheading', type: 'textarea' },
+             { key: 'ticker', label: 'Ticker Text (comma separated)', type: 'textarea' }
+          ],
+          list: { key: 'images', label: 'Gallery Images', fields: [
+             { key: 'title', label: 'Image Title', type: 'text' },
+             { key: 'size', label: 'Size (normal, tall, wide, big)', type: 'text' }
+          ]}
+        },
+        {
+          id: 'cta',
+          label: 'CTA Section',
+          texts: [
+             { key: 'eyebrow', label: 'Eyebrow', type: 'text' },
+             { key: 'title', label: 'Title', type: 'text' },
+             { key: 'subtitle', label: 'Subtitle', type: 'textarea' }
+          ]
+        }
+      ]
+    },
     ourMenu: {
-      label: 'Menu Page',
+      label: 'Our Menu',
       icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>',
       texts: [
         { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
@@ -810,22 +916,8 @@
         { key: 'name', label: 'Category Name', type: 'text' }
       ]}
     },
-    conferences: {
-      label: 'Conferences',
-      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="12" rx="2"/><line x1="8" y1="20" x2="16" y2="20"/><line x1="12" y1="16" x2="12" y2="20"/></svg>',
-      texts: [
-        { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
-        { key: 'heading', label: 'Heading', type: 'text' },
-        { key: 'subheading', label: 'Subheading', type: 'textarea' },
-        { key: 'quote', label: 'Quote', type: 'textarea' }
-      ],
-      list: { key: 'images', label: 'Conference Gallery Images', fields: [
-        { key: 'title', label: 'Image Title', type: 'text' }
-      ]}
-    },
     kitchen: {
       label: 'Kitchen Gallery',
-      group: 'home',
       icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>',
       texts: [
         { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
@@ -839,7 +931,6 @@
     },
     atmosphere: {
       label: 'Atmosphere Gallery',
-      group: 'home',
       icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>',
       texts: [
         { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
@@ -851,7 +942,7 @@
       ]}
     },
     visit: {
-      label: 'Visit Us',
+      label: 'Visit & Reserve',
       icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>',
       texts: [
         { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
@@ -862,7 +953,6 @@
     },
     footer: {
       label: 'Footer',
-      group: 'home',
       icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>',
       texts: [
         { key: 'heading', label: 'Heading / Title', type: 'text' },
@@ -943,7 +1033,7 @@
     const wrapper = el('div', { class: 'section-card' });
     const header = el('div', { class: 'section-card-header' }, [
       el('h3', { text: listCfg.label }),
-      el('span', { class: 'count-badge', text: '0', id: `count-${sectionKey}-${listCfg.key}` })
+      el('span', { class: 'count-badge', text: '0', id: `count-${sectionKey.replace(/\//g, '-')}-${listCfg.key}` })
     ]);
     const grid = el('div', { class: 'image-grid' });
     const fileInput = el('input', { type: 'file', accept: 'image/*', multiple: 'multiple', class: 'hidden-file-input' });
@@ -978,7 +1068,7 @@
 
     function renderGrid(items) {
       grid.innerHTML = '';
-      const countBadge = document.getElementById(`count-${sectionKey}-${listCfg.key}`);
+      const countBadge = document.getElementById(`count-${sectionKey.replace(/\//g, '-')}-${listCfg.key}`);
       if (countBadge) countBadge.textContent = items.length;
 
       if (!items.length) {
@@ -1383,35 +1473,61 @@
     panel.appendChild(el('h2', { class: 'panel-title font-display', text: cfg.label }));
     panel.appendChild(el('p', { class: 'panel-subtitle', text: `Manage the ${cfg.label} section content. Changes appear instantly on the live site.` }));
 
-    const textCard = el('div', { class: 'section-card' });
-    const textHeader = el('div', { class: 'section-card-header' }, [
-      el('h3', { text: 'Text Content' }),
-      el('span', { class: 'count-badge', text: (cfg.texts || []).length })
-    ]);
-    textCard.appendChild(textHeader);
+    if (cfg.subsections) {
+       cfg.subsections.forEach(sub => {
+          const subDefaults = defaults[sub.id] || {};
+          
+          if (sub.texts || sub.toggle) {
+              const textCard = el('div', { class: 'section-card' });
+              const textHeader = el('div', { class: 'section-card-header' }, [
+                el('h3', { text: sub.label + ' Text' }),
+                el('span', { class: 'count-badge', text: (sub.texts || []).length })
+              ]);
+              textCard.appendChild(textHeader);
 
-    if (cfg.toggle) textCard.appendChild(bindToggle(`content/${key}/${cfg.toggle.key}`, cfg.toggle, defaults[cfg.toggle.key]));
-    (cfg.texts || []).forEach(field => {
-      textCard.appendChild(bindText(`content/${key}/${field.key}`, field, defaults[field.key]));
-    });
-    panel.appendChild(textCard);
+              if (sub.toggle) {
+                 textCard.appendChild(bindToggle(`content/${key}/${sub.id}/${sub.toggle.key}`, sub.toggle, subDefaults[sub.toggle.key]));
+              }
+              
+              (sub.texts || []).forEach(field => {
+                textCard.appendChild(bindText(`content/${key}/${sub.id}/${field.key}`, field, subDefaults[field.key]));
+              });
+              
+              panel.appendChild(textCard);
+          }
+          
+          if (sub.list) {
+              panel.appendChild(bindList(`${key}/${sub.id}`, sub.list, subDefaults[sub.list.key] || []));
+          }
+       });
+    } else {
+       const textCard = el('div', { class: 'section-card' });
+       const textHeader = el('div', { class: 'section-card-header' }, [
+         el('h3', { text: 'Text Content' }),
+         el('span', { class: 'count-badge', text: (cfg.texts || []).length })
+       ]);
+       textCard.appendChild(textHeader);
 
-    if (cfg.list) panel.appendChild(bindList(key, cfg.list, defaults[cfg.list.key] || defaults.images || defaults.slides || defaults.cards));
+       if (cfg.toggle) textCard.appendChild(bindToggle(`content/${key}/${cfg.toggle.key}`, cfg.toggle, defaults[cfg.toggle.key]));
+       (cfg.texts || []).forEach(field => {
+         textCard.appendChild(bindText(`content/${key}/${field.key}`, field, defaults[field.key]));
+       });
+       panel.appendChild(textCard);
+
+       if (cfg.list) panel.appendChild(bindList(key, cfg.list, defaults[cfg.list.key] || defaults.images || defaults.slides || defaults.cards));
+    }
 
     return panel;
   }
 
-  const HOME_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 001 1h4v-6h4v6h4a1 1 0 001-1V9.5"/></svg>';
-  const CHEVRON_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>';
-
   function switchTab(key) {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.key === key));
     document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === `panel-${key}`));
-
-    const homeToggle = document.getElementById('homeGroupToggle');
-    if (homeToggle) {
-      const isHomeSection = SECTIONS[key] && SECTIONS[key].group === 'home';
-      homeToggle.classList.toggle('has-active-child', isHomeSection);
+    
+    const section = SECTIONS[key];
+    const topbarTitleEl = document.getElementById('topbarTitle');
+    if (topbarTitleEl && section) {
+       topbarTitleEl.textContent = `${section.label} Content`;
     }
 
     if (window.innerWidth <= 900) {
@@ -1420,68 +1536,25 @@
     }
   }
 
-  function toggleHomeGroup(forceExpanded) {
-    const toggle = document.getElementById('homeGroupToggle');
-    const subgroup = document.getElementById('homeSubNav');
-    const expand = typeof forceExpanded === 'boolean' ? forceExpanded : !toggle.classList.contains('expanded');
-    toggle.classList.toggle('expanded', expand);
-    subgroup.classList.toggle('expanded', expand);
-  }
-
   let dashboardBuilt = false;
   function buildDashboard() {
     if (dashboardBuilt) return;
     dashboardBuilt = true;
     const nav = document.getElementById('sidebarNav');
     const main = document.getElementById('panelsContainer');
-
-    const entries = Object.entries(SECTIONS);
-    const firstKey = entries[0][0];
-
-    // ----- Home Page collapsible group -----
-    const homeEntries = entries.filter(([, cfg]) => cfg.group === 'home');
-    const homeGroup = el('div', { class: 'nav-group' });
-
-    const homeToggle = el('button', {
-      type: 'button', id: 'homeGroupToggle', class: 'tab-btn nav-group-toggle',
-      onclick: () => toggleHomeGroup()
-    });
-    homeToggle.innerHTML = `<span class="tab-icon">${HOME_ICON}</span><span>Home Page</span><span class="nav-chevron">${CHEVRON_ICON}</span>`;
-    homeGroup.appendChild(homeToggle);
-
-    const homeSubNav = el('div', { class: 'nav-subgroup', id: 'homeSubNav' });
-    homeEntries.forEach(([key, cfg]) => {
+    Object.entries(SECTIONS).forEach(([key, cfg], i) => {
       const btn = el('button', {
-        type: 'button', class: 'tab-btn sub-tab-btn',
-        onclick: () => switchTab(key)
-      });
-      btn.dataset.key = key;
-      btn.innerHTML = `<span class="tab-icon">${cfg.icon}</span><span>${cfg.label}</span>`;
-      homeSubNav.appendChild(btn);
-    });
-    homeGroup.appendChild(homeSubNav);
-    nav.appendChild(homeGroup);
-
-    // ----- Standalone top-level pages -----
-    entries.filter(([, cfg]) => cfg.group !== 'home').forEach(([key, cfg]) => {
-      const btn = el('button', {
-        type: 'button', class: 'tab-btn',
+        type: 'button', class: 'tab-btn' + (i === 0 ? ' active' : ''),
         onclick: () => switchTab(key)
       });
       btn.dataset.key = key;
       btn.innerHTML = `<span class="tab-icon">${cfg.icon}</span><span>${cfg.label}</span>`;
       nav.appendChild(btn);
-    });
 
-    // ----- Panels (all sections, any order is fine) -----
-    entries.forEach(([key, cfg]) => {
       const panel = buildSectionPanel(key, cfg);
+      if (i === 0) panel.classList.add('active');
       main.appendChild(panel);
     });
-
-    // Expand Home Page group by default since it holds the default active tab
-    toggleHomeGroup(SECTIONS[firstKey].group === 'home');
-    switchTab(firstKey);
   }
 
   // ===== AUTH =====
