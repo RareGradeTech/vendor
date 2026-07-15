@@ -150,6 +150,27 @@
   .tab-icon{ width:18px; height:18px; position:relative; z-index:1; opacity:.7; }
   .tab-btn.active .tab-icon{ opacity:1; }
 
+  /* ===== NAV GROUP (Home Page collapsible) ===== */
+  .nav-group{ display:flex; flex-direction:column; }
+  .nav-group-toggle{ width:100%; }
+  .nav-chevron{
+    margin-left:auto; width:16px; height:16px; position:relative; z-index:1;
+    opacity:.55; transition:transform .3s cubic-bezier(.22,.8,.25,1);
+  }
+  .nav-group-toggle.expanded .nav-chevron{ transform:rotate(180deg); }
+  .nav-group-toggle.has-active-child{ color:var(--orange-light); background:rgba(225,138,63,.1); }
+  .nav-group-toggle.has-active-child .tab-icon{ opacity:1; }
+  .nav-subgroup{
+    display:flex; flex-direction:column; gap:.2rem; overflow:hidden;
+    max-height:0; opacity:0; margin:0 0 0 0;
+    transition:max-height .35s cubic-bezier(.22,.8,.25,1), opacity .3s ease, margin .3s ease;
+  }
+  .nav-subgroup.expanded{ max-height:600px; opacity:1; margin:.3rem 0 .2rem; }
+  .sub-tab-btn{
+    padding:.65rem 1.1rem .65rem 2.6rem; font-size:.82rem; font-weight:600;
+  }
+  .sub-tab-btn .tab-icon{ width:15px; height:15px; }
+
   .sidebar-footer{ padding:1.25rem; border-top:1px solid var(--border); }
   .sidebar-footer .user-row{ display:flex; align-items:center; gap:.75rem; margin-bottom:1rem; }
   .user-avatar{
@@ -539,6 +560,13 @@
         { url: "https://i.postimg.cc/8cjxKn1x/PV-PLATTERS-copy-1024x1024.jpg", label: "Category", name: "Platters", order: 4 }
       ]
     },
+    conferences: {
+      eyebrow: "Business & Events",
+      heading: "Conferences at PV Lifestyle",
+      subheading: "A dedicated space for meetings, workshops and corporate functions — professional by day, PV Lifestyle by night.",
+      quote: "Full AV setup, catering on request, and a team on hand to make sure your event runs without a hitch.",
+      images: []
+    },
     kitchen: {
       eyebrow: "The Kitchen",
       heading: "A Taste of PV Lifestyle",
@@ -712,6 +740,7 @@
   const SECTIONS = {
     popup: {
       label: 'Popup',
+      group: 'home',
       icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="13" x2="15" y2="13"/></svg>',
       toggle: { key: 'enabled', label: 'Show popup automatically when the site loads' },
       texts: [
@@ -724,6 +753,7 @@
     },
     hero: {
       label: 'Hero',
+      group: 'home',
       icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>',
       texts: [
         { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
@@ -736,6 +766,7 @@
     },
     thisWeek: {
       label: "This Week At PV",
+      group: 'home',
       icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>',
       texts: [
         { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
@@ -753,7 +784,7 @@
       custom: 'events'
     },
     experience: {
-      label: 'Experience',
+      label: 'Experiences Page',
       icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>',
       texts: [
         { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
@@ -767,7 +798,7 @@
       ]}
     },
     ourMenu: {
-      label: 'Our Menu',
+      label: 'Menu Page',
       icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>',
       texts: [
         { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
@@ -779,8 +810,22 @@
         { key: 'name', label: 'Category Name', type: 'text' }
       ]}
     },
+    conferences: {
+      label: 'Conferences',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="12" rx="2"/><line x1="8" y1="20" x2="16" y2="20"/><line x1="12" y1="16" x2="12" y2="20"/></svg>',
+      texts: [
+        { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
+        { key: 'heading', label: 'Heading', type: 'text' },
+        { key: 'subheading', label: 'Subheading', type: 'textarea' },
+        { key: 'quote', label: 'Quote', type: 'textarea' }
+      ],
+      list: { key: 'images', label: 'Conference Gallery Images', fields: [
+        { key: 'title', label: 'Image Title', type: 'text' }
+      ]}
+    },
     kitchen: {
       label: 'Kitchen Gallery',
+      group: 'home',
       icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>',
       texts: [
         { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
@@ -794,6 +839,7 @@
     },
     atmosphere: {
       label: 'Atmosphere Gallery',
+      group: 'home',
       icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>',
       texts: [
         { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
@@ -805,7 +851,7 @@
       ]}
     },
     visit: {
-      label: 'Visit & Reserve',
+      label: 'Visit Us',
       icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>',
       texts: [
         { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
@@ -816,6 +862,7 @@
     },
     footer: {
       label: 'Footer',
+      group: 'home',
       icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>',
       texts: [
         { key: 'heading', label: 'Heading / Title', type: 'text' },
@@ -1354,13 +1401,31 @@
     return panel;
   }
 
+  const HOME_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 001 1h4v-6h4v6h4a1 1 0 001-1V9.5"/></svg>';
+  const CHEVRON_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>';
+
   function switchTab(key) {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.key === key));
     document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === `panel-${key}`));
+
+    const homeToggle = document.getElementById('homeGroupToggle');
+    if (homeToggle) {
+      const isHomeSection = SECTIONS[key] && SECTIONS[key].group === 'home';
+      homeToggle.classList.toggle('has-active-child', isHomeSection);
+    }
+
     if (window.innerWidth <= 900) {
       document.getElementById('sidebar').classList.remove('open');
       document.getElementById('mobileOverlay').classList.remove('open');
     }
+  }
+
+  function toggleHomeGroup(forceExpanded) {
+    const toggle = document.getElementById('homeGroupToggle');
+    const subgroup = document.getElementById('homeSubNav');
+    const expand = typeof forceExpanded === 'boolean' ? forceExpanded : !toggle.classList.contains('expanded');
+    toggle.classList.toggle('expanded', expand);
+    subgroup.classList.toggle('expanded', expand);
   }
 
   let dashboardBuilt = false;
@@ -1369,19 +1434,54 @@
     dashboardBuilt = true;
     const nav = document.getElementById('sidebarNav');
     const main = document.getElementById('panelsContainer');
-    Object.entries(SECTIONS).forEach(([key, cfg], i) => {
+
+    const entries = Object.entries(SECTIONS);
+    const firstKey = entries[0][0];
+
+    // ----- Home Page collapsible group -----
+    const homeEntries = entries.filter(([, cfg]) => cfg.group === 'home');
+    const homeGroup = el('div', { class: 'nav-group' });
+
+    const homeToggle = el('button', {
+      type: 'button', id: 'homeGroupToggle', class: 'tab-btn nav-group-toggle',
+      onclick: () => toggleHomeGroup()
+    });
+    homeToggle.innerHTML = `<span class="tab-icon">${HOME_ICON}</span><span>Home Page</span><span class="nav-chevron">${CHEVRON_ICON}</span>`;
+    homeGroup.appendChild(homeToggle);
+
+    const homeSubNav = el('div', { class: 'nav-subgroup', id: 'homeSubNav' });
+    homeEntries.forEach(([key, cfg]) => {
       const btn = el('button', {
-        type: 'button', class: 'tab-btn' + (i === 0 ? ' active' : ''),
+        type: 'button', class: 'tab-btn sub-tab-btn',
+        onclick: () => switchTab(key)
+      });
+      btn.dataset.key = key;
+      btn.innerHTML = `<span class="tab-icon">${cfg.icon}</span><span>${cfg.label}</span>`;
+      homeSubNav.appendChild(btn);
+    });
+    homeGroup.appendChild(homeSubNav);
+    nav.appendChild(homeGroup);
+
+    // ----- Standalone top-level pages -----
+    entries.filter(([, cfg]) => cfg.group !== 'home').forEach(([key, cfg]) => {
+      const btn = el('button', {
+        type: 'button', class: 'tab-btn',
         onclick: () => switchTab(key)
       });
       btn.dataset.key = key;
       btn.innerHTML = `<span class="tab-icon">${cfg.icon}</span><span>${cfg.label}</span>`;
       nav.appendChild(btn);
+    });
 
+    // ----- Panels (all sections, any order is fine) -----
+    entries.forEach(([key, cfg]) => {
       const panel = buildSectionPanel(key, cfg);
-      if (i === 0) panel.classList.add('active');
       main.appendChild(panel);
     });
+
+    // Expand Home Page group by default since it holds the default active tab
+    toggleHomeGroup(SECTIONS[firstKey].group === 'home');
+    switchTab(firstKey);
   }
 
   // ===== AUTH =====
