@@ -699,6 +699,168 @@
     }
   }
 
+  // ===== MENU PAGE DEFAULTS (seeds content/ourMenu/categories from the live /menu.html page, per-category, first run only) =====
+  // This is what makes the Menu tab arrive pre-filled with everything currently on the Menu page.
+  const DEFAULT_MENU_CATEGORIES = [
+    {
+      id: 'starters', eyebrow: 'To Begin', heading: 'Starters & Sharers',
+      desc: "Small plates built for the middle of the table — order a few and pass them around.",
+      board: { image: 'https://i.postimg.cc/qMcVKpn2/meal-3.jpg', title: 'Starters & Sharers' },
+      groups: [
+        { title: '', note: '', dishes: [
+          { name: 'Peri-Peri Chicken Livers', price: 'R75', tag: 'spicy', tagLabel: 'Spicy', desc: 'Sautéed in a fiery peri-peri butter, finished with fresh parsley and toasted ciabatta.' },
+          { name: 'Golden Calamari Strips', price: 'R95', tag: 'popular', tagLabel: 'Most Loved', desc: 'Lightly fried, served with tartare sauce and a wedge of lemon.' },
+          { name: 'Loaded Potato Skins', price: 'R80', tag: '', tagLabel: '', desc: 'Crispy skins piled with bacon, melted cheddar and sour cream.' },
+          { name: 'Grilled Halloumi', price: 'R85', tag: 'veg', tagLabel: 'Veg', desc: 'Char-grilled halloumi drizzled with sweet chilli glaze and toasted seeds.' },
+          { name: 'Beef & Chakalaka Spring Rolls', price: 'R80', tag: 'spicy', tagLabel: 'Spicy', desc: 'Crisp pastry rolls filled with spiced beef and chakalaka relish.' }
+        ]}
+      ]
+    },
+    {
+      id: 'seafood', eyebrow: 'Ocean & Grain', heading: 'Wraps & Sea Food',
+      desc: "Fresh off the grill and out of the fryer — light enough for lunch, hearty enough for dinner.",
+      board: { image: 'https://i.postimg.cc/bv1yLr6v/PV-Wraps-and-Sea-Food-copy-1024x1024.jpg', title: 'Wraps & Sea Food — Full Menu Board' },
+      groups: [
+        { title: '', note: '', dishes: [
+          { name: 'Prawn & Avo Wrap', price: 'R155', tag: 'popular', tagLabel: 'Most Loved', desc: 'Grilled prawns, avocado and sweet chilli mayo in a warm tortilla.' },
+          { name: "Line Fish of the Day", price: 'R195', tag: 'chef', tagLabel: "Chef's Pick", desc: 'Pan-seared catch of the day, lemon butter sauce, seasonal vegetables.' },
+          { name: 'Calamari & Chips', price: 'R145', tag: '', tagLabel: '', desc: 'Fresh calamari tubes, tartare sauce, skin-on fries.' },
+          { name: 'Chicken Caesar Wrap', price: 'R110', tag: '', tagLabel: '', desc: 'Grilled chicken, cos lettuce, parmesan and Caesar dressing.' },
+          { name: 'Golden Hake & Chips', price: 'R135', tag: '', tagLabel: '', desc: 'Battered hake fillet, mushy peas, tartare sauce.' }
+        ]}
+      ]
+    },
+    {
+      id: 'burgers', eyebrow: 'Between The Buns', heading: 'Burgers',
+      desc: "Flame-grilled patties, toasted buns, served with a side of skin-on fries.",
+      board: { image: 'https://i.postimg.cc/fyqDk9bG/PV-main-Burgersl-copy-1024x1024.jpg', title: 'Burgers — Full Menu Board' },
+      groups: [
+        { title: '', note: '', dishes: [
+          { name: 'The PV Classic', price: 'R120', tag: '', tagLabel: '', desc: '200g beef patty, cheddar, lettuce, tomato, house sauce.' },
+          { name: 'Bacon & Blue Cheese', price: 'R145', tag: 'chef', tagLabel: "Chef's Pick", desc: 'Beef patty, crispy bacon, blue cheese, caramelised onion.' },
+          { name: 'Spicy Buttermilk Chicken', price: 'R130', tag: 'spicy', tagLabel: 'Spicy', desc: 'Fried buttermilk chicken, jalapeños, sriracha mayo.' },
+          { name: 'Mushroom & Swiss', price: 'R135', tag: '', tagLabel: '', desc: 'Beef patty, sautéed mushrooms, melted Swiss cheese.' },
+          { name: 'The Garden Burger', price: 'R115', tag: 'veg', tagLabel: 'Veg', desc: 'Grilled halloumi and portobello patty, rocket, garlic aioli.' }
+        ]}
+      ]
+    },
+    {
+      id: 'traditional', eyebrow: 'Limpopo Roots', heading: 'Traditional Cuisines',
+      desc: "Slow-cooked, generously spiced, and served the way it's meant to be — with pap.",
+      board: { image: 'https://i.postimg.cc/0239sDFw/PV-main-Tradition-Cuisines-copy-1024x1024.jpg', title: 'Traditional Cuisines — Full Menu Board' },
+      groups: [
+        { title: '', note: '', dishes: [
+          { name: 'Pap, Chakalaka & Grilled Steak', price: 'R185', tag: '', tagLabel: '', desc: '300g rump steak, soft pap, chakalaka and gravy.' },
+          { name: 'Slow-Braised Oxtail', price: 'R215', tag: 'chef', tagLabel: "Chef's Pick", desc: 'Fall-off-the-bone oxtail stew, your choice of pap or rice.' },
+          { name: 'Tripe & Pap', price: 'R150', tag: '', tagLabel: '', desc: 'Traditionally spiced, slow-cooked tripe with soft pap.' },
+          { name: 'Umleqwa Chicken', price: 'R165', tag: '', tagLabel: '', desc: 'Free-range chicken slow-cooked with onion and spice, served with pap.' },
+          { name: 'Beef Short Rib Potjie', price: 'R195', tag: '', tagLabel: '', desc: 'Rich, slow-simmered potjie stew, your choice of rice or pap.' }
+        ]}
+      ]
+    },
+    {
+      id: 'pizza', eyebrow: 'Stone-Baked', heading: 'Pizza',
+      desc: "30cm, stone-baked to order — thin, blistered crust every time.",
+      board: { image: 'https://i.postimg.cc/fyyh4RvX/PV-Pizza-copy-1024x1024.jpg', title: 'Pizza — Full Menu Board' },
+      groups: [
+        { title: '', note: '', dishes: [
+          { name: 'Margherita', price: 'R105', tag: 'veg', tagLabel: 'Veg', desc: 'Napolitana sauce, mozzarella, fresh basil.' },
+          { name: 'Regina', price: 'R120', tag: '', tagLabel: '', desc: 'Ham, mushroom, mozzarella.' },
+          { name: 'PV Meat Lovers', price: 'R160', tag: 'popular', tagLabel: 'Most Loved', desc: 'Beef, chicken, bacon, boerewors, peppadew.' },
+          { name: 'Peri-Peri Chicken', price: 'R145', tag: 'spicy', tagLabel: 'Spicy', desc: 'Chicken, peppers, mozzarella, peri-peri drizzle.' },
+          { name: 'BBQ Rib Pizza', price: 'R155', tag: '', tagLabel: '', desc: 'Pulled rib meat, BBQ sauce, red onion, mozzarella.' }
+        ]}
+      ]
+    },
+    {
+      id: 'platters', eyebrow: 'Made To Share', heading: 'Platters',
+      desc: "The centrepiece of the table — built for groups, big appetites, and long nights.",
+      board: { image: 'https://i.postimg.cc/8cjxKn1x/PV-PLATTERS-copy-1024x1024.jpg', title: 'Platters — Full Menu Board' },
+      groups: [
+        { title: '', note: '', dishes: [
+          { name: 'The PV Meat Platter', price: 'R480', tag: 'chef', tagLabel: "Chef's Pick", desc: 'Rump, boerewors, chicken wings, ribs, pap & chakalaka. Serves 2–3.' },
+          { name: 'Seafood Platter', price: 'R560', tag: '', tagLabel: '', desc: 'Prawns, calamari, hake and mussels in lemon butter. Serves 2.' },
+          { name: 'Braai Platter for 4', price: 'R690', tag: 'popular', tagLabel: 'Most Loved', desc: 'Mixed grill of wors, chops and chicken, salad, pap.' },
+          { name: 'Sharing Wing Platter', price: 'R350', tag: 'spicy', tagLabel: 'Spicy', desc: '20 flame-grilled wings, choice of two sauces.' },
+          { name: 'Vegetarian Platter', price: 'R310', tag: 'veg', tagLabel: 'Veg', desc: 'Halloumi, grilled vegetables, hummus, falafel, pita.' }
+        ]}
+      ]
+    },
+    {
+      id: 'sides', eyebrow: 'Round It Out', heading: 'Sides & Sweet Endings',
+      desc: "The extras that finish the meal — savoury on the side, sweet at the end.",
+      board: { image: 'https://i.postimg.cc/m27RSYxh/meal-5.jpg', title: 'Sides & Sweet Endings' },
+      groups: [
+        { title: 'Sides & Salads', note: '', dishes: [
+          { name: 'Skin-on Fries', price: 'R38', tag: 'veg', tagLabel: 'Veg', desc: '' },
+          { name: 'Creamy Mash', price: 'R40', tag: 'veg', tagLabel: 'Veg', desc: '' },
+          { name: 'Greek Salad', price: 'R58', tag: 'veg', tagLabel: 'Veg', desc: '' },
+          { name: 'Pap & Gravy', price: 'R32', tag: 'veg', tagLabel: 'Veg', desc: '' },
+          { name: 'Garlic Bread', price: 'R42', tag: 'veg', tagLabel: 'Veg', desc: '' },
+          { name: 'Coleslaw', price: 'R35', tag: 'veg', tagLabel: 'Veg', desc: '' }
+        ]},
+        { title: 'Something Sweet', note: '', dishes: [
+          { name: 'Malva Pudding & Custard', price: 'R65', tag: 'popular', tagLabel: 'Most Loved', desc: 'Warm, syrup-soaked sponge with a generous pour of custard.' },
+          { name: 'Chocolate Lava Cake', price: 'R75', tag: 'chef', tagLabel: "Chef's Pick", desc: 'Molten centre, vanilla ice cream on the side.' },
+          { name: 'Cheesecake of the Day', price: 'R68', tag: '', tagLabel: '', desc: "Ask your server about today's flavour." },
+          { name: 'Ice Cream Sundae', price: 'R58', tag: '', tagLabel: '', desc: 'Three scoops, chocolate sauce, wafer, cherry on top.' }
+        ]}
+      ]
+    },
+    {
+      id: 'bar', eyebrow: 'The Bar', heading: 'Bar & Refreshments',
+      desc: "Craft cocktails, a full spirits list, wine by the glass or bottle, and the soft stuff too.",
+      board: { image: 'https://i.postimg.cc/DZW34sdf/meal-4.jpg', title: 'Bar & Refreshments' },
+      groups: [
+        { title: 'Cocktails', note: '', dishes: [
+          { name: 'Espresso Martini', price: 'R100', tag: 'popular', tagLabel: 'Most Loved', desc: '' },
+          { name: 'PV Sunset', price: 'R90', tag: '', tagLabel: '', desc: 'Tequila, passion fruit, lime.' },
+          { name: 'Mojito', price: 'R85', tag: '', tagLabel: '', desc: '' },
+          { name: 'Pornstar Martini', price: 'R100', tag: '', tagLabel: '', desc: '' },
+          { name: 'Whiskey Sour', price: 'R95', tag: '', tagLabel: '', desc: '' }
+        ]},
+        { title: 'Spirits', note: '— per tot', dishes: [
+          { name: 'Johnnie Walker Black', price: 'R58', tag: '', tagLabel: '', desc: '' },
+          { name: "Jack Daniel's", price: 'R52', tag: '', tagLabel: '', desc: '' },
+          { name: 'Absolut Vodka', price: 'R48', tag: '', tagLabel: '', desc: '' },
+          { name: 'Hennessy VS', price: 'R78', tag: '', tagLabel: '', desc: '' },
+          { name: 'Bombay Sapphire Gin', price: 'R52', tag: '', tagLabel: '', desc: '' }
+        ]},
+        { title: 'Wine', note: '— glass / bottle', dishes: [
+          { name: 'House Red', price: 'R70 / R240', tag: '', tagLabel: '', desc: '' },
+          { name: 'House White', price: 'R70 / R240', tag: '', tagLabel: '', desc: '' },
+          { name: 'Sparkling Rosé', price: 'R78 / R270', tag: '', tagLabel: '', desc: '' }
+        ]},
+        { title: 'Soft Drinks & More', note: '', dishes: [
+          { name: 'Soft Drinks', price: 'R28', tag: '', tagLabel: '', desc: '' },
+          { name: 'Still / Sparkling Water', price: 'R28', tag: '', tagLabel: '', desc: '' },
+          { name: 'Fresh Juice', price: 'R38', tag: '', tagLabel: '', desc: '' }
+        ]}
+      ]
+    }
+  ];
+
+  // Seeds each menu category independently, so the Menu tab always opens pre-filled with
+  // exactly what's live on the Menu page. Only fills categories that are still empty in
+  // Firebase — any category the admin has already edited is left untouched.
+  async function initializeMenuDefaults() {
+    for (const cat of DEFAULT_MENU_CATEGORIES) {
+      const catPath = `content/ourMenu/categories/${cat.id}`;
+      const snap = await new Promise(res => onValue(ref(db, catPath), res, { onlyOnce: true }));
+      if (snap.exists()) continue;
+      const { groups, board, id, ...catText } = cat;
+      await set(ref(db, catPath), { ...catText, board });
+      for (let gi = 0; gi < groups.length; gi++) {
+        const { dishes, ...groupText } = groups[gi];
+        const groupRef = push(ref(db, `${catPath}/groups`));
+        await set(groupRef, { ...groupText, order: gi });
+        for (let di = 0; di < dishes.length; di++) {
+          await push(ref(db, `${catPath}/groups/${groupRef.key}/dishes`), { ...dishes[di], order: di });
+        }
+      }
+    }
+  }
+
   // ===== HELPERS =====
   function el(tag, props = {}, children = []) {
     const node = document.createElement(tag);
@@ -1934,6 +2096,7 @@
       buildDashboard();
       initializeDefaults();
       initializeEventsDefaults();
+      initializeMenuDefaults();
     } else {
       dashboard.classList.add('hidden');
       loginScreen.classList.remove('hidden');
