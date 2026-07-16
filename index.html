@@ -486,7 +486,6 @@
     databaseURL: "https://test-17881-default-rtdb.firebaseio.com"
   };
 
-  const ADMIN_EMAILS = ["legatodee@gmail.com"];
   const CLOUDINARY_CLOUD = 'dqkujefxj';
   const CLOUDINARY_PRESET = 'banter_box';
 
@@ -1625,13 +1624,6 @@
     const loginError = document.getElementById('loginError');
 
     if (user) {
-      const email = (user.email || '').toLowerCase();
-      if (!ADMIN_EMAILS.map(e => e.toLowerCase()).includes(email)) {
-        loginError.textContent = `${user.email} is not authorized.`;
-        loginError.classList.remove('hidden');
-        signOut(auth);
-        return;
-      }
       loginError.classList.add('hidden');
       loginScreen.classList.add('hidden');
       dashboard.classList.remove('hidden');
