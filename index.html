@@ -907,7 +907,7 @@
     ourMenu: {
       label: 'Menu Page',
       icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3h18v18H3z"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>',
-      custom: 'comingSoon'
+      custom: 'menuEditor'
     },
     conferences: {
       label: 'Conferences',
@@ -1461,6 +1461,315 @@
     return panel;
   }
 
+  // ===== MENU PAGE EDITOR (full dish-level control, synced to /menu page in realtime) =====
+  const MENU_CATEGORIES = [
+    { id: 'starters', label: 'Starters & Sharers' },
+    { id: 'seafood', label: 'Wraps & Sea Food' },
+    { id: 'burgers', label: 'Burgers' },
+    { id: 'traditional', label: 'Traditional Cuisines' },
+    { id: 'pizza', label: 'Pizza' },
+    { id: 'platters', label: 'Platters' },
+    { id: 'sides', label: 'Sides & Sweet Endings' },
+    { id: 'bar', label: 'Bar & Refreshments' }
+  ];
+
+  const DISH_TAGS = {
+    '': { label: '', display: 'No tag' },
+    popular: { label: 'Most Loved', display: 'Most Loved' },
+    chef: { label: "Chef's Pick", display: "Chef's Pick" },
+    spicy: { label: 'Spicy', display: 'Spicy' },
+    veg: { label: 'Veg', display: 'Veg' }
+  };
+
+  // Generic single-field text/textarea binder that writes straight to an absolute db path.
+  function bindPathText(fullPath, label, value, type = 'text') {
+    const wrapper = el('div', { class: 'field-group' });
+    wrapper.appendChild(el('label', { class: 'field-label', text: label }));
+    const input = type === 'textarea'
+      ? el('textarea', { rows: '2', class: 'field-input' })
+      : el('input', { type: 'text', class: 'field-input' });
+    input.value = value || '';
+    const save = debounce(() => {
+      set(ref(db, fullPath), input.value)
+        .then(() => showToast('Saved'))
+        .catch(() => showToast('Save failed', true));
+    }, 600);
+    input.addEventListener('input', save);
+    wrapper.appendChild(input);
+    return wrapper;
+  }
+
+  function bindTagSelect(dishPath, value) {
+    const wrapper = el('div', { class: 'field-group' });
+    wrapper.appendChild(el('label', { class: 'field-label', text: 'Tag' }));
+    const select = el('select', { class: 'field-input' });
+    Object.entries(DISH_TAGS).forEach(([val, meta]) => {
+      const o = el('option', { value: val, text: meta.display });
+      if (val === (value || '')) o.setAttribute('selected', 'selected');
+      select.appendChild(o);
+    });
+    select.addEventListener('change', () => {
+      const meta = DISH_TAGS[select.value] || { label: '' };
+      update(ref(db, dishPath), { tag: select.value, tagLabel: meta.label })
+        .then(() => showToast('Saved'))
+        .catch(() => showToast('Save failed', true));
+    });
+    wrapper.appendChild(select);
+    return wrapper;
+  }
+
+  function bindBoardImage(catPath, board) {
+    const wrapper = el('div', { class: 'field-group' });
+    wrapper.appendChild(el('label', { class: 'field-label', text: 'Category Board Image (tap-to-enlarge photo)' }));
+    const hasImg = !!(board && board.image);
+    const preview = el('img', { src: (board && board.image) || '', style: `display:${hasImg ? 'block' : 'none'};width:100%;max-width:220px;border-radius:10px;margin-bottom:.6rem;` });
+    const fileInput = el('input', { type: 'file', accept: 'image/*', class: 'hidden-file-input' });
+    const actions = el('div', { class: 'image-card-actions', style: 'padding:0;justify-content:flex-start;gap:.5rem;' });
+    const uploadBtn = el('button', { type: 'button', class: 'pill-btn', style: 'width:auto;padding:0 .9rem;', text: hasImg ? 'Replace' : 'Upload', onclick: () => fileInput.click() });
+    const removeBtn = el('button', {
+      type: 'button', class: 'pill-btn danger', style: 'width:auto;padding:0 .9rem;', text: 'Remove',
+      onclick: () => {
+        set(ref(db, `${catPath}/board`), null).then(() => {
+          preview.style.display = 'none'; preview.src = '';
+          uploadBtn.textContent = 'Upload';
+          showToast('Removed');
+        });
+      }
+    });
+    fileInput.addEventListener('change', async () => {
+      const file = fileInput.files[0];
+      fileInput.value = '';
+      if (!file) return;
+      showToast('Uploading...');
+      try {
+        const url = await uploadToCloudinary(file);
+        await set(ref(db, `${catPath}/board`), { image: url, title: (board && board.title) || '' });
+        preview.src = url; preview.style.display = 'block';
+        uploadBtn.textContent = 'Replace';
+        showToast('Image saved');
+      } catch (e) { showToast('Upload failed', true); }
+    });
+    actions.appendChild(uploadBtn);
+    actions.appendChild(removeBtn);
+    wrapper.appendChild(preview);
+    wrapper.appendChild(fileInput);
+    wrapper.appendChild(actions);
+    wrapper.appendChild(bindPathText(`${catPath}/board/title`, 'Board Image Caption (shown in the lightbox)', board && board.title));
+    return wrapper;
+  }
+
+  function buildDishCard(dishPath, dish, idx, total, moveDish, deleteDish) {
+    const card = el('div', { class: 'section-card', style: 'padding:1rem;background:rgba(0,0,0,.15);margin-bottom:.85rem;' });
+    const header = el('div', { class: 'section-card-header' }, [
+      el('h3', { text: dish.name || 'New Dish', style: 'font-size:.85rem;' })
+    ]);
+    const controls = el('div', { class: 'event-card-controls' });
+    const upBtn = el('button', {
+      type: 'button', class: 'pill-btn', title: 'Move earlier',
+      html: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>',
+      onclick: () => moveDish(idx, -1)
+    });
+    const downBtn = el('button', {
+      type: 'button', class: 'pill-btn', title: 'Move later',
+      html: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>',
+      onclick: () => moveDish(idx, 1)
+    });
+    const delBtn = el('button', {
+      type: 'button', class: 'pill-btn danger', title: 'Delete dish',
+      html: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>',
+      onclick: () => { if (confirm(`Delete "${dish.name || 'this dish'}"?`)) deleteDish(); }
+    });
+    if (idx === 0) upBtn.disabled = true;
+    if (idx === total - 1) downBtn.disabled = true;
+    controls.appendChild(upBtn); controls.appendChild(downBtn); controls.appendChild(delBtn);
+    header.appendChild(controls);
+    card.appendChild(header);
+
+    const row1 = el('div', { class: 'field-row' });
+    row1.appendChild(bindPathText(`${dishPath}/name`, 'Dish Name', dish.name));
+    row1.appendChild(bindPathText(`${dishPath}/price`, 'Price (e.g. R120 or R70 / R240)', dish.price));
+    card.appendChild(row1);
+
+    card.appendChild(bindTagSelect(dishPath, dish.tag));
+    card.appendChild(bindPathText(`${dishPath}/desc`, 'Description (optional)', dish.desc, 'textarea'));
+    return card;
+  }
+
+  function buildGroupCard(catPath, group, idx, total, moveGroup, deleteGroup) {
+    const groupPath = `${catPath}/groups/${group.key}`;
+    const card = el('div', { class: 'section-card', style: 'background:rgba(0,0,0,.08);margin-top:1rem;' });
+    const header = el('div', { class: 'section-card-header' }, [
+      el('h3', { text: group.title ? group.title : 'Dishes (no subsection heading)' })
+    ]);
+    const controls = el('div', { class: 'event-card-controls' });
+    const upBtn = el('button', {
+      type: 'button', class: 'pill-btn', title: 'Move earlier',
+      html: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>',
+      onclick: () => moveGroup(idx, -1)
+    });
+    const downBtn = el('button', {
+      type: 'button', class: 'pill-btn', title: 'Move later',
+      html: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>',
+      onclick: () => moveGroup(idx, 1)
+    });
+    const delBtn = el('button', {
+      type: 'button', class: 'pill-btn danger', title: 'Delete subsection',
+      html: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>',
+      onclick: () => { if (confirm('Delete this whole subsection and all its dishes?')) deleteGroup(); }
+    });
+    if (idx === 0) upBtn.disabled = true;
+    if (idx === total - 1) downBtn.disabled = true;
+    controls.appendChild(upBtn); controls.appendChild(downBtn); controls.appendChild(delBtn);
+    header.appendChild(controls);
+    card.appendChild(header);
+
+    const row = el('div', { class: 'field-row' });
+    row.appendChild(bindPathText(`${groupPath}/title`, 'Subsection Title (optional, e.g. "Cocktails")', group.title));
+    row.appendChild(bindPathText(`${groupPath}/note`, 'Note (optional, e.g. "— per tot")', group.note));
+    card.appendChild(row);
+
+    const dishList = el('div', {});
+    const addDishBtn = el('button', {
+      type: 'button', class: 'add-image-btn', style: 'margin-bottom:.85rem;',
+      html: '<span class="plus">+</span> Add Dish'
+    });
+    addDishBtn.addEventListener('click', () => {
+      const dishes = dishList.__items || [];
+      const nextOrder = dishes.length ? Math.max(...dishes.map(d => d.order ?? 0)) + 1 : 0;
+      push(ref(db, `${groupPath}/dishes`), { name: 'New Dish', price: 'R0', desc: '', tag: '', tagLabel: '', order: nextOrder })
+        .then(() => showToast('Dish added'));
+    });
+
+    let dishesEditing = false;
+    dishList.addEventListener('focusin', () => { dishesEditing = true; });
+    dishList.addEventListener('focusout', () => { dishesEditing = false; });
+
+    function moveDish(dIdx, dir) {
+      const dishes = dishList.__items || [];
+      const current = dishes[dIdx];
+      const other = dishes[dIdx + dir];
+      if (!current || !other) return;
+      const updates = {};
+      updates[`${groupPath}/dishes/${current.key}/order`] = other.order ?? 0;
+      updates[`${groupPath}/dishes/${other.key}/order`] = current.order ?? 0;
+      update(ref(db), updates).then(() => showToast('Reordered'));
+    }
+
+    function renderDishes(dishes) {
+      dishList.innerHTML = '';
+      if (!dishes.length) {
+        dishList.appendChild(el('div', { class: 'empty-state' }, ['No dishes yet. Click "+ Add Dish" to create one.']));
+        return;
+      }
+      dishes.forEach((d, i) => {
+        dishList.appendChild(buildDishCard(`${groupPath}/dishes/${d.key}`, d, i, dishes.length, moveDish,
+          () => remove(ref(db, `${groupPath}/dishes/${d.key}`)).then(() => showToast('Dish deleted'))
+        ));
+      });
+    }
+
+    onValue(ref(db, `${groupPath}/dishes`), (snap) => {
+      if (dishesEditing) return;
+      const data = snap.val();
+      const dishes = data ? Object.keys(data).map(k => ({ key: k, ...data[k] })).sort((a, b) => (a.order ?? 0) - (b.order ?? 0)) : [];
+      dishList.__items = dishes;
+      renderDishes(dishes);
+    });
+
+    card.appendChild(addDishBtn);
+    card.appendChild(dishList);
+    return card;
+  }
+
+  function buildCategoryBlock(catId, catLabel) {
+    const catPath = `content/ourMenu/categories/${catId}`;
+    const details = el('details', { class: 'section-card', style: 'margin-bottom:1.25rem;padding:0;overflow:hidden;', open: 'open' });
+    const summary = el('summary', {
+      style: 'cursor:pointer;padding:1.1rem 1.4rem;font-weight:800;font-size:1rem;letter-spacing:.03em;text-transform:uppercase;',
+      text: catLabel
+    });
+    details.appendChild(summary);
+
+    const body = el('div', { style: 'padding:0 1.4rem 1.4rem;' });
+    let catEditing = false;
+    body.addEventListener('focusin', () => { catEditing = true; });
+    body.addEventListener('focusout', () => { catEditing = false; });
+
+    const textWrap = el('div', {});
+    const groupsWrap = el('div', {});
+    const addGroupBtn = el('button', {
+      type: 'button', class: 'add-image-btn', style: 'margin-top:1.1rem;',
+      html: '<span class="plus">+</span> Add Subsection'
+    });
+    addGroupBtn.addEventListener('click', () => {
+      const groups = groupsWrap.__items || [];
+      const nextOrder = groups.length ? Math.max(...groups.map(g => g.order ?? 0)) + 1 : 0;
+      push(ref(db, `${catPath}/groups`), { title: '', note: '', order: nextOrder })
+        .then(() => showToast('Subsection added'));
+    });
+
+    function moveGroup(idx, dir) {
+      const groups = groupsWrap.__items || [];
+      const current = groups[idx];
+      const other = groups[idx + dir];
+      if (!current || !other) return;
+      const updates = {};
+      updates[`${catPath}/groups/${current.key}/order`] = other.order ?? 0;
+      updates[`${catPath}/groups/${other.key}/order`] = current.order ?? 0;
+      update(ref(db), updates).then(() => showToast('Reordered'));
+    }
+
+    function renderGroups(groups) {
+      groupsWrap.innerHTML = '';
+      if (!groups.length) {
+        groupsWrap.appendChild(el('div', { class: 'empty-state' }, ['No dishes yet. Click "+ Add Subsection" to start (leave the title blank for a plain dish list).']));
+        return;
+      }
+      groups.forEach((g, i) => {
+        groupsWrap.appendChild(buildGroupCard(catPath, g, i, groups.length, moveGroup,
+          () => remove(ref(db, `${catPath}/groups/${g.key}`)).then(() => showToast('Subsection deleted'))
+        ));
+      });
+    }
+
+    onValue(ref(db, catPath), (snap) => {
+      if (catEditing) return;
+      const data = snap.val() || {};
+
+      textWrap.innerHTML = '';
+      const row1 = el('div', { class: 'field-row' });
+      row1.appendChild(bindPathText(`${catPath}/eyebrow`, 'Eyebrow Label', data.eyebrow));
+      row1.appendChild(bindPathText(`${catPath}/heading`, 'Heading', data.heading));
+      textWrap.appendChild(row1);
+      textWrap.appendChild(bindPathText(`${catPath}/desc`, 'Description', data.desc, 'textarea'));
+      textWrap.appendChild(bindBoardImage(catPath, data.board));
+
+      const groups = data.groups
+        ? Object.keys(data.groups).map(k => ({ key: k, ...data.groups[k] })).sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
+        : [];
+      groupsWrap.__items = groups;
+      renderGroups(groups);
+    });
+
+    body.appendChild(textWrap);
+    body.appendChild(groupsWrap);
+    body.appendChild(addGroupBtn);
+    details.appendChild(body);
+    return details;
+  }
+
+  function buildMenuPanel(key, cfg) {
+    const panel = el('section', { class: 'panel', id: `panel-${key}` });
+    panel.appendChild(el('h2', { class: 'panel-title font-display', text: cfg.label }));
+    panel.appendChild(el('p', { class: 'panel-subtitle', text: 'Full control over every dish, price, description and tag across all menu categories. Changes appear instantly on the live Menu page.' }));
+
+    MENU_CATEGORIES.forEach(cat => {
+      panel.appendChild(buildCategoryBlock(cat.id, cat.label));
+    });
+
+    return panel;
+  }
+
   function buildComingSoonPanel(key, cfg) {
     const panel = el('section', { class: 'panel', id: `panel-${key}` });
     panel.appendChild(el('h2', { class: 'panel-title font-display', text: cfg.label }));
@@ -1479,6 +1788,7 @@
 
   function buildSectionPanel(key, cfg) {
     if (cfg.custom === 'events') return buildEventsPanel(key, cfg);
+    if (cfg.custom === 'menuEditor') return buildMenuPanel(key, cfg);
     if (cfg.custom === 'comingSoon') return buildComingSoonPanel(key, cfg);
     const panel = el('section', { class: 'panel', id: `panel-${key}` });
     const defaults = DEFAULTS[key] || {};
