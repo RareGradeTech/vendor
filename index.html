@@ -770,6 +770,11 @@
         { url: "https://i.postimg.cc/9FLJf9br/739309467-1060245650011206-4753238270773291610-n.jpg", title: "Signature Nights", order: 11 }
       ]
     },
+    mixtapes: {
+      eyebrow: "The Sound",
+      heading: "Mixtapes",
+      subheading: "Relive the nights — DJ sets and mixtapes from PV Lifestyle, straight from our YouTube channel."
+    },
     footer: {
       heading: "PV Lifestyle",
       subheading: "Restaurant & Bar — Mokopane",
@@ -1037,8 +1042,13 @@
       promises.push(
         onValue(ref(db, `content/${sectionKey}`), (snap) => {
           if (!snap.exists()) {
-            const { slides, cards, images, items, ...textData } = sectionData;
+            const { slides, cards, images, items, mixes, ...textData } = sectionData;
             set(ref(db, `content/${sectionKey}`), textData).catch(() => {});
+            if (mixes) {
+              mixes.forEach((mix, i) => {
+                push(ref(db, `content/${sectionKey}/mixes`), mix).catch(() => {});
+              });
+            }
             if (slides) {
               slides.forEach((slide, i) => {
                 push(ref(db, `content/${sectionKey}/slides`), slide).catch(() => {});
@@ -1192,6 +1202,19 @@
       label: 'Conferences',
       icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="12" rx="2"/><line x1="8" y1="20" x2="16" y2="20"/><line x1="12" y1="16" x2="12" y2="20"/></svg>',
       custom: 'conferencesEditor'
+    },
+    mixtapes: {
+      label: 'Mixtapes',
+      icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="8" cy="18" r="3"/><circle cx="18" cy="16" r="3"/><path d="M11 18V4l10-2v14"/></svg>',
+      texts: [
+        { key: 'eyebrow', label: 'Eyebrow Label', type: 'text' },
+        { key: 'heading', label: 'Heading', type: 'text' },
+        { key: 'subheading', label: 'Subheading', type: 'textarea' }
+      ],
+      list: { key: 'mixes', label: 'Mixtapes (thumbnail + YouTube link)', fields: [
+        { key: 'title', label: 'Mixtape Title', type: 'text' },
+        { key: 'youtubeUrl', label: 'YouTube Video Link', type: 'text' }
+      ]}
     },
     kitchen: {
       label: 'Kitchen Gallery',
