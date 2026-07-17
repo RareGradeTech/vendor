@@ -2318,16 +2318,49 @@
         fields.forEach(f => {
           const fg = el('div', { class: 'field-group', style: 'margin-bottom:.7rem;' });
           fg.appendChild(el('label', { class: 'field-label', text: f.label, style: 'font-size:.68rem;' }));
-          const input = f.type === 'textarea' ? el('textarea', { class: 'field-input small', rows: '2', placeholder: f.label }) : el('input', { class: 'field-input small', placeholder: f.label });
-          input.value = item[f.key] || '';
-          let editing = false;
-          input.addEventListener('focus', () => editing = true);
-          input.addEventListener('blur', () => editing = false);
-          const save = debounce(() => {
-            update(ref(db, `${basePath}/${item.key}`), { [f.key]: input.value }).then(()=>showToast('Saved')).catch(()=>{});
-          }, 500);
-          input.addEventListener('input', save);
-          fg.appendChild(input);
+          if (f.type === 'image') {
+            const preview = el('img', { class: 'conf-image-preview', style: item[f.key] ? '' : 'display:none;' });
+            if (item[f.key]) preview.src = item[f.key];
+            const input = el('input', { class: 'field-input small', placeholder: 'Image URL or upload below' });
+            input.value = item[f.key] || '';
+            const save = debounce(() => {
+              update(ref(db, `${basePath}/${item.key}`), { [f.key]: input.value }).then(()=>showToast('Saved')).catch(()=>{});
+            }, 500);
+            input.addEventListener('input', () => {
+              if (input.value) { preview.src = input.value; preview.style.display = 'block'; } else { preview.style.display = 'none'; }
+              save();
+            });
+            const fileInput = el('input', { type: 'file', accept: 'image/*', class: 'hidden-file-input' });
+            const uploadBtn = el('button', { type: 'button', class: 'conf-add-btn', html: '<span class="plus">+</span> Upload Image', style: 'margin-top:.4rem;' });
+            uploadBtn.addEventListener('click', () => fileInput.click());
+            fileInput.addEventListener('change', async () => {
+              const file = fileInput.files[0]; if (!file) return;
+              fileInput.value = '';
+              showToast('Uploading...');
+              try {
+                const url = await uploadToCloudinary(file);
+                input.value = url;
+                preview.src = url; preview.style.display = 'block';
+                await update(ref(db, `${basePath}/${item.key}`), { [f.key]: url });
+                showToast('Image saved');
+              } catch(e) { showToast('Upload failed', true); }
+            });
+            fg.appendChild(preview);
+            fg.appendChild(input);
+            fg.appendChild(fileInput);
+            fg.appendChild(uploadBtn);
+          } else {
+            const input = f.type === 'textarea' ? el('textarea', { class: 'field-input small', rows: '2', placeholder: f.label }) : el('input', { class: 'field-input small', placeholder: f.label });
+            input.value = item[f.key] || '';
+            let editing = false;
+            input.addEventListener('focus', () => editing = true);
+            input.addEventListener('blur', () => editing = false);
+            const save = debounce(() => {
+              update(ref(db, `${basePath}/${item.key}`), { [f.key]: input.value }).then(()=>showToast('Saved')).catch(()=>{});
+            }, 500);
+            input.addEventListener('input', save);
+            fg.appendChild(input);
+          }
           card.appendChild(fg);
         });
         list.appendChild(card);
@@ -2555,7 +2588,7 @@
     galCard.inner.appendChild(bindConfText('content/conferencesPage/gallerySection/hint', 'Hint Text (e.g. Tap any photo)'));
     galCard.inner.appendChild(bindConfText('content/conferencesPage/gallerySection/quote', 'Quote Text', '', 'textarea'));
     galCard.inner.appendChild(bindConfText('content/conferencesPage/gallerySection/quoteAuthor', 'Quote Author'));
-    galCard.inner.appendChild(buildSimpleListEditor('content/conferencesPage/gallerySection/images', 'Gallery Images', [{ key: 'src', label: 'Image URL' }, { key: 'caption', label: 'Caption' }], 'Add Image', 'No gallery images yet.'));
+    galCard.inner.appendChild(buildSimpleListEditor('content/conferencesPage/gallerySection/images', 'Gallery Images', [{ key: 'src', label: 'Image', type: 'image' }, { key: 'caption', label: 'Caption' }], 'Add Image', 'No gallery images yet.'));
     accordion.appendChild(galCard.card);
     bindConfBadgeCount(galCard, 'content/conferencesPage/gallerySection/images', 'image');
 
