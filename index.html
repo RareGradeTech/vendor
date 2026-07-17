@@ -232,6 +232,21 @@
   .event-card-controls{ display:flex; gap:.4rem; margin-left:auto; }
   .event-card-controls .pill-btn{ flex:0 0 auto; width:36px; padding:0; }
   .event-card + .event-card{ margin-top:1.5rem; }
+  .event-card .section-card-header{ cursor:pointer; user-select:none; margin-bottom:0; padding-bottom:0; border-bottom:none; }
+  .event-card.expanded .section-card-header{ margin-bottom:1.5rem; padding-bottom:1rem; border-bottom:1px solid var(--border); }
+  .event-card-chevron{
+    width:30px; height:30px; border-radius:999px; flex:0 0 auto;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(247,242,234,.06); border:1px solid var(--border); color:var(--gray);
+    transition:transform .4s cubic-bezier(.22,.8,.25,1), background .3s ease, color .3s ease;
+  }
+  .event-card-chevron svg{ width:15px; height:15px; }
+  .event-card.expanded .event-card-chevron{ transform:rotate(180deg); background:rgba(247,242,234,.1); color:var(--cream); }
+  .event-card-body{
+    max-height:0; overflow:hidden; opacity:0;
+    transition:max-height .55s cubic-bezier(.22,.8,.25,1), opacity .35s ease;
+  }
+  .event-card.expanded .event-card-body{ max-height:8000px; opacity:1; }
 
   /* ===== TEXT FIELDS ===== */
   .field-group{ margin-bottom:1.25rem; }
@@ -1603,6 +1618,10 @@
     const addBtn = el('button', { type: 'button', class: 'add-image-btn', html: '<span class="plus">+</span> Add Event' });
     const list = el('div', { id: 'eventsList' });
 
+    // Cards rebuild whenever Firebase data changes, so track expanded state
+    // outside the DOM to survive those rebuilds.
+    const expandedEvents = new Set();
+
     let panelEditing = false;
     panel.addEventListener('focusin', () => { panelEditing = true; });
     panel.addEventListener('focusout', () => { panelEditing = false; });
@@ -1610,11 +1629,13 @@
     addBtn.addEventListener('click', () => {
       const existing = list.__events || [];
       const nextOrder = existing.length ? Math.max(...existing.map(e => e.order ?? 0)) + 1 : 0;
-      push(ref(db, 'content/events'), {
+      const newRef = push(ref(db, 'content/events'), {
         title: 'New Event', tagLabel: 'Weekly Series', day: 'Friday',
         mode: 'recurring', recurring: 5, startHour: 20, startMin: 0, fixedDate: '',
         desc: '', order: nextOrder
-      }).then(() => showToast('Event added'));
+      });
+      expandedEvents.add(newRef.key);
+      newRef.then(() => showToast('Event added'));
     });
 
     function moveEvent(idx, dir) {
@@ -1629,7 +1650,8 @@
     }
 
     function buildEventCard(ev, idx, total) {
-      const card = el('div', { class: 'section-card event-card' });
+      const isExpanded = expandedEvents.has(ev.key);
+      const card = el('div', { class: `section-card event-card${isExpanded ? ' expanded' : ''}` });
 
       const header = el('div', { class: 'section-card-header' }, [
         el('h3', { text: ev.title || 'Untitled Event' })
@@ -1638,17 +1660,18 @@
       const upBtn = el('button', {
         type: 'button', class: 'pill-btn', title: 'Move earlier',
         html: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19V5M5 12l7-7 7 7"/></svg>',
-        onclick: () => moveEvent(idx, -1)
+        onclick: (e) => { e.stopPropagation(); moveEvent(idx, -1); }
       });
       const downBtn = el('button', {
         type: 'button', class: 'pill-btn', title: 'Move later',
         html: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>',
-        onclick: () => moveEvent(idx, 1)
+        onclick: (e) => { e.stopPropagation(); moveEvent(idx, 1); }
       });
       const delBtn = el('button', {
         type: 'button', class: 'pill-btn danger', title: 'Delete event',
         html: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>',
-        onclick: () => {
+        onclick: (e) => {
+          e.stopPropagation();
           if (confirm(`Delete "${ev.title}"? This removes it from the live site immediately.`)) {
             remove(ref(db, `content/events/${ev.key}`)).then(() => showToast('Event deleted'));
           }
@@ -1660,7 +1683,15 @@
       controls.appendChild(downBtn);
       controls.appendChild(delBtn);
       header.appendChild(controls);
+      const chevron = el('div', { class: 'event-card-chevron', html: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>' });
+      header.appendChild(chevron);
+      header.addEventListener('click', () => {
+        const nowExpanded = card.classList.toggle('expanded');
+        if (nowExpanded) expandedEvents.add(ev.key); else expandedEvents.delete(ev.key);
+      });
       card.appendChild(header);
+
+      const body = el('div', { class: 'event-card-body' });
 
       const row1 = el('div', { class: 'field-row' });
       row1.appendChild(bindEventText(ev.key, 'title', 'Event Title', ev.title));
@@ -1668,7 +1699,7 @@
         { value: 'Weekly Series', label: 'Weekly Series' },
         { value: 'Special Guest', label: 'Special Guest' }
       ]));
-      card.appendChild(row1);
+      body.appendChild(row1);
 
       const row2 = el('div', { class: 'field-row' });
       row2.appendChild(bindEventText(ev.key, 'day', 'Day Label (e.g. Friday)', ev.day));
@@ -1676,7 +1707,7 @@
         { value: 'recurring', label: 'Weekly (recurring night)' },
         { value: 'fixed', label: 'One-off (fixed date & time)' }
       ], () => renderEventsList(list.__events)));
-      card.appendChild(row2);
+      body.appendChild(row2);
 
       const row3 = el('div', { class: 'field-row' });
       if ((ev.mode || 'recurring') === 'recurring') {
@@ -1688,10 +1719,11 @@
       } else {
         row3.appendChild(bindEventDateTime(ev.key, ev.fixedDate));
       }
-      card.appendChild(row3);
+      body.appendChild(row3);
 
-      card.appendChild(bindEventText(ev.key, 'desc', 'Description', ev.desc, 'textarea'));
-      card.appendChild(buildEventGallery(ev.key));
+      body.appendChild(bindEventText(ev.key, 'desc', 'Description', ev.desc, 'textarea'));
+      body.appendChild(buildEventGallery(ev.key));
+      card.appendChild(body);
 
       return card;
     }
@@ -1942,7 +1974,7 @@
 
   function buildCategoryBlock(catId, catLabel) {
     const catPath = `content/ourMenu/categories/${catId}`;
-    const details = el('details', { class: 'section-card', style: 'margin-bottom:1.25rem;padding:0;overflow:hidden;', open: 'open' });
+    const details = el('details', { class: 'section-card', style: 'margin-bottom:1.25rem;padding:0;overflow:hidden;' });
     const summary = el('summary', {
       style: 'cursor:pointer;padding:1.1rem 1.4rem;font-weight:800;font-size:1rem;letter-spacing:.03em;text-transform:uppercase;',
       text: catLabel
