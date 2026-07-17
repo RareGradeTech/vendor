@@ -2519,7 +2519,7 @@
     const accordion = el('div', { class: 'conf-accordion' });
 
     // 1. HERO
-    const heroCard = createConfAccordionCard('hero', '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>', 'Hero Section', 'Main banner, title and stats', true);
+    const heroCard = createConfAccordionCard('hero', '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>', 'Hero Section', 'Main banner, title and stats');
     heroCard.inner.appendChild(bindConfText('content/conferencesPage/hero/eyebrow', 'Eyebrow Label'));
     heroCard.inner.appendChild(bindConfText('content/conferencesPage/hero/title', 'Main Title (e.g. CONFERENCES)'));
     heroCard.inner.appendChild(bindConfText('content/conferencesPage/hero/sub', 'Subheading / Description', '', 'textarea'));
@@ -2732,9 +2732,10 @@
       main.appendChild(panel);
     });
 
-    // Expand whichever group holds the default active tab
+    // Keep nav groups collapsed on load; the active tab is still highlighted
+    // via has-active-child inside switchTab(), it just won't force the group open.
     Object.keys(NAV_GROUPS).forEach(groupKey => {
-      toggleNavGroup(groupKey, SECTIONS[firstKey].group === groupKey);
+      toggleNavGroup(groupKey, false);
     });
     switchTab(firstKey);
   }
